@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/d-diaz/Lidar_Plot_Registration/master)
+
 # Lidar Plot Registration
 Methods for creating 3D visualizations of forest inventory plots and co-registering stem maps with lidar data.
 
