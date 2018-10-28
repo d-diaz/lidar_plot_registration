@@ -9,9 +9,20 @@ In addition to the basic value of providing a stochastic 3D visualization option
 
 The incorporation of prior beliefs about the distributions of 3D forest parameters (e.g., measurement error in location of plot center, distance of trees from plot center, etc.) will be applied in a Bayesian Inverse Modeling approach to identify the values and distributions of parameters which minimize divergence between simulated forest surfaces and lidar-derived surface(s). The outcome of this optimization will include probabilistic insights about the most likely locations of forest inventory plots within a lidar scene.
 
-==============================
+# Getting Started
+This Git repo utilizes the Git Large File Storage (LFS) system. Git LFS is used here to replace large files files (identified in `.gitattributes`) such as shapefiles, point clouds, and rasters with text pointers inside Git, while still storing files not excluded by `.gitignore` on GitHub. Very large geospatial data files such as point clouds (.las, .las) and rasters (.asc, .tif) are currently set up to be ignored by Git entirely because they can easily exceed GitHub storage allowances. Third party solutions for storing and sharing large datasets are used to work around this.
 
-Project Organization
+Use the conda package manager to reproduce the computing environment we used in developing this repo. Get [Anaconda](https://www.anaconda.com/download/) or [Miniconda](https://conda.io/miniconda.html) to do so.
+
+1. Install [Git LFS](https://github.com/git-lfs/git-lfs/wiki/Installation)
+2. Clone this repo onto your local machine
+3. Create a conda environment from the environment.yml file included in this repo:
+`conda env create --name viz3d --file environment.yml`
+4. Activate this environment to begin working.
+`source activate viz3d` (Linux, OSX) or `activate viz3d` (Windows)
+
+# Project Organization
+(based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 ------------
 
     ├── LICENSE
@@ -38,7 +49,7 @@ Project Organization
     │
     ├── environment.yml   <- The requirements file for reproducing the analysis environment
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── setup.py           <- makes project installable (`conda-develop .`) so src can be imported
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
@@ -60,5 +71,3 @@ Project Organization
 
 
 --------
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
