@@ -23,6 +23,7 @@ Use the conda package manager to reproduce the computing environment we used in 
 
 # Project Organization
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
+
 ------------
 
     ├── LICENSE
