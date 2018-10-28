@@ -1,10 +1,3 @@
-<PAMDataset>
-  <PAMRasterBand band="1">
-    <Metadata>
-      <MDI key="STATISTICS_MAXIMUM">593.77001953125</MDI>
-      <MDI key="STATISTICS_MEAN">567.35231959623</MDI>
-      <MDI key="STATISTICS_MINIMUM">540.59002685547</MDI>
-      <MDI key="STATISTICS_STDDEV">13.053291159683</MDI>
-    </Metadata>
-  </PAMRasterBand>
-</PAMDataset>
+version https://git-lfs.github.com/spec/v1
+oid sha256:ba4554fb84b77f9c20f3f97dc4531653b56783e7e4477049cb2a8017794903f0
+size 332
