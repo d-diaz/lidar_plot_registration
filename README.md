@@ -24,8 +24,6 @@ Use the conda package manager to reproduce the computing environment we used in 
 # Project Organization
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 
-------------
-
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
@@ -69,6 +67,3 @@ Use the conda package manager to reproduce the computing environment we used in 
     │       └── visualize.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
-
-
---------
