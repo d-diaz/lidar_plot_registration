@@ -1,2 +1,0 @@
-*.kml filter=lfs diff=lfs merge=lfs -text
-*.kmz filter=lfs diff=lfs merge=lfs -text
