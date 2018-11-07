@@ -23,7 +23,7 @@ There are two types of data used in this project:
 2. Lidar point clouds collected from airborne laser scanning which overlap the forests where field measurements have been collected. These point clouds are generally formatted as LAS (or compressed as LAZ) files produced by lidar vendors. Example lidar point clouds from publicly-available sources have been gathered from the HJ Andrews and Wind River forest areas.
 
 ## Use Cases
-### Checking Format of a User-Provided Data
+### A. Checking Format of a User-Provided Data
 **Objective:** The user wants to check whether a treelist they have prepared conforms with formatting requirements for 3D modeling and optimization using this package.  
 
 **Interactions:**  
@@ -33,7 +33,7 @@ There are two types of data used in this project:
 4. The user executes the next Jupyter Notebook cell which calls a function that loads the inputs and checks their formatting, including whether coordinates of trees in the tree list fall entirely within the footprint of the lidar point cloud. The function returns a message indicating whether the user's tree list (and point cloud) conform to the formatting requirements for this package.
 5. If the user-provided tree list (and/or point cloud) did not meet specifications, the function returns an error message indicating the source of non-compliance and documentation or links to documentation with formatting requirements including field names and formats. 
 
-### Inspecting Parameters of the 3D TreeModel, Visualizing a Single Tree
+### B. Inspecting Parameters of the 3D TreeModel, Visualizing a Single Tree
 **Objective:** The user wants to see which parameters are involved in the generation of the 3D TreeModel, and manipulate those parameters interactively to change the shape of a tree.  
 
 **Interactions:**  
@@ -45,7 +45,7 @@ There are two types of data used in this project:
 6. The graphic reacts to user inputs, updating the 3D TreeModel (near-)instantaneously.
 6. The user grabs, rotates, etc. the 3D graphic to visually inspect the tree's shape.
 
-### Drawing a Forest Plot in 3D
+### C. Drawing a Forest Plot in 3D
 **Objective:** The user wants to visualize a list of several measured trees in 3D.  Optionally, they may also want to see how this visualization of their tree list compares with a lidar point cloud.  
 
 **Interactions:**  
@@ -55,7 +55,7 @@ There are two types of data used in this project:
 4. The user executes the next Jupyter Notebook cell, which calls a function that checks if the tree list (and lidar point cloud) is formatted correctly, returning an appropriate error message if not. If the input data are formatted correcly, the cell returns an  interactive graphic showing the 3D model of the tree list, optionally overlaid with a lidar point cloud. 
 5. The user grabs, rotates, etc. the 3D graphic to visually inspect the plot. 
 
-### Co-registering a Tree List with a Lidar Point Cloud
+### D. Co-registering a Tree List with a Lidar Point Cloud
 **Objective:** The user wants to estimate the location of a field-measured tree list within a lidar point cloud covering the same area.
 
 **Interactions:**  
