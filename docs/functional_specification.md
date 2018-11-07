@@ -46,7 +46,7 @@ There are two types of data used in this project:
 6. The user grabs, rotates, etc. the 3D graphic to visually inspect the tree's shape.
 
 ### Drawing a Forest Plot in 3D
-**Objective:** The user wants to visualize a list of several measured trees in 3D.  Optionally, they may also want to see how this visualization of their tree list compares with a lidar point cloud.
+**Objective:** The user wants to visualize a list of several measured trees in 3D.  Optionally, they may also want to see how this visualization of their tree list compares with a lidar point cloud.  
 
 **Interactions:**  
 1. The user opens a Jupyter Notebook named `03_Visualize a Forest Plot in 3D.ipynb`.
@@ -56,7 +56,8 @@ There are two types of data used in this project:
 5. The user grabs, rotates, etc. the 3D graphic to visually inspect the plot. 
 
 ### Co-registering a Tree List with a Lidar Point Cloud
-**Objective:** The user wants to estimate the location of a field-measured tree list within a lidar point cloud covering the same area.  
+**Objective:** The user wants to estimate the location of a field-measured tree list within a lidar point cloud covering the same area.
+
 **Interactions:**  
 1. The user opens a Jupyter Notebook named `04_Co-register a Tree List with a Lidar Point Cloud.ipynb`. 
 2. The user reads instructions in the Notebook directing them to execute cells one-at-a-time in the Notebook.
