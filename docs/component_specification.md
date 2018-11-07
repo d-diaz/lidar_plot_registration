@@ -20,7 +20,7 @@
 * **Output:** A Poisson surface mesh saved to hard drive in PLY format.
 
 #### 3D Tree Modeler / Simulator
-* **What it does:** A Class which has methods to generate 3D point clouds depicting the trunk and crown of a tree. Has different methods which allow generating exterior crown points alone (e.g., a hull), a grid of points that fall inside the crown (volume), or a level set which describes the signed distance inside/outside the crown surface for points on a regular grid. Modeled off of (`skimage.draw.ellipsoid`)[https://github.com/scikit-image/scikit-image/blob/master/skimage/draw/draw3d.py#L5].
+* **What it does:** A Class which has methods to generate 3D point clouds depicting the trunk and crown of a tree. Has different methods which allow generating exterior crown points alone (e.g., a hull), a grid of points that fall inside the crown (volume), or a level set which describes the signed distance inside/outside the crown surface for points on a regular grid. Modeled off of [`skimage.draw.ellipsoid`](https://github.com/scikit-image/scikit-image/blob/master/skimage/draw/draw3d.py#L5).
 * **Input:** Parameters describing the location, size, and shape of the tree.
 * **Output:** TreeModel, a Numpy array of shape (N, 3) containing N 3D points representing the tree.
 
@@ -32,7 +32,7 @@
 * **Output:** distance_array, a Numpy array (meshgrid) containing the distance from each point on the regular 3D grid to the Poisson surface mesh.
 
 #### Point Cloud Distance Calculator / Interpolator
-* **What it does:** Estimates a distance metric for an array of 3D points (e.g., a simulated tree) from a surface mesh using (`scipy.interpolate.RegularGridInterpolator`)[https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.interpolate.RegularGridInterpolator.html].  
+* **What it does:** Estimates a distance metric for an array of 3D points (e.g., a simulated tree) from a surface mesh using [`scipy.interpolate.RegularGridInterpolator`](https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.interpolate.RegularGridInterpolator.html).  
 * **Input:** query_points, a Numpy array with shape (N, 3) for which distances will be calculated; and distance_array, a Numpy meshgrid containing values of a distance metric estimated at each point of a regular 3D grid.
 * **Output:** distances, a Numpy array with shape (N, 1) containing calculated distances for N queried points.
 
