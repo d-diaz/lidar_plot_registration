@@ -19,8 +19,8 @@ The user knows how to browse the web, and can download, install, and run softwar
 
 ## Data sources
 There are two types of data used in this project:
-1. Field-based measurements of forest plots and trees, identifying plot location, stem location, tree diameter, tree height, species, etc. These will be formatted as text files containing lists of trees with associated parameters, and list of plots with associated parameters.
-2. Lidar point clouds collected from airborne laser scanning which overlap the forests where field measurements have been collected. These point clouds are generally formatted as LAS (or compressed as LAZ) files produced by lidar vendors.
+1. Field-based measurements of forest plots and trees, identifying plot location, stem location, tree diameter, tree height, species, etc. These will be formatted as text files containing lists of trees with associated parameters, and list of plots with associated parameters. Example plot data (stem maps and associated tree measurements) have been gathered from publicly-available sources for the Wind River Experimental Forest and HJ Andrews Experimental Forest. 
+2. Lidar point clouds collected from airborne laser scanning which overlap the forests where field measurements have been collected. These point clouds are generally formatted as LAS (or compressed as LAZ) files produced by lidar vendors. Example lidar point clouds from publicly-available sources have been gathered from the HJ Andrews and Wind River forest areas.
 
 ## Use cases
 
