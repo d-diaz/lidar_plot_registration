@@ -55,6 +55,7 @@ Use the conda package manager to reproduce the computing environment we used in 
     │   │
     │   ├── data           <- Scripts to download and validate data
     │   │   ├── get_data.py
+    │   │   ├── preprocess_data.py
     │   │   └── validate_data.py    
     │   │
     │   ├── geometry       <- Scripts to generate 3D geometric models
