@@ -57,13 +57,14 @@ Use the conda package manager to reproduce the computing environment we used in 
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download and validate data
-    │   │   └── make_dataset.py
+    │   │   ├── get_data.py
+    │   │   └── validate_data.py    
     │   │
     │   ├── geometry       <- Scripts to generate 3D geometric models
     │   │   └── geometry.py
     │   │
     │   ├── optimization   <- Scripts to co-register point clouds with geometric models
-    │   │   ├── optimization.py
+    │   │   └── optimize.py
     │   │
     │   └── visualization  <- Scripts to create 3D visualizations
     │       └── visualize.py
