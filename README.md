@@ -15,11 +15,15 @@ This Git repo utilizes the Git Large File Storage (LFS) system. Git LFS is used 
 Use the conda package manager to reproduce the computing environment we used in developing this repo. Get [Anaconda](https://www.anaconda.com/download/) or [Miniconda](https://conda.io/miniconda.html) to do so.
 
 1. Install [Git LFS](https://github.com/git-lfs/git-lfs/wiki/Installation)
-2. Clone this repo onto your local machine
-3. Create a conda environment from the environment.yml file included in this repo:
+2. Clone this repo onto your local machine:  
+`git clone https://github.com/d-diaz/Lidar_Plot_Registration.git`
+3. Create a conda environment from the environment.yml file included in this repo:  
 `conda env create --name viz3d --file environment.yml`
-4. Activate this environment to begin working.
+4. Activate this new conda environment:
 `source activate viz3d` (Linux, OSX) or `activate viz3d` (Windows)
+5. Start a Jupyter session:
+`jupyter notebook`
+6. In your web browser Jupyter session, navigate to the notebook folder in this repo and open up a notebook!
 
 # Project Organization
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
