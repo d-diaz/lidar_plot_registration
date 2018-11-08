@@ -9,6 +9,7 @@ dependencies:
   - ipywidgets
   - rasterio
   - matplotlib
+  - jupyter
   - seaborn
   - python=3
 prefix: /Users/daviddiaz/anaconda3/envs/viz3d
