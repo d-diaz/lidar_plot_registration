@@ -38,9 +38,7 @@ Use the conda package manager to reproduce the computing environment we used in 
     │   └── raw            <- The original, immutable data dump.
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
+    │  
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         and a short description, e.g. `01_Initial Data Exploration`.
     │
