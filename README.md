@@ -42,8 +42,7 @@ Use the conda package manager to reproduce the computing environment we used in 
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    │                         and a short description, e.g. `01_Initial Data Exploration`.
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
