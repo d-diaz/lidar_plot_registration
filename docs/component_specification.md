@@ -11,8 +11,8 @@
 ### Tree List Format Checker
 | Aspect | Description |
 | :------| :-----------|
-| What it does | Checks to see whether a user-provided tree list conforms with format being used for 3D modeling. |
-| Input | A text file or Pandas DataFrame containing information about a single tree on each line/row. |
+| What it does | Checks to see whether a user-provided tree list conforms with format being used for 3D modeling |
+| Input | A text file or a CSV file or Pandas DataFrame containing information about a single tree on each line/row. |
 | Output | True/False indication of whether user-specified treelist conforms to our format requirements. |
 
 ## Geometry Components
@@ -41,7 +41,7 @@
 ### Point Cloud Distance Calculator / Interpolator
 | Aspect | Description |
 | :------| :-----------|
-| What it does | Estimates a distance metric for an array of 3D points (e.g., a simulated tree) from a another array of 3D points (e.g., a lidar point cloud surface mesh) using [`scipy.interpolate.RegularGridInterpolator`](https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.interpolate.RegularGridInterpolator.html). |
+| What it does | Estimates a distance metric for an array of 3D points (e.g., a simulated tree) from another array of 3D points (e.g., a lidar point cloud surface mesh) using [`scipy.interpolate.RegularGridInterpolator`](https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.interpolate.RegularGridInterpolator.html). |
 | Input | `query_points`, a Numpy array with shape (N, 3) for which distances will be calculated; and distance_array, a Numpy meshgrid containing values of a distance metric estimated at each point of a regular 3D grid. |
 | Output | `distances`, a Numpy array with shape (N, 1) containing calculated distances for N queried points. |
 
@@ -76,9 +76,40 @@
 
 
 ## Interactions to Accomplish Use Cases.
-1. By using Tree List Pre-processor to transform data into the same format and using the Tree List Format Checker to check and raise an exception when minimum requirements for data are not satisfied, the software are able to preprocessing the data with reminding of failure and abnormal status.
-2. To accomplish the task of "Drawing trees", Trees Assembler assembles the single tree models created by 3D Tree Modeler and using Assembled Visuailzer to generate a graph object which take the Plotly graph object created by Tree Visulizer as an significant graphic component.
 
+### Use Case A
+
+Pre-processing: In this use cases, user could access to the raw data, transform the data format and check the availablity of using the data after reading the instructions, and following condition would appear after a simple input checking:
+  1. User's input is a path linking to a treelist text file. Then the **`Tree List Preprocessor`** will be called to transform the data to a formatted .txt or .csv file.
+  2. User's input is a path linking to a lidar point cloud file (a LAS or LAZ file). Then the **`Point Cloud Mesher`** will be called to transfrom linked data into a PLY file.
+  3. User's input is a Pandas dataframe stored in memory. No operations are required for now.
+  4. An exception will be raised if user's input can not be recognized as a valid path or dataframe.
+ 
+Format checking: When the pre-processing completed, the **`Tree List Format Checker`** will be called to check if the format of the pre-processed data conform to the formatting requirements.
+  - If the format of the pre-processed data conform to the requirements, return a message indicating that the data is ready for modeling.
+  - If the user-provided dataframe or tree list (and/or point cloud) did not meet specifications, an error message indicating the source of non-compliance and documentation or links to documentation with formatting requirements including field names and formats should be raised.
+
+### Use Case B
+
+1. In this use cases, a `TreeModel` class was created by **`3D Tree Modeler`** using the pre-processed data. 
+2. The **`Single Tree Visualizer`** will be called to present the user with a 3D graphic using the `TreeModel` class created in **`3D Tree Modeler`** and its default parameter settings. Slider widgets are laid out with the graphic labeled for each 3D TreeModel parameter. 
+3. The user can moves a slider widget for a 3D TreeModel parameter. Also the user will be able to input the modification of the parameter and the graphic will react to user's inputs and update the 3D TreeModel (near-)instantaneously.
+4. The user grabs, rotates, etc. the 3D graphic to visually inspect the tree's shape.
+
+### Use Case C
+
+1. In this use cases, a `TreeModel` class was created by **`3D Tree Modeler`** using the preprocessed tree list data such as a text file or a shapefile (optional: or a PLY file generated from LAS or LAZ files). The **`3D Tree Modeler`** may be called mutiple times to generate several tree model for different trees. 
+2. The **`Plot (Multi-Tree) Visualizer`** will be used to generate an interactive graphic object containing several tree model (optional: and the merging with lidar points cloud ). 
+3. The user grabs, rotates, etc. the 3D graphic to visually inspect the plot. 
+
+### Use Case D
+
+1. In this use cases, after checking format of the tree list data using the **`Tree List Format Checker`**, the **`3D Tree Modeler`** will be called to read the tree list data in and use it to create a `TreeModel` class with the location, shape and size of the tree.
+2. Generate a PLY file which contains a Possion surface mesh using **`Point Clouder Mesher`** from a LAS or LAZ file.
+3. Through **`Point Cloud Distance Array Generator`**, the distance between each points on the regular 3D grid and the points on the Poisson surface mesh is calculated and output into a numpy array called `distance_array`.
+4. With `distance_array` from the **`Point Cloud Distance Array Generator`**, we can estimate distance metric for the `TreeModel` from the Poisson surface mesh using the **`Point Cloud Distance Calculator`** and obtain the estimated `distances`, a Numpy array containing calculated distances for N queried points.
+5. By repeating the step 3&4 above, we will get a series of tree models. The **`Optimization Routine`** allow us to take mutiple tree models in and get `OptimizationResult` objects which contains multiple attributes and traces related to the process of optimization. The `OptimizationResult` can even generate a summary report in tabular describing the optimization result.
+6. The `OptimizationResult` can be visualized by **`Dynamic OptimizationResult Visualizer`** to get a interactive Plotly Graph Object to show the process of optimization.
 
 ## Preliminary Plan.
 1. Scripts/functions for pre-processing field-measured forest inventory data into consistent format
