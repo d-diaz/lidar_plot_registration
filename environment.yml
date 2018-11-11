@@ -2,14 +2,15 @@ name: viz3d
 channels:
   - conda-forge
   - defaults
-  - plotly
 dependencies:
-  - numpy
-  - plotly
   - ipywidgets
-  - rasterio
-  - matplotlib
   - jupyter
-  - seaborn
+  - matplotlib
+  - numpy
+  - pdal
+  - plotly
   - python=3
+  - python-pdal
+  - rasterio
+  - seaborn
 prefix: /Users/daviddiaz/anaconda3/envs/viz3d
