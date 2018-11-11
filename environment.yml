@@ -3,10 +3,12 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - geopandas
   - ipywidgets
   - jupyter
   - matplotlib
   - numpy
+  - pandas
   - pdal
   - plotly
   - python=3
