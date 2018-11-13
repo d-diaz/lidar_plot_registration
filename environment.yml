@@ -1,7 +1,6 @@
 name: viz3d
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - geopandas
   - ipywidgets
