@@ -106,11 +106,14 @@ Before optimization commences, the `Tree List Format Checker` and `Tree List Wit
 The `Optimization Routine` is initialized with the user-provided treelist parameters. The `3D Plot Modeler` will read the tree list and generate 3D models of all the trees in it. The `Point Cloud Distance Calculator` will be used to calculate the distance of the simulated trees from the mesh. This distance metric is the objective function that the `Optimization Routine` seeks to minimize. An  `OptimizationResult` object is returned which contains multiple attributes and traces related to the process of optimization. This object allows the user to execute methods including generation of a tabular report summarizing the optimization results. The `OptimizationResult` object can also be submitted as input to the `Dynamic OptimizationResult Visualizer` to produce a interactive Plotly Graph Object to visualize the process of optimization.
 
 ## Preliminary Plan.
-1. Scripts/functions for pre-processing field-measured forest inventory data into consistent format
-2. Classes/functions for generating a 3D point cloud for a single tree from field-measured attributes
-3. Classes/functions for combining multiple trees into a single point cloud
-4. Functions for plotting 3D point clouds
-5. Process for generating a Poisson Surface mesh from lidar data
-6. Process for calculating the distance of points on a regular 3D grid from the lidar-derived mesh
-7. Function for querying this distance array with a set of simulated points, based on interpolation of query points using the regular 3D grid with pre-calculated distances from the lidar mesh.
-8. Implementation of an optimization algorithm which adjusts tree simulation parameters, calculates the distance of the simulated points from the lidar-derived mesh, and iteratively minimizes this distance function.
+1. Script for pre-processing field-measured forest inventory text file.(@MartinBagaram) 
+2. Script for pre-processing field-measured forest inventory shapefile. (@MartinBagaram)
+3. Implement check format of treelist (@mikelizh), check treelist within bounds
+4. Write unit tests for check_format_treelist and check_treelist_inbounds (@mikelizh)
+5. Class for generating a 3D point cloud for a single tree from field-measured attributes (@d-diaz)
+6. Function for plotting a single tree, with widgets
+7. Function for plotting many trees, no widgets
+8. Process for generating a Poisson Surface mesh from lidar data (@d-diaz)
+9. Process for calculating the distance of points on a regular 3D grid from the lidar-derived mesh
+10. Function for querying this distance array with a set of simulated points, based on interpolation of query points using the regular 3D grid with pre-calculated distances from the lidar mesh.
+11. Implementation of an optimization algorithm which adjusts tree simulation parameters, calculates the distance of the simulated points from the lidar-derived mesh, and iteratively minimizes this distance function.
