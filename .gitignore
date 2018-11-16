@@ -3,3 +3,4 @@
 *.las
 *.asc
 *.tif
+.ipynb_checkpoints/*
