@@ -126,43 +126,44 @@ def get_peripheral_points(stem_base, crown_radii, crown_edge_heights):
 
     return periph_pts
 
-
 def get_crown_center_xy(stem_base, crown_radii):
     center_xy = np.array(
                 (stem_base[0] - np.diff(crown_radii[0::2]/2),
-                 stem_base[0] - np.diff(crown_radii[1::2])/2])
+                 stem_base[0] - np.diff(crown_radii[1::2])/2)
                 )
     return center_xy
 
-def get_crown_eccentricity(center_xy, stem_base, crown_radii):
+def get_crown_eccentricity(stem_base, crown_radii, crown_ratio):
+    center_xy = get_crown_center_xy(stem_base, crown_radii)
     eccen = np.array(
                 ((center_xy[0]-stem_base[0])/crown_radii[0::2].mean(), # x direction
                  (center_xy[1]-stem_base[1])/crown_radii[1::2].mean()) # y direction
                 )
     idx = np.array(
-                (-2/np.pi * np.arctan(crown_eccentricity)*crown_ratio, # top of tree, x and y
-                 2/np.pi * np.arctan(crown_eccentricity)*crown_ratio) # bottom of tree, x and y
+                (-2/np.pi * np.arctan(eccen)*crown_ratio, # top of tree, x and y
+                 2/np.pi * np.arctan(eccen)*crown_ratio) # bottom of tree, x and y
                 )
 
     return idx
 
-def get_crown_apex(center_xy, crown_radii, eccen_idx, top_height):
+def get_crown_apex_and_base(stem_base, crown_radii, top_height, base_height,
+                            crown_ratio):
+
+    center_xy = get_crown_center_xy(stem_base, crown_radii)
+    eccen_idx = get_crown_eccentricity(stem_base, crown_radii, crown_ratio)
     apex = np.array(
                 (center_xy[0] + np.diff(crown_radii[0::2])*eccen_idx[0][0], # x location of crown apex
                  center_xy[1] + np.diff(crown_radii[1::2])*eccen_idx[0][1], # y location of crown apex
-                 crown_apex_ht),
+                 top_height),
                 dtype=float)
 
-    return apex
-
-def get_crown_base(crown_center_xy, crown_radii, eccen_index, base_height):
     base = np.array(
                 (center_xy[0] + np.diff(crown_radii[0::2])*eccen_idx[1][0], # x location of crown base
                  center_xy[1] + np.diff(crown_radii[1::2])*eccen_idx[1][1], # y location of crown base
-                 base_ht),
+                 base_height),
                 dtype=float)
 
-    return base
+    return apex, base
 
 
 def get_circular_plot_boundary(x, y, radius, dem=None):
@@ -197,7 +198,7 @@ def get_circular_plot_boundary(x, y, radius, dem=None):
 
     return xs, ys, zs
 
-def hull_edge(stem_base, peripheral_points, crown_base, crown_apex, shape_coefs):
+def make_hull(stem_base, peripheral_points, crown_base, crown_apex, shape_coefs):
     '''
     Parameters
     ----------
@@ -231,10 +232,10 @@ def hull_edge(stem_base, peripheral_points, crown_base, crown_apex, shape_coefs)
                             peripheral_points[:,0]-crown_apex[0])
 
     # calculate the angle between peripheral points and apex/base axis
-    periph_v_apex_theta = np.arctan2(periph_pts[:,1]-crown_apex[1],
-                                     periph_pts[:,0]-crown_apex[0])
-    periph_v_base_theta = np.arctan2(periph_pts[:,1]-crown_base[1],
-                                     periph_pts[:,0]-crown_base[0])
+    periph_v_apex_theta = np.arctan2(peripheral_points[:,1]-crown_apex[1],
+                                     peripheral_points[:,0]-crown_apex[0])
+    periph_v_base_theta = np.arctan2(peripheral_points[:,1]-crown_base[1],
+                                     peripheral_points[:,0]-crown_base[0])
 
     # calculate radiii along peripheral line (maximum crown widths by angle
     # theta using linear interpolation)
@@ -279,13 +280,13 @@ def hull_edge(stem_base, peripheral_points, crown_base, crown_apex, shape_coefs)
     return edge_x, edge_y, edge_z
 
 class Tree(object):
-    def __init__(self, species, dbh, height, stem_x, stem_y,
+    def __init__(self, species, dbh, height, stem_x, stem_y, stem_z,
                  lean_direction=0, lean_severity=0,
                  crown_ratio=0.65,
-                 crown_radii=np.full(4, 0.25*height),
-                 crown_edge_heights=np.full(4, 0.5*height),
-                 crown_shapes=np.ones((2,4)),
-                 dem=None):
+                 crown_radii=None,
+                 crown_edge_heights=None,
+                 crown_shapes=np.ones((2,4))
+                 ):
         """Initialize a Tree with field-measured attributes.
 
         Parameters
@@ -300,6 +301,8 @@ class Tree(object):
             x-coordinate stem base
         stem_y : numeric
             y-coordinate of stem base
+        stem_z : numeric
+            z-coordinate of stem base
         lean_direction : numeric
             direction of tree lean, in degrees with 0 = east, 90 = north,
             180 = west, etc.
@@ -322,29 +325,56 @@ class Tree(object):
             Coef values of 1.0 produce a cone, values < 1 produce concave
             shapes, and values > 1 will produce convex shapes, with coef == 2.0
             producing an ellipse.
-        dem : string, path to file
-            digital elevation model, a raster file that can be read by rasterio
         """
         self.species = species
         self.dbh = dbh
         self.height = height
         self.stem_x = stem_x
         self.stem_y = stem_y
-        self.stem_z = None
+        self.stem_z = stem_z
         self.lean_direction = lean_direction
         self.lean_severity = lean_severity
         self.crown_ratio = crown_ratio
-        self.crown_radii = crown_radii
-        self.shape_coeffs = shape_coeffs
+        self.base_height = crown_ratio * height
+        self.shape_coefs = crown_shapes
 
-        if dem:
-            self.stem_z = get_elevation(dem, x, y)
-            self.top_x, self.top_y, self.top_z = get_treetop_location(
-                self.stem_x, self.stem_y, self.stem_z, self.height,
-                self.lean_direction, self.lean_severity)
+        if not crown_radii:
+            self.crown_radii = np.full(4, 0.25*height)
+        else:
+            self.crown_radii = crown_radii
 
-        def get_hull(self):
-            stem_base = np.array([self.stem_x, self.stem_y, self.stem_z])
-            periph_pts = get_peripheral_points(stem_base,
-                                               self.crown_radii,
-                                               self.crown_edge_heights)
+        if not crown_edge_heights:
+            self.crown_edge_heights = np.full(4, 0.5*height)
+        else:
+            self.crown_edge_heights = crown_edge_heights
+
+        self.top_x, self.top_y, self.top_z = get_treetop_location(
+                                                self.stem_x,
+                                                self.stem_y,
+                                                self.stem_z,
+                                                self.height,
+                                                self.lean_direction,
+                                                self.lean_severity)
+        self.base_z = self.base_height + self.stem_z
+
+        self.stem_base = np.array((self.stem_x,
+                                   self.stem_y,
+                                   self.stem_z)
+                                  )
+        self.peripheral_points = get_peripheral_points(
+                                    self.stem_base,
+                                    self.crown_radii,
+                                    self.crown_edge_heights)
+
+        self.crown_base, self.crown_apex = get_crown_apex_and_base(
+                                                self.stem_base,
+                                                self.crown_radii,
+                                                self.top_z,
+                                                self.base_z,
+                                                self.crown_ratio)
+    def get_hull(self):
+        return make_hull(self.stem_base,
+                         self.peripheral_points,
+                         self.crown_base,
+                         self.crown_apex,
+                         self.shape_coefs)
