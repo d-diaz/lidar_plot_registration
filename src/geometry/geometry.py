@@ -17,7 +17,6 @@ def get_elevation(dem, x, y):
     y : numeric, or numpy array of numeric values
         y-coordinate(s) of points to query
 
-
     Returns
     --------
     elev : numpy array
@@ -93,7 +92,7 @@ def get_peripheral_points(stem_base, crown_radii, crown_edge_heights):
         distance from stem base to point of maximum crown width in each
         direction. Order of radii expected is E, N, W, S.
     crown_edge_heights : array of numerics, shape (4,)
-        height above ground at point of maximum crown width in each
+        elevation (z coordinate) at point of maximum crown width in each
         direction. Order expected is E, N, W, S.
 
     Returns
@@ -124,30 +123,99 @@ def get_peripheral_points(stem_base, crown_radii, crown_edge_heights):
 
 
 def get_crown_center_xy(stem_base, crown_radii):
+    """Calculates x,y coordinates of center of crown projection.
+
+    The center of the crown projection is determined as the midpoint between
+    points of maximum crown width in the x and y directions.
+
+    Parameters
+    -----------
+    stem_base : array with shape(3,)
+        (x,y,z) coordinates of stem base
+    crown_radii : array of numerics, shape (4,)
+        distance from stem base to point of maximum crown width in each
+        direction. Order of radii expected is E, N, W, S.
+
+    Returns
+    --------
+    center_xy : array with shape (2,)
+        x,y coordinates of the center of the crown projection
+    """
     center_xy = np.array((stem_base[0] - np.diff(crown_radii[0::2] / 2),
                           stem_base[0] - np.diff(crown_radii[1::2]) / 2))
-    return center_xy
+    return center_xy[:, 0]
 
 
 def get_crown_eccentricity(stem_base, crown_radii, crown_ratio):
+    """Calculates eccentricity-index values for an asymmetric hull
+    representing a tree crown. Eccentricity-index values are used to determine
+    the x,y positions of the base and the apex of a tree crown.
+
+    The eccentricity-index is defined by Koop (1989, p.49-51) as 'the ratio of
+    distance between tree base and centre point of the crown projection and
+    crown radius'. Eccentricity-index values should range [-1, 1]. A value of 0
+    indicates that the x,y location of the tree apex or base is at the center of
+    the horizontal crown projection. Values that approach -1 or 1 indicate the
+    x,y location of the tree apex or base is near the edge of the crown.
+
+        Koop, H. (1989). Forest Dynamics: SILVI-STAR: A Comprehensive Monitoring
+        System. Springer: New York.
+
+    Parameters
+    -----------
+    stem_base : array with shape(3,)
+        (x,y,z) coordinates of stem base
+    crown_radii : array of numerics, shape (4,)
+        distance from stem base to point of maximum crown width in each
+        direction. Order of radii expected is E, N, W, S.
+    crown_ratio : numeric
+        ratio of live crown length to total tree height
+
+    Returns
+    --------
+    idx : array with shape (2, 2)
+        eccentricity-index values for the top (0, ) and bottom of a tree (1, ).
+    """
     center_xy = get_crown_center_xy(stem_base, crown_radii)
     eccen = np.array((
         (center_xy[0] - stem_base[0]) /
         crown_radii[0::2].mean(),  # x direction
-        (center_xy[1] - stem_base[1]) / crown_radii[1::2].mean()
-    )  # y direction
-                     )
+        (center_xy[1] - stem_base[1]) / crown_radii[1::2].mean()  # y direction
+    ))
     idx = np.array((
         -2 / np.pi * np.arctan(eccen) * crown_ratio,  # top of tree, x and y
         2 / np.pi * np.arctan(eccen) * crown_ratio)  # bottom of tree, x and y
                    )
 
-    return idx
+    return idx[:, :, 0]
 
 
 def get_crown_apex_and_base(stem_base, crown_radii, top_height, base_height,
                             crown_ratio):
+    """Calculates the (x,y,z) position of the apex and base of a tree crown.
 
+    This models a tree crown as an asymmetric hull comprised of
+    quarter-ellipses.
+
+    Parameters
+    -----------
+    stem_base: array with shape(3,)
+        (x,y,z) coordinates of stem base
+    crown_radii : array of numerics, shape (4,)
+        distance from stem base to point of maximum crown width in each
+        direction. Order of radii expected is E, N, W, S.
+    crown_ratio : numeric
+        ratio of live crown length to total tree height
+    top_z : numeric
+        elevation (z coordinate) of top of tree crown
+    bottom_z : numeric
+        elevation (z coordinate) of bottom of tree crown
+
+    Returns
+    --------
+    apex, base : arrays with shape (3,)
+        (x,y,z) coordinates for crown apex and crown base
+    """
     center_xy = get_crown_center_xy(stem_base, crown_radii)
     eccen_idx = get_crown_eccentricity(stem_base, crown_radii, crown_ratio)
     apex = np.array(
@@ -358,20 +426,20 @@ class Tree(object):
         self.base_height = crown_ratio * height
         self.shape_coefs = crown_shapes
 
+        self.top_x, self.top_y, self.top_z = get_treetop_location(
+            self.stem_x, self.stem_y, self.stem_z, self.height,
+            self.lean_direction, self.lean_severity)
+        self.base_z = self.base_height + self.stem_z
+
         if not crown_radii:
             self.crown_radii = np.full(4, 0.25 * height)
         else:
             self.crown_radii = crown_radii
 
         if not crown_edge_heights:
-            self.crown_edge_heights = np.full(4, 0.5 * height)
+            self.crown_edge_heights = np.full(4, 0.5 * height) + self.z
         else:
-            self.crown_edge_heights = crown_edge_heights
-
-        self.top_x, self.top_y, self.top_z = get_treetop_location(
-            self.stem_x, self.stem_y, self.stem_z, self.height,
-            self.lean_direction, self.lean_severity)
-        self.base_z = self.base_height + self.stem_z
+            self.crown_edge_heights = crown_edge_heights + self.z
 
         self.stem_base = np.array((self.stem_x, self.stem_y, self.stem_z))
         self.peripheral_points = get_peripheral_points(
