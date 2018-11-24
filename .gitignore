@@ -1,6 +1,7 @@
 *checkpoint.ipynb
 *.laz
 *.las
+*.lax
 *.asc
 .ipynb_checkpoints/*
 *.tif
