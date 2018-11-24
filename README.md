@@ -34,32 +34,27 @@ Use the conda package manager to reproduce the computing environment we used in 
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── README.md          <- The top-level README for this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
+    │   ├── raw            <- Raw lidar and tree list data.
     │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   └── processed      <- Processed data sets used for modeling/analysis.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               <- Documentation generated using Sphinx.
     │  
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         and a short description, e.g. `01_Initial Data Exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── references         <- Data dictionaries, manuals, and other explanatory materials.
     │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── environment.yml   <- The requirements file for reproducing the analysis environment
-    │
-    ├── setup.py           <- makes project installable (`conda-develop .`) so src can be imported
+    ├── reports            <- Generated analysis as HTML, PDF, etc.
+    │   └── figures        <- Graphics and figures used in reports
+    |
+    ├── setup.py           <- makes project src installable as a python package (`conda-develop .` or `pip install -e`)
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   ├── data           <- Scripts to download and validate data
-    │   │   ├── get_data.py
+    │   ├── data           <- Scripts to process/re-format and validate data
     │   │   ├── preprocess_data.py
     │   │   └── validate_data.py    
     │   │
@@ -69,7 +64,12 @@ Use the conda package manager to reproduce the computing environment we used in 
     │   ├── optimization   <- Scripts to co-register point clouds with geometric models
     │   │   └── optimize.py
     │   │
-    │   └── visualization  <- Scripts to create 3D visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
+    │   ├── visualization  <- Scripts to create 3D visualizations
+    │   |   └── visualize.py
+    │   │
+    │   └── test           <- Scripts for unit testing
+    │       └── tests.py   
+    |
+    ├── environment.yml   <- Requirements file for reproducing the analysis environment using conda 
+    |                        (`conda create --name forest3d --file environment.yml`)
+    └── .travis.yml        <- Settings for running Travis CI
