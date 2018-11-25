@@ -3,20 +3,19 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - gdal=2.2.4
+  - gdal=2.3.2
   - geopandas=0.4.0
   - ipyvolume=0.5.1
   - ipywidgets=7.4.2
   - jupyter=1.0.0
-  - libgdal=2.2.4
   - matplotlib=3.0.2
   - numpy=1.15.4
   - pandas=0.23.4
-  - pdal=1.7.2
-  - plotly=3.4.1
+  - pdal=1.8.0
+  - plotly=3.4.2
   - python=3.6.6
-  - python-pdal=2.0.0
-  - rasterio=1.0.9
+  - python-pdal=2.1.8
+  - rasterio=1.0.10
   - seaborn=0.9.0
   - pip:
     - plyfile
