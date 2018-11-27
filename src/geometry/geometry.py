@@ -1,8 +1,10 @@
+import json
+import subprocess
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio
-
+import pdal
 
 def get_elevation(dem, x, y):
     """Calculates elevations from a digital elevation model at specified (x, y)
@@ -452,3 +454,57 @@ class Tree(object):
     def get_hull(self):
         return make_hull(self.stem_base, self.peripheral_points,
                          self.crown_base, self.crown_apex, self.shape_coefs)
+
+
+def poisson_pipeline(infile, outfile, depth=8):
+    pipeline = {
+        "pipeline": [
+            infile, {
+                "type": "filters.normal"
+            }, {
+                "type": "filters.poisson",
+                "depth": depth,
+                "density": "true"
+            }, {
+                "type": "filters.normal"
+            },
+            {
+                "type": "writers.ply",
+                "filename": outfile,
+                "storage_mode": "default",
+                "faces": "true"
+            }
+        ]
+    }
+
+    return pipeline
+
+
+def poisson_mesh(infile, outfile, depth=8):
+    """Generates a Poisson surface mesh from a lidar point cloud and writes the
+    output in polygon file format (PLY).
+
+    Parameters
+    -----------
+    infile : string, path to file
+        LAS or LAZ format point cloud to read from disk
+    outfile : string, path to file
+        PLY format file to save mesh to disk
+    depth : int
+        Maximum depth of octree used for mesh construction. Increasing this
+        value will provide more detailed mesh and require more computation time.
+    """
+    pipeline_json = json.dumps(poisson_pipeline(infile, outfile, depth))
+
+    # validate the pipeline using python extension to PDAL
+    pipeline = pdal.Pipeline(pipeline_json)
+
+    if pipeline.validate():
+        proc = subprocess.run(['pdal', 'pipeline', '--stdin'],
+                              stderr=subprocess.PIPE,
+                              stdout=subprocess.PIPE,
+                              input=pipeline_json.encode('utf-8'))
+        if proc.returncode != 0:
+            print(proc.stderr.decode())
+    else:
+        raise
