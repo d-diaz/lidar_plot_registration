@@ -7,3 +7,5 @@
 *.tif
 *.xml
 *.ply
+*.pyc
+__pycache__
