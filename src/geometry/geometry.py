@@ -8,6 +8,32 @@ import pdal
 from shapely.geometry import Point, Polygon
 
 
+def arrays_equal_shape(*args, raise_exc=True):
+    """Confirms all inputs, when converted to arrays, have equal shape.
+
+    Parameters
+    -----------
+    args : array-like
+        any arguments that can be converted to arrays with np.asanyarray
+    raise_exc : boolean
+        whether to raise a ValueError exception
+
+    Returns
+    --------
+    result : bool
+        whether or not all args have same shape
+
+    """
+    arrs = [np.asanyarray(arg) for arg in args]
+    shapes = np.array([arr.shape for arr in arrs])
+    equal_shapes = np.all(shapes == shapes[0])
+
+    if not equal_shapes and raise_exc:
+        raise ValueError('Input shapes mismatch: {}'.format(shapes))
+
+    return equal_shapes
+
+
 def get_raster_bbox_as_polygon(path_to_raster):
     """Returns a Shapely Polygon defining the bounding box of a raster
 
@@ -57,6 +83,9 @@ def get_elevation(dem, x, y):
     with rasterio.open(dem) as src:
         terrain = src.read(1)
 
+    # check that inputs are equal shape
+    arrays_equal_shape(x, y)
+
     coords = np.stack((x, y))
     # have rasterio identify the raster rows and columns where these coords occur
     rows, cols = src.index(*coords)
@@ -66,7 +95,7 @@ def get_elevation(dem, x, y):
     except IndexError:
         bounds = src.bounds
         error_msg = """
-        (x,y) location does not fall within bounds of the elevation raster:
+        (x,y) location outside bounds of elevation raster:
         {}""".format(bounds)
         raise IndexError(error_msg)
 
@@ -103,8 +132,21 @@ def get_treetop_location(stem_x,
     top_x, top_y, top_z : three numeric values or three numpy arrays
         The coodrinates that define the tree top.
     """
-    if np.any(np.array(lean_severity) >= 90):
+    stem_x = np.asanyarray(stem_x)
+    stem_y = np.asanyarray(stem_y)
+    stem_z = np.asanyarray(stem_z)
+    height = np.asanyarray(height)
+    lean_severity = np.asanyarray(lean_severity)
+    lean_direction = np.asanyarray(lean_direction)
+
+    if np.any(lean_severity >= 90):
         raise ValueError('lean_severity must be < 90 degrees from vertical.')
+
+    if np.any(height < 0):
+        raise ValueError('height must be >= 0.')
+
+    arrays_equal_shape(stem_x, stem_y, stem_z, height, lean_severity,
+                       lean_direction)
 
     # convert direction of lean to radians
     theta_lean = np.deg2rad(lean_direction)
@@ -116,7 +158,7 @@ def get_treetop_location(stem_x,
     top_y = stem_y + height * np.tan(phi_lean) * np.sin(theta_lean)
     top_z = stem_z + height
 
-    return top_x, top_y, top_z
+    return np.array((top_x, top_y, top_z))
 
 
 def get_peripheral_points(stem_base, crown_radii, crown_edge_heights):
