@@ -5,6 +5,36 @@ import pandas as pd
 import geopandas as gpd
 import rasterio
 import pdal
+from shapely.geometry import Point, Polygon
+
+
+def get_raster_bbox_as_polygon(path_to_raster):
+    """Returns a Shapely Polygon defining the bounding box of a raster
+
+    Parameters
+    ----------
+    path_to_raster : string, path to file
+        A raster image that can be read by rasterio.
+
+    Returns
+    --------
+    bbox : shapely Polygon object
+        A polygon describing the bounding box of the raster
+    """
+    with rasterio.open(path_to_raster) as raster_src:
+        pass
+
+    bounds = raster_src.bounds
+    points = [
+        Point(bounds[0], bounds[1]),  # lower left corner
+        Point(bounds[0], bounds[3]),  # upper left corner
+        Point(bounds[2], bounds[3]),  # upper right corner
+        Point(bounds[2], bounds[1])  # lower left corner
+    ]
+
+    bbox = Polygon([(p.x, p.y) for p in points])
+    return bbox
+
 
 def get_elevation(dem, x, y):
     """Calculates elevations from a digital elevation model at specified (x, y)
@@ -31,7 +61,14 @@ def get_elevation(dem, x, y):
     # have rasterio identify the raster rows and columns where these coords occur
     rows, cols = src.index(*coords)
     # index into the raster at these rows and columns
-    elev = terrain[rows, cols]
+    try:
+        elev = terrain[rows, cols]
+    except IndexError:
+        bounds = src.bounds
+        error_msg = """
+        (x,y) location does not fall within bounds of the elevation raster:
+        {}""".format(bounds)
+        raise IndexError(error_msg)
 
     return elev
 
