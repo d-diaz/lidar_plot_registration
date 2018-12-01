@@ -3,15 +3,30 @@ Description
 """
 import unittest
 import geopandas as gpd
-import tree_list_checker
+import pandas as pd
+import validate_data as vd
+from shapely.geometry import Point
 
-FILE = "/data/interim/wind_river/wind_river_live_trees.shp"
+FILE = "test.shp"
 
 def primary_data_for_test():
-    gdf = gpd.read_file(FILE).sample(3)
-    return gdf
+    df = pd.DataFrame(
+            {
+                'x_tree':[x**2 for x in range(1,4)], 
+                'y_tree':[x for x in range(1,4)],
+                'species':['A', 'b', 'C'],
+                'crown_ratio':[x/2.0 for x in range(1,4)],
+                'height':[x*2 for x in range(1,4)]
+            }
+        )
+    df['geometry'] = list(zip(df.x_tree, df.y_tree))
+    df['geometry'] = df['geometry'].apply(Point)
+    gdf = gpd.GeoDataFrame(df, geometry='geometry')
+    gdf.to_file(FILE)
 
-gdf = primary_data_for_test()
+# call the function to create the data
+primary_data_for_test()
+gdf = gpd.read_file(FILE)
 
 class TestUserDataFunctionality(unittest.TestCase):
     """
@@ -19,14 +34,16 @@ class TestUserDataFunctionality(unittest.TestCase):
     data works accordingly
     """
 
-    def test_empty_file_throws_error(self):
+    def test_empty_file_return_False(self):
         """
         Test that if the user provides an empty tree list, 
         the function yield approriate error and message of
         ValueError
         """
-        test_df = gpd.GeoDataFrame(gdf.columns)
-        self.assertTrue(False, tree_list_checker(test_df))
+        test_df = gdf[0:0]
+        empty_shp = "empty.shp"
+        test_df.to_file(empty_shp)
+        self.assertTrue(False, vd.tree_list_checker(empty_shp))
     
     def test_pass_test_if_all_column_data_ok(self):
         """
@@ -35,7 +52,7 @@ class TestUserDataFunctionality(unittest.TestCase):
         the data is of the appropriate format (CSV, SHAPEFILE, TXT) and 
         has all the required columns (x_tree, y_tree, species, crown_ratio, dbh)
         """
-        pass
+        self.assertTrue(True, vd.tree_list_checker(FILE))
 
     def test_names_ok_but_not_datatype(self):
         """
@@ -50,14 +67,18 @@ class TestUserDataFunctionality(unittest.TestCase):
         Checks that the function tree_list _cheker returns is ok when the data contains besides the 
         required columns, other supplementary columns
         """
-        pass
+        test_df = gpd.read_file(FILE)
+        test_df['extra'] = [x for x in range(1,4)]
+        extr_shp = "extra_shp.shp"
+        test_df.to_file(extr_shp)
+        self.assertTrue(True, vd.tree_list_checker(extr_shp))
     
     def test_pass_column_in_different_order(self):
         """
         Checks that the tree_list_checker returns true when the required column and data is correct
         but columns are provided in unordered manner
         """
-        pass
+        self.assertTrue(True, vd.tree_list_checker(FILE))
 
     def test_raise_warning_if_some_missing_values(self):
         """
@@ -73,3 +94,10 @@ class TestUserDataFunctionality(unittest.TestCase):
 
     def test_tree_list_bound_cheker_throws_appropriate_error(self):
         pass
+
+## running the tests
+if __name__ == '__main__':
+    print('running test')
+    
+
+    unittest.main()

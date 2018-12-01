@@ -25,9 +25,9 @@ def tree_list_checker(filename):
     if not os.path.isfile(filename):
         raise FileNotFoundError('The file does not exist.')
     file_type = os.path.basename(filename).split('.')[1]
-    if file_type is "csv":
+    if file_type == "csv":
         df = pd.read_csv(filename)
-    elif file_type is "shp":
+    elif file_type == "shp":
         df = gpd.read_file(filename)
     else:
         raise TypeError('Unknown file type') 
