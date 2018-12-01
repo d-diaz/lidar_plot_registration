@@ -2,10 +2,18 @@
 Description
 """
 import unittest
+import geopandas as gpd
 import tree_list_checker
 
+FILE = "/data/interim/wind_river/wind_river_live_trees.shp"
 
-class TestUserDataFunctionality:
+def primary_data_for_test():
+    gdf = gpd.read_file(FILE).sample(3)
+    return gdf
+
+gdf = primary_data_for_test()
+
+class TestUserDataFunctionality(unittest.TestCase):
     """
     class that checks if the functionalities of the method checking user provided 
     data works accordingly
@@ -16,9 +24,9 @@ class TestUserDataFunctionality:
         Test that if the user provides an empty tree list, 
         the function yield approriate error and message of
         ValueError
-
         """
-        pass
+        test_df = gpd.GeoDataFrame(gdf.columns)
+        self.assertTrue(False, tree_list_checker(test_df))
     
     def test_pass_test_if_all_column_data_ok(self):
         """
