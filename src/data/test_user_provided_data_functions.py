@@ -1,5 +1,8 @@
 """
-Description
+Perform some unit test for tree_list_checker
+The test produces its own data for testing. No need for external files
+It creates some data that is stored in the directory the file is located
+It does not delete the file after excecustion
 """
 import unittest
 import geopandas as gpd
@@ -40,10 +43,12 @@ class TestUserDataFunctionality(unittest.TestCase):
         the function yield approriate error and message of
         ValueError
         """
-        test_df = gdf[0:0]
-        empty_shp = "empty.shp"
-        test_df.to_file(empty_shp)
-        self.assertTrue(False, vd.tree_list_checker(empty_shp))
+        test_df = gdf
+        test_df = test_df.drop(columns=['geometry'], axis=1)
+        test_df =test_df[0:0]
+        empty_shp = "empty.csv"
+        test_df.to_csv(empty_shp)
+        self.assertFalse(vd.tree_list_checker(empty_shp))
     
     def test_pass_test_if_all_column_data_ok(self):
         """
@@ -52,7 +57,7 @@ class TestUserDataFunctionality(unittest.TestCase):
         the data is of the appropriate format (CSV, SHAPEFILE, TXT) and 
         has all the required columns (x_tree, y_tree, species, crown_ratio, dbh)
         """
-        self.assertTrue(True, vd.tree_list_checker(FILE))
+        self.assertTrue(vd.tree_list_checker(FILE))
 
     def test_names_ok_but_not_datatype(self):
         """
@@ -61,7 +66,7 @@ class TestUserDataFunctionality(unittest.TestCase):
 
         """
         pass
-    
+        
     def test_data_ok_with_extra_columns(self):
         """
         Checks that the function tree_list _cheker returns is ok when the data contains besides the 
@@ -71,14 +76,14 @@ class TestUserDataFunctionality(unittest.TestCase):
         test_df['extra'] = [x for x in range(1,4)]
         extr_shp = "extra_shp.shp"
         test_df.to_file(extr_shp)
-        self.assertTrue(True, vd.tree_list_checker(extr_shp))
+        self.assertTrue(vd.tree_list_checker(extr_shp))
     
     def test_pass_column_in_different_order(self):
         """
         Checks that the tree_list_checker returns true when the required column and data is correct
         but columns are provided in unordered manner
         """
-        self.assertTrue(True, vd.tree_list_checker(FILE))
+        self.assertTrue(vd.tree_list_checker(FILE))
 
     def test_raise_warning_if_some_missing_values(self):
         """
