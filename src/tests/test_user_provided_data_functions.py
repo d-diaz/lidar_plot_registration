@@ -7,8 +7,6 @@ It does not delete the file after excecustion
 import unittest
 import os
 import shutil
-import glob
-import tempfile
 import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
@@ -19,24 +17,24 @@ data_dir = os.path.join(this_dir, 'sample_data_for_testing')
 temp_test_dir = os.path.join(data_dir, "temp")
 TEST_SHAPEFILE = os.path.join(temp_test_dir, "test.shp")
 
+
 class TestUserDataFunctionality(unittest.TestCase):
     """
-    class that checks if the functionalities of the method checking user provided
-    data works accordingly
+    Tests which ensure functions to check user-provided data match
+    our specifications work appropriately.
     """
+
     def setUp(self):
         """Sets up data to be used for running tests"""
         os.mkdir(temp_test_dir)
 
-        df = pd.DataFrame(
-                {
-                    'x_tree':[x**2 for x in range(1,4)],
-                    'y_tree':[x for x in range(1,4)],
-                    'species':['A', 'b', 'C'],
-                    'crown_ratio':[x/2.0 for x in range(1,4)],
-                    'height':[x*2 for x in range(1,4)]
-                }
-            )
+        df = pd.DataFrame({
+            'x_tree': [x**2 for x in range(1, 4)],
+            'y_tree': [x for x in range(1, 4)],
+            'species': ['A', 'b', 'C'],
+            'crown_ratio': [x / 2.0 for x in range(1, 4)],
+            'height': [x * 2 for x in range(1, 4)]
+        })
         df['geometry'] = list(zip(df.x_tree, df.y_tree))
         df['geometry'] = df['geometry'].apply(Point)
         gdf = gpd.GeoDataFrame(df, geometry='geometry')
@@ -45,13 +43,11 @@ class TestUserDataFunctionality(unittest.TestCase):
 
     def test_empty_file_return_False(self):
         """
-        Test that if the user provides an empty tree list,
-        the function yield approriate error and message of
-        ValueError
+        Test whether providing an empty tree list fails tree_list_checker.
         """
         test_df = self.gdf
         test_df = test_df.drop(columns=['geometry'], axis=1)
-        test_df =test_df[0:0]
+        test_df = test_df[0:0]
         empty_shp = os.path.join(temp_test_dir, "empty.csv")
         test_df.to_csv(empty_shp)
         self.assertFalse(vd.tree_list_checker(empty_shp))
@@ -109,6 +105,7 @@ class TestUserDataFunctionality(unittest.TestCase):
     def tearDown(self):
         """Removes temporary directory created during unit testing"""
         shutil.rmtree(temp_test_dir)
+
 
 ## running the tests
 if __name__ == '__main__':
