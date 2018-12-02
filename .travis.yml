@@ -18,3 +18,4 @@ install:
 
 script:
   - python ./src/tests/test.py
+  - python ./src/tests/test_user_provided_data_functions.py
