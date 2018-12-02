@@ -268,7 +268,7 @@ def get_crown_eccentricity(stem_base, crown_radii, crown_ratio):
         2 / np.pi * np.arctan(eccen) * crown_ratio)  # bottom of tree, x and y
                    )
 
-    return idx[:, :, 0]
+    return idx
 
 
 def get_crown_apex_and_base(stem_base, crown_radii, top_height, base_height,
@@ -354,7 +354,7 @@ def get_circular_plot_boundary(x, y, radius, dem=None):
 
 
 def make_hull(stem_base, peripheral_points, crown_base, crown_apex,
-              shape_coefs):
+              crown_shapes):
     """
     Parameters
     ----------
@@ -366,7 +366,7 @@ def make_hull(stem_base, peripheral_points, crown_base, crown_apex,
         (x,y,z) coordinates of crown base
     crown_apex: array with shape(3,)
         (x,y,z) coordinates of crown apex
-    shape_coefs: array with shape (4,2)
+    crown_shapes: array with shape (4,2)
         shape coefficients describing curvature of crown profiles
         in each direction (E, N, W, S) for top and bottom of crown
     level_set: boolean (optional)
@@ -415,9 +415,9 @@ def make_hull(stem_base, peripheral_points, crown_base, crown_apex,
     # calculate the shape coefficients by angle theta (relative to apex) using
     # linear interpolation
     top_shape = np.interp(
-        thetas, periph_v_apex_theta, shape_coefs[0], period=2 * np.pi)
+        thetas, periph_v_apex_theta, crown_shapes[0], period=2 * np.pi)
     bot_shape = np.interp(
-        bot_pline_theta, periph_v_base_theta, shape_coefs[1], period=2 * np.pi)
+        bot_pline_theta, periph_v_base_theta, crown_shapes[1], period=2 * np.pi)
 
     # calculate crown radius at height z
     top_edge_r = ((1 - (zz - top_pline_zs)**top_shape /
@@ -486,11 +486,11 @@ class Tree(object):
         crown_edge_heights: array of numerics, shape (4,)
             height above ground at point of maximum crown width in each
             direction. Order expected is E, N, W, S.
-        shape_coefs : array with shape (2,4)
+        crown_shapes : array with shape (2,4)
             shape coefficients describing curvature of crown profiles
             in each direction (E, N, W, S) for top and bottom of tree crown. The
-            shape_coefs[0, 0:4] describe the shape of the top of the crown.
-            shape_coefs[1, 0:4] describe the shape of the bottom of the crown.
+            crown_shapes[0, 0:4] describe the shape of the top of the crown.
+            crown_shapes[1, 0:4] describe the shape of the bottom of the crown.
             Coef values of 1.0 produce a cone, values < 1 produce concave
             shapes, and values > 1 will produce convex shapes, with coef == 2.0
             producing an ellipse.
@@ -504,21 +504,21 @@ class Tree(object):
         self.lean_direction = lean_direction
         self.lean_severity = lean_severity
         self.crown_ratio = crown_ratio
-        self.base_height = crown_ratio * height
-        self.shape_coefs = crown_shapes
+        self.base_height = height - (crown_ratio * height)
+        self.crown_shapes = crown_shapes
 
         self.top_x, self.top_y, self.top_z = get_treetop_location(
             self.stem_x, self.stem_y, self.stem_z, self.height,
             self.lean_direction, self.lean_severity)
         self.base_z = self.base_height + self.stem_z
 
-        if not crown_radii:
+        if crown_radii is None:
             self.crown_radii = np.full(4, 0.25 * height)
         else:
             self.crown_radii = crown_radii
 
-        if not crown_edge_heights:
-            self.crown_edge_heights = np.full(4, 0.5 * height) + self.z
+        if crown_edge_heights is None:
+            self.crown_edge_heights = np.full(4, 0.5 * height) + self.stem_z
         else:
             self.crown_edge_heights = crown_edge_heights + self.z
 
@@ -526,13 +526,13 @@ class Tree(object):
         self.peripheral_points = get_peripheral_points(
             self.stem_base, self.crown_radii, self.crown_edge_heights)
 
-        self.crown_base, self.crown_apex = get_crown_apex_and_base(
+        self.crown_apex, self.crown_base = get_crown_apex_and_base(
             self.stem_base, self.crown_radii, self.top_z, self.base_z,
             self.crown_ratio)
 
     def get_hull(self):
         return make_hull(self.stem_base, self.peripheral_points,
-                         self.crown_base, self.crown_apex, self.shape_coefs)
+                         self.crown_base, self.crown_apex, self.crown_shapes)
 
 
 def poisson_pipeline(infile, outfile, depth=8):
