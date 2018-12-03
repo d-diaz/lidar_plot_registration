@@ -62,8 +62,7 @@ class TestUserDataFunctionality(unittest.TestCase):
         the data is of the appropriate format (CSV, SHAPEFILE, TXT) and
         has all the required columns (x_tree, y_tree, species, crown_ratio, dbh)
         """
-        result = vd.tree_list_checker(TEST_SHAPEFILE)
-        self.assertTrue(result)
+        self.assertTrue(vd.tree_list_checker(TEST_SHAPEFILE))
     
     def test_names_ok_but_not_datatype(self):
         """
@@ -102,6 +101,14 @@ class TestUserDataFunctionality(unittest.TestCase):
         """
         pass
     
+    def test_tree_list_bound_cheker_returns_approprate_value(self):
+        """
+        Checks if the list
+        """
+        pass
+    
+    def test_tree_list_bound_cheker_throws_appropriate_error(self):
+        pass
 
     # def tearDown(self):
     #     """Removes temporary directory created during unit testing"""
