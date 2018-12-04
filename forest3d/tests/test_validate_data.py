@@ -10,7 +10,7 @@ import shutil
 import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
-from src.data import validate_data as vd
+from forest3d import validate_data as vd
 
 this_dir = os.path.dirname(__file__)
 data_dir = os.path.join(this_dir, 'sample_data_for_testing')

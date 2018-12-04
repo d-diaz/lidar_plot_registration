@@ -2,9 +2,9 @@ import os
 import unittest
 import numpy as np
 from shapely.geometry import Point, Polygon
-from src.geometry.geometry import get_raster_bbox_as_polygon
-from src.geometry.geometry import get_elevation
-from src.geometry.geometry import get_treetop_location
+from forest3d.geometry import get_raster_bbox_as_polygon
+from forest3d.geometry import get_elevation
+from forest3d.geometry import get_treetop_location
 
 this_dir = os.path.dirname(__file__)
 data_dir = os.path.join(this_dir, 'sample_data_for_testing')

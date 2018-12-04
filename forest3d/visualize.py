@@ -4,7 +4,7 @@
 import numpy as np
 import ipyvolume as ipv
 from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text
-from src.geometry.geometry import make_tree_all_params
+from forest3d.geometry import make_tree_all_params
 
 
 def plot_tree_with_widgets():
