@@ -1,3 +1,6 @@
+"""Functions for generating interactive visualizations of 3D models of trees."""
+
+
 import numpy as np
 import ipyvolume as ipv
 from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text

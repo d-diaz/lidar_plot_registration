@@ -1,26 +1,29 @@
+"""Functions for checking that user-provided data conform to required
+formats."""
+
 import os
 import pandas as pd
 import geopandas as gpd
 import numpy as np
 
+
 def tree_list_checker(filename):
     """
-    Checks if the input file of tree list dataset is a valid dataset. 
+    Checks if the input file of tree list dataset is a valid dataset.
     It means that the file contains the required columns such as
-    'x_tree', 'y_tree', 'dbh', 'species' and the 'height' and 'crow_ratio'. The file 
+    'x_tree', 'y_tree', 'dbh', 'species' and the 'height' and 'crow_ratio'. The file
     can contain other atribute the user wishes
 
-    Parameters:
-    -------------------
+    Parameters
+    -----------
     filename:  str
             The name of the file with the extension specified
 
     Returns
-    -------------------
+    --------
     bool
         True if the file fits the format and is not null
         False otherwise
-     
     """
     if not os.path.isfile(filename):
         raise FileNotFoundError('The file does not exist.')
@@ -30,7 +33,7 @@ def tree_list_checker(filename):
     elif file_type == "shp":
         df = gpd.read_file(filename)
     else:
-        raise TypeError('Unknown file type') 
+        raise TypeError('Unknown file type')
     required_columns = ['x', 'y', 'specie', 'dbh', 'height', 'ratio']
     if len(required_columns) > len(df.columns) or df.empty:
         return False

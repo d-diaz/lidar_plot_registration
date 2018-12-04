@@ -1,3 +1,5 @@
+"""Functions for creating 3D geometric representations of trees."""
+
 import json
 import subprocess
 import numpy as np
