@@ -7,7 +7,7 @@ numpy
 pandas
 pdal
 plotly
-python=3.6.7
+python==3.6.7
 python-pdal
 rasterio
 seaborn
