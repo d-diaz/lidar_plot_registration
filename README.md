@@ -52,25 +52,17 @@ Use the conda package manager to reproduce the computing environment we used in 
     │   └── figures        <- Graphics and figures used in reports
     |
     ├── setup.py           <- makes project src installable as a python package (`conda-develop .` or `pip install -e`)
-    ├── src                <- Source code for use in this project.
+    ├── forest3d           <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to process/re-format and validate data
-    │   │   ├── preprocess_data.py
-    │   │   └── validate_data.py    
-    │   │
-    │   ├── geometry       <- Scripts to generate 3D geometric models
-    │   │   └── geometry.py
-    │   │
-    │   ├── optimization   <- Scripts to co-register point clouds with geometric models
-    │   │   └── optimize.py
-    │   │
-    │   ├── visualization  <- Scripts to create 3D visualizations
-    │   |   └── visualize.py
+    │   ├── preprocess_data.py  <- To process/re-format raw data
+    │   ├── validate_data.py    <- To validate conformance of data with our specs
+    │   ├── geometry.py     <- To generate 3D geometric models
+    │   ├── optimize.py    <- To co-register point clouds with geometric models
+    │   ├── visualize.py   <- To create interactive 3D visualizations
     │   │
     │   └── test           <- Scripts for unit testing
     │       └── tests.py   
     |
-    ├── environment.yml   <- Requirements file for reproducing the analysis environment using conda 
+    ├── environment.yml   <- Requirements file for reproducing the analysis environment using conda
     |                        (`conda create --name forest3d --file environment.yml`)
     └── .travis.yml        <- Settings for running Travis CI
