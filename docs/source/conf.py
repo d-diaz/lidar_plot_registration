@@ -42,7 +42,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
-    'sphinx_markdown_tables'
 ]
 source_parsers = {
    '.md': 'recommonmark.parser.CommonMarkParser',
