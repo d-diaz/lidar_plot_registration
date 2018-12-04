@@ -12,9 +12,9 @@ Use the conda package manager to reproduce the computing environment we used in 
 2. Clone this repo onto your local machine:  
 `git clone https://github.com/d-diaz/Lidar_Plot_Registration.git`
 3. Create a conda environment from the environment.yml file included in this repo:  
-`conda env create --name viz3d --file environment.yml`
+`conda env create --name forest3d --file environment.yml`
 4. Activate this new conda environment:
-`source activate viz3d` (Linux, OSX) or `activate viz3d` (Windows)
+`source activate forest3d` (Linux, OSX) or `activate forest3d` (Windows)
 5. Start a Jupyter session:
 `jupyter notebook`
 6. In your web browser Jupyter session, navigate to the "notebooks" folder in this repo and open up one of the Jupyter Notebooks!
