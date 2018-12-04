@@ -520,7 +520,7 @@ class Tree(object):
         if crown_edge_heights is None:
             self.crown_edge_heights = np.full(4, 0.5 * height) + self.stem_z
         else:
-            self.crown_edge_heights = crown_edge_heights + self.z
+            self.crown_edge_heights = crown_edge_heights + self.stem_z
 
         self.stem_base = np.array((self.stem_x, self.stem_y, self.stem_z))
         self.peripheral_points = get_peripheral_points(
@@ -587,3 +587,57 @@ def poisson_mesh(infile, outfile, depth=8):
             print(proc.stderr.decode())
     else:
         raise
+
+def make_tree_all_params(species, dbh, height, stem_x, stem_y, stem_z,
+              lean_direction, lean_severity, crown_ratio, crown_radius_E,
+              crown_radius_N, crown_radius_W, crown_radius_S,
+              crown_edge_height_E, crown_edge_height_N, crown_edge_height_W,
+              crown_edge_height_S, shape_top_E, shape_top_N, shape_top_W,
+              shape_top_S, shape_bot_E, shape_bot_N, shape_bot_W, shape_bot_S):
+    """Creates a tree and returns its crown as a hull exposing all parameters
+    used as individual arguments.
+
+    This is used primarily for the plotting functions in the visualization.py
+    script in this package. The parameters are the same as involved in
+    instantiating a Tree object.
+
+    Returns
+    --------
+    x, y, z : numpy arrays
+        the x, y, and z coordinates of points that occur along the edge of the
+        tree crown.
+    """
+    crown_radii = np.array((crown_radius_E,
+                            crown_radius_N,
+                            crown_radius_W,
+                            crown_radius_S))
+
+    crown_edge_heights = np.array((crown_edge_height_E,
+                                   crown_edge_height_N,
+                                   crown_edge_height_W,
+                                   crown_edge_height_S))
+
+    crown_shapes = np.array(((shape_top_E,
+                              shape_top_N,
+                              shape_top_W,
+                              shape_top_S),
+                             (shape_bot_E,
+                              shape_bot_N,
+                              shape_bot_W,
+                              shape_bot_S)
+                            ))
+    new_tree = Tree(species,
+                    dbh,
+                    height,
+                    stem_x,
+                    stem_y,
+                    stem_z,
+                    lean_direction,
+                    lean_severity,
+                    crown_ratio,
+                    crown_radii,
+                    crown_edge_heights,
+                    crown_shapes)
+
+    x, y, z = new_tree.get_hull()
+    return x, y, z
