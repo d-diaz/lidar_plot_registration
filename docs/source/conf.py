@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.abspath('../'))
 sys.path.insert(0, os.path.abspath('../forest3d/'))
 sys.path.insert(0, os.path.abspath('../../forest3d/'))
 
+autodoc_mock_imports = ["pdal", "pandas", "numpy", "geopandas", "rasterio"]
 
 # -- Project information -----------------------------------------------------
 
