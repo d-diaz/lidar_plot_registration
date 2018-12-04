@@ -24,6 +24,7 @@ def tree_list_checker(filename):
         True if the file fits the format and is not null
         False otherwise
     """
+    print('Running the test funcition ------------------')
     if not os.path.isfile(filename):
         raise FileNotFoundError('The file does not exist.')
     file_type = os.path.basename(filename).split('.')[1]
@@ -54,6 +55,6 @@ def tree_list_checker(filename):
                 return False
     return True
 
-# if __name__=='__main__':
-#     print(tree_list_checker('d:\\Courses\\CSE583\\project\\Lidar_Plot_Registration\\src\\tests\\sample_data_for_testing\\temp\\test.shp'))
+if __name__=='__main__':
+    print(tree_list_checker('d:\\Courses\\CSE583\\project\\Lidar_Plot_Registration\\src\\tests\\sample_data_for_testing\\temp\\test.shp'))
 
