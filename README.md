@@ -51,9 +51,9 @@ Use the conda package manager to reproduce the computing environment we used in 
     ├── reports            <- Generated analysis as HTML, PDF, etc.
     │   └── figures        <- Graphics and figures used in reports
     |
-    ├── setup.py           <- makes project src installable as a python package (`conda-develop .` or `pip install -e`)
+    ├── setup.py           <- makes source code installable as python package (`python setup.py develop`)
     ├── forest3d           <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    │   ├── __init__.py    <- Makes forest3d a Python module
     │   ├── preprocess_data.py  <- To process/re-format raw data
     │   ├── validate_data.py    <- To validate conformance of data with our specs
     │   ├── geometry.py     <- To generate 3D geometric models
