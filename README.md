@@ -1,5 +1,6 @@
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/d-diaz/Lidar_Plot_Registration/master)
 [![Build Status](https://travis-ci.org/d-diaz/lidar_plot_registration.svg?branch=master)](https://travis-ci.org/d-diaz/lidar_plot_registration)
+[![Documentation Status](https://readthedocs.org/projects/lidar-plot-registration/badge/?version=latest)](https://lidar-plot-registration.readthedocs.io/en/latest/?badge=latest)
 
 # forest3d
 Methods for creating 3D visualizations of forest inventory plots and co-registering stem maps with lidar data.
