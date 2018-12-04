@@ -1,18 +1,18 @@
 .. forest3d documentation master file, created by
-   sphinx-quickstart.
+   sphinx-quickstart on Mon Dec  3 18:28:12 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-forest3d documentation!
-==============================================
-
-Contents:
+Welcome to forest3d's documentation!
+====================================
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents
 
-   getting-started
-   commands
+   quickstart
+   Functional Specification <functional_specification>
+   Component Specification <component_specification>
 
 
 

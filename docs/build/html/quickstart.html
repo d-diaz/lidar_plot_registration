@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; forest3d 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functional Specification" href="functional_specification.html" />
+    <link rel="prev" title="Welcome to forest3d’s documentation!" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> forest3d
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#option-a-for-the-non-coder">Option A: For the non-coder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-b-for-the-coder">Option B: For the coder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functional_specification.html">Functional Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="component_specification.html">Component Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">forest3d</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/quickstart.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<span id="getting-started"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="option-a-for-the-non-coder">
+<span id="option-a-for-the-non-coder"></span><h2>Option A: For the non-coder<a class="headerlink" href="#option-a-for-the-non-coder" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t want to do any coding yourself and instead just want to view and execute the code we’ve already written using our Jupyter Notebooks, use this link:  <a class="reference external" href="https://mybinder.org/v2/gh/d-diaz/Lidar_Plot_Registration/master"><img alt="Binder" src="https://mybinder.org/badge.svg" /></a> and a computing environment will be set up for you in the cloud (for free). This setup process can take several minutes, so be patient. Once that setup is done, you should be able to navigate to the “notebooks” folder of the repository and open and execute the Jupyter Notebooks without having to install anything on your own machine.</p>
+</div>
+<div class="section" id="option-b-for-the-coder">
+<span id="option-b-for-the-coder"></span><h2>Option B: For the coder<a class="headerlink" href="#option-b-for-the-coder" title="Permalink to this headline">¶</a></h2>
+<p>This Git repo utilizes the Git Large File Storage (LFS) system. Git LFS is used here to replace large files files (identified in <code class="docutils literal notranslate"><span class="pre">.gitattributes</span></code>) such as shapefiles, point clouds, and rasters with text pointers inside Git, while still storing files not excluded by <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> on GitHub. Very large geospatial data files such as point clouds (.las, .las) and rasters (.asc, .tif) are currently set up to be ignored by Git entirely because they can easily exceed GitHub storage allowances. Third party solutions for storing and sharing large datasets are used to work around this.</p>
+<p>Use the conda package manager to reproduce the computing environment we used in developing this repo. Get <a class="reference external" href="https://www.anaconda.com/download/">Anaconda</a> or <a class="reference external" href="https://conda.io/miniconda.html">Miniconda</a> to do so.</p>
+<ol class="simple">
+<li>Install <a class="reference external" href="https://github.com/git-lfs/git-lfs/wiki/Installation">Git LFS</a></li>
+<li>Clone this repo onto your local machine:<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/d-diaz/Lidar_Plot_Registration.git</span></code></li>
+<li>Create a conda environment from the environment.yml file included in this repo:<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">viz3d</span> <span class="pre">--file</span> <span class="pre">environment.yml</span></code></li>
+<li>Activate this new conda environment:
+<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">viz3d</span></code> (Linux, OSX) or <code class="docutils literal notranslate"><span class="pre">activate</span> <span class="pre">viz3d</span></code> (Windows)</li>
+<li>Start a Jupyter session:
+<code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code></li>
+<li>In your web browser Jupyter session, navigate to the “notebooks” folder in this repo and open up one of the Jupyter Notebooks!</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="functional_specification.html" class="btn btn-neutral float-right" title="Functional Specification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to forest3d’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, David Diaz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

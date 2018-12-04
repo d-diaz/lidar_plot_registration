@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>forest3d package &mdash; forest3d 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> forest3d
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functional_specification.html">Functional Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="component_specification.html">Component Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">forest3d</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>forest3d package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/forest3d.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="forest3d-package">
+<h1>forest3d package<a class="headerlink" href="#forest3d-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-forest3d.geometry">
+<span id="forest3d-geometry-module"></span><h2>forest3d.geometry module<a class="headerlink" href="#module-forest3d.geometry" title="Permalink to this headline">¶</a></h2>
+<p>Functions for creating 3D geometric representations of trees.</p>
+<dl class="class">
+<dt id="forest3d.geometry.Tree">
+<em class="property">class </em><code class="descclassname">forest3d.geometry.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>species, dbh, height, stem_x, stem_y, stem_z, lean_direction=0, lean_severity=0, crown_ratio=0.65, crown_radii=None, crown_edge_heights=None, crown_shapes=array([[1., 1., 1., 1.],        [1., 1., 1., 1.]])</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="forest3d.geometry.Tree.get_hull">
+<code class="descname">get_hull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.Tree.get_hull" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.arrays_equal_shape">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">arrays_equal_shape</code><span class="sig-paren">(</span><em>*args</em>, <em>raise_exc=True</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.arrays_equal_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confirms all inputs, when converted to arrays, have equal shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> (<em>array-like</em>) – any arguments that can be converted to arrays with np.asanyarray</li>
+<li><strong>raise_exc</strong> (<em>boolean</em>) – whether to raise a ValueError exception</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> – whether or not all args have same shape</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_circular_plot_boundary">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_circular_plot_boundary</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>radius</em>, <em>dem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_circular_plot_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns coordinates of 32 points along the circumference of a circular
+plot.</p>
+<p>If a digital elevation model readable by rasterio is also provided, the
+elevations of the circumerference points will also be calculated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>numeric</em><em>, or </em><em>numpy array of numeric values</em>) – x-coordinate of plot center</li>
+<li><strong>y</strong> (<em>numeric</em><em>, or </em><em>numpy array of numeric values</em>) – y-coordinate of plot center</li>
+<li><strong>dem</strong> (<em>string</em><em>, </em><em>path to file</em>) – A digial elevation model in a format that can be read by rasterio</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>xs, ys, zs</strong> – x, y, and z coordinates of the plot boundary</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy arrays, each with shape (32,)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_crown_apex_and_base">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_crown_apex_and_base</code><span class="sig-paren">(</span><em>stem_base</em>, <em>crown_radii</em>, <em>top_height</em>, <em>base_height</em>, <em>crown_ratio</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_crown_apex_and_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the (x,y,z) position of the apex and base of a tree crown.</p>
+<p>This models a tree crown as an asymmetric hull comprised of
+quarter-ellipses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stem_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of stem base</li>
+<li><strong>crown_radii</strong> (<em>array of numerics</em><em>, </em><em>shape</em><em> (</em><em>4</em><em>,</em><em>)</em>) – distance from stem base to point of maximum crown width in each
+direction. Order of radii expected is E, N, W, S.</li>
+<li><strong>crown_ratio</strong> (<em>numeric</em>) – ratio of live crown length to total tree height</li>
+<li><strong>top_z</strong> (<em>numeric</em>) – elevation (z coordinate) of top of tree crown</li>
+<li><strong>bottom_z</strong> (<em>numeric</em>) – elevation (z coordinate) of bottom of tree crown</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>apex, base</strong> – (x,y,z) coordinates for crown apex and crown base</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">arrays with shape (3,)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_crown_center_xy">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_crown_center_xy</code><span class="sig-paren">(</span><em>stem_base</em>, <em>crown_radii</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_crown_center_xy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates x,y coordinates of center of crown projection.</p>
+<p>The center of the crown projection is determined as the midpoint between
+points of maximum crown width in the x and y directions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stem_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of stem base</li>
+<li><strong>crown_radii</strong> (<em>array of numerics</em><em>, </em><em>shape</em><em> (</em><em>4</em><em>,</em><em>)</em>) – distance from stem base to point of maximum crown width in each
+direction. Order of radii expected is E, N, W, S.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>center_xy</strong> – x,y coordinates of the center of the crown projection</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array with shape (2,)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_crown_eccentricity">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_crown_eccentricity</code><span class="sig-paren">(</span><em>stem_base</em>, <em>crown_radii</em>, <em>crown_ratio</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_crown_eccentricity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates eccentricity-index values for an asymmetric hull
+representing a tree crown. Eccentricity-index values are used to determine
+the x,y positions of the base and the apex of a tree crown.</p>
+<p>The eccentricity-index is defined by Koop (1989, p.49-51) as ‘the ratio of
+distance between tree base and centre point of the crown projection and
+crown radius’. Eccentricity-index values should range [-1, 1]. A value of 0
+indicates that the x,y location of the tree apex or base is at the center of
+the horizontal crown projection. Values that approach -1 or 1 indicate the
+x,y location of the tree apex or base is near the edge of the crown.</p>
+<blockquote>
+<div>Koop, H. (1989). Forest Dynamics: SILVI-STAR: A Comprehensive Monitoring
+System. Springer: New York.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stem_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of stem base</li>
+<li><strong>crown_radii</strong> (<em>array of numerics</em><em>, </em><em>shape</em><em> (</em><em>4</em><em>,</em><em>)</em>) – distance from stem base to point of maximum crown width in each
+direction. Order of radii expected is E, N, W, S.</li>
+<li><strong>crown_ratio</strong> (<em>numeric</em>) – ratio of live crown length to total tree height</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>idx</strong> – eccentricity-index values for the top (0, ) and bottom of a tree (1, ).</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array with shape (2, 2)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_elevation">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_elevation</code><span class="sig-paren">(</span><em>dem</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates elevations from a digital elevation model at specified (x, y)
+coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dem</strong> (<em>string</em><em>, </em><em>path to file</em>) – A digital elevation model in a format that can be read by rasterio.</li>
+<li><strong>x</strong> (<em>numeric</em><em>, or </em><em>numpy array of numeric values</em>) – x-coordinate(s) of points to query</li>
+<li><strong>y</strong> (<em>numeric</em><em>, or </em><em>numpy array of numeric values</em>) – y-coordinate(s) of points to query</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>elev</strong> – elevation at specified (x, y) coordinates</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_peripheral_points">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_peripheral_points</code><span class="sig-paren">(</span><em>stem_base</em>, <em>crown_radii</em>, <em>crown_edge_heights</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_peripheral_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the x,y,z coordinates of the points of maximum crown width
+in E, N, W, and S directions around a tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stem_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of stem base</li>
+<li><strong>crown_radii</strong> (<em>array of numerics</em><em>, </em><em>shape</em><em> (</em><em>4</em><em>,</em><em>)</em>) – distance from stem base to point of maximum crown width in each
+direction. Order of radii expected is E, N, W, S.</li>
+<li><strong>crown_edge_heights</strong> (<em>array of numerics</em><em>, </em><em>shape</em><em> (</em><em>4</em><em>,</em><em>)</em>) – elevation (z coordinate) at point of maximum crown width in each
+direction. Order expected is E, N, W, S.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>periph_pts</strong> – (x,y,z) coordinates of points at maximum crown width</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array with shape (4, 3)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_raster_bbox_as_polygon">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_raster_bbox_as_polygon</code><span class="sig-paren">(</span><em>path_to_raster</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_raster_bbox_as_polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Shapely Polygon defining the bounding box of a raster</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path_to_raster</strong> (<em>string</em><em>, </em><em>path to file</em>) – A raster image that can be read by rasterio.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>bbox</strong> – A polygon describing the bounding box of the raster</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">shapely Polygon object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.get_treetop_location">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">get_treetop_location</code><span class="sig-paren">(</span><em>stem_x</em>, <em>stem_y</em>, <em>stem_z</em>, <em>height</em>, <em>lean_direction=0.0</em>, <em>lean_severity=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.get_treetop_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates 3D coordinates for the top of a tree, allowing specification
+of direction and severity of leaning.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stem_x</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – x-coordinate stem base</li>
+<li><strong>stem_y</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – y-coordinate of stem base</li>
+<li><strong>stem_z</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – z-coordinate of stem base</li>
+<li><strong>height</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – vertical height of the tree apex from the base of the stem</li>
+<li><strong>lean_direction</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – direction of tree lean, in degrees with 0 = east, 90 = north, 180 = west</li>
+<li><strong>lean_severity</strong> (<em>numeric</em><em>, or </em><em>array of numeric values</em>) – how much the tree is leaning, in degrees from vertical; 0 = no lean, and
+90 meaning the tree is horizontal.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>top_x, top_y, top_z</strong> – The coodrinates that define the tree top.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">three numeric values or three numpy arrays</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.make_hull">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">make_hull</code><span class="sig-paren">(</span><em>stem_base</em>, <em>peripheral_points</em>, <em>crown_base</em>, <em>crown_apex</em>, <em>crown_shapes</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.make_hull" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stem_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of stem base</li>
+<li><strong>peripheral_points</strong> (<em>array with shape</em><em> (</em><em>4</em><em>,</em><em>3</em><em>)</em>) – (x,y,z) coordinates for four peripheral points</li>
+<li><strong>crown_base</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of crown base</li>
+<li><strong>crown_apex</strong> (<em>array with shape</em><em>(</em><em>3</em><em>,</em><em>)</em>) – (x,y,z) coordinates of crown apex</li>
+<li><strong>crown_shapes</strong> (<em>array with shape</em><em> (</em><em>4</em><em>,</em><em>2</em><em>)</em>) – shape coefficients describing curvature of crown profiles
+in each direction (E, N, W, S) for top and bottom of crown</li>
+<li><strong>level_set</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, returns the signed distance between the grid point and
+crown, with positive values representing interior points.
+False returns a binarized version.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.make_tree_all_params">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">make_tree_all_params</code><span class="sig-paren">(</span><em>species</em>, <em>dbh</em>, <em>height</em>, <em>stem_x</em>, <em>stem_y</em>, <em>stem_z</em>, <em>lean_direction</em>, <em>lean_severity</em>, <em>crown_ratio</em>, <em>crown_radius_E</em>, <em>crown_radius_N</em>, <em>crown_radius_W</em>, <em>crown_radius_S</em>, <em>crown_edge_height_E</em>, <em>crown_edge_height_N</em>, <em>crown_edge_height_W</em>, <em>crown_edge_height_S</em>, <em>shape_top_E</em>, <em>shape_top_N</em>, <em>shape_top_W</em>, <em>shape_top_S</em>, <em>shape_bot_E</em>, <em>shape_bot_N</em>, <em>shape_bot_W</em>, <em>shape_bot_S</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.make_tree_all_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a tree and returns its crown as a hull exposing all parameters
+used as individual arguments.</p>
+<p>This is used primarily for the plotting functions in the visualization.py
+script in this package. The parameters are the same as involved in
+instantiating a Tree object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>x, y, z</strong> – the x, y, and z coordinates of points that occur along the edge of the
+tree crown.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy arrays</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.poisson_mesh">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">poisson_mesh</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em>, <em>depth=8</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.poisson_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a Poisson surface mesh from a lidar point cloud and writes the
+output in polygon file format (PLY).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>infile</strong> (<em>string</em><em>, </em><em>path to file</em>) – LAS or LAZ format point cloud to read from disk</li>
+<li><strong>outfile</strong> (<em>string</em><em>, </em><em>path to file</em>) – PLY format file to save mesh to disk</li>
+<li><strong>depth</strong> (<em>int</em>) – Maximum depth of octree used for mesh construction. Increasing this
+value will provide more detailed mesh and require more computation time.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="forest3d.geometry.poisson_pipeline">
+<code class="descclassname">forest3d.geometry.</code><code class="descname">poisson_pipeline</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em>, <em>depth=8</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.geometry.poisson_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-forest3d.optimization">
+<span id="forest3d-optimization-module"></span><h2>forest3d.optimization module<a class="headerlink" href="#module-forest3d.optimization" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-forest3d.preprocess_data">
+<span id="forest3d-preprocess-data-module"></span><h2>forest3d.preprocess_data module<a class="headerlink" href="#module-forest3d.preprocess_data" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-forest3d.validate_data">
+<span id="forest3d-validate-data-module"></span><h2>forest3d.validate_data module<a class="headerlink" href="#module-forest3d.validate_data" title="Permalink to this headline">¶</a></h2>
+<p>Functions for checking that user-provided data conform to required
+formats.</p>
+<dl class="function">
+<dt id="forest3d.validate_data.tree_list_checker">
+<code class="descclassname">forest3d.validate_data.</code><code class="descname">tree_list_checker</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.validate_data.tree_list_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the input file of tree list dataset is a valid dataset.
+It means that the file contains the required columns such as
+‘x_tree’, ‘y_tree’, ‘dbh’, ‘species’ and the ‘height’ and ‘crow_ratio’. The file
+can contain other atribute the user wishes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) – The name of the file with the extension specified</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the file fits the format and is not null
+False otherwise</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-forest3d.visualize">
+<span id="forest3d-visualize-module"></span><h2>forest3d.visualize module<a class="headerlink" href="#module-forest3d.visualize" title="Permalink to this headline">¶</a></h2>
+<p>Functions for generating interactive visualizations of 3D models of trees.</p>
+<dl class="function">
+<dt id="forest3d.visualize.plot_tree_with_widgets">
+<code class="descclassname">forest3d.visualize.</code><code class="descname">plot_tree_with_widgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#forest3d.visualize.plot_tree_with_widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and interactive plot of a tree crown with widgets to control its
+shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>tree_plot</strong> – widget containing the parameter widgets and a 3D scatter plot widget.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ipywidgets HBox widget</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-forest3d">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-forest3d" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, David Diaz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

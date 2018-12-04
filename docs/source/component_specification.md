@@ -91,7 +91,7 @@
 
 ## Interactions to Accomplish Use Cases.
 
-### Use Case A: Checking format of raw user-provided data 
+### Use Case A: Checking format of raw user-provided data
 `Tree List Format Checker` and `Tree List Within Lidar Bounds Checker` will be called to check if the format of the pre-processed data conform to the formatting requirements and if the tree list falls within the bounds of the user-provided lidar data.
 
 ### Use Case B: Visually Inspecting a 3D Tree Model
@@ -101,19 +101,19 @@ An instance of the `TreeModel` class is initialized with default values and disp
 The `3D Plot Modeler` reads in a treelist, utilizes the `Tree List Format Checker` to ensure it meets formatting requirements, instantiates a `TreeModel` object for each tree in the treelist and simulates a 3D point cloud of it, generating a list-like collection of 3D point clouds of simulated trees. The `Plot (Multi-Tree) Visualizer` is then called with this list of trees, and an interactive graphic with several trees is produced.
 
 ### Use Case D: Co-registering a Tree List with a Lidar Point Cloud
-Before optimization commences, the `Tree List Format Checker` and `Tree List Within Lidar Bounds Checker` will be called to check if the format of the pre-processed data conform to the formatting requirements and if the tree list falls within the bounds of the user-provided lidar data. Also before any optimization begins, the `Point Clouder Mesher` will convert the user-provided point cloud file into a 3D surface mesh, and the `Point Cloud Distance Array Generator` will be used to compute the distance between each points on the regular 3D grid from the points on the Poisson surface mesh of the lidar point cloud. 
+Before optimization commences, the `Tree List Format Checker` and `Tree List Within Lidar Bounds Checker` will be called to check if the format of the pre-processed data conform to the formatting requirements and if the tree list falls within the bounds of the user-provided lidar data. Also before any optimization begins, the `Point Clouder Mesher` will convert the user-provided point cloud file into a 3D surface mesh, and the `Point Cloud Distance Array Generator` will be used to compute the distance between each points on the regular 3D grid from the points on the Poisson surface mesh of the lidar point cloud.
 
 The `Optimization Routine` is initialized with the user-provided treelist parameters. The `3D Plot Modeler` will read the tree list and generate 3D models of all the trees in it. The `Point Cloud Distance Calculator` will be used to calculate the distance of the simulated trees from the mesh. This distance metric is the objective function that the `Optimization Routine` seeks to minimize. An  `OptimizationResult` object is returned which contains multiple attributes and traces related to the process of optimization. This object allows the user to execute methods including generation of a tabular report summarizing the optimization results. The `OptimizationResult` object can also be submitted as input to the `Dynamic OptimizationResult Visualizer` to produce a interactive Plotly Graph Object to visualize the process of optimization.
 
 ## Preliminary Plan.
-1. Script for pre-processing field-measured forest inventory text file.(@MartinBagaram) 
-2. Script for pre-processing field-measured forest inventory shapefile. (@MartinBagaram)
+1. Script for pre-processing field-measured forest inventory text file.
+2. Script for pre-processing field-measured forest inventory shapefile.
 3. Implement check format of treelist (@mikelizh), check treelist within bounds
-4. Write unit tests for check_format_treelist and check_treelist_inbounds (@mikelizh)
-5. Class for generating a 3D point cloud for a single tree from field-measured attributes (@d-diaz)
+4. Write unit tests for check_format_treelist and check_treelist_inbounds
+5. Class for generating a 3D point cloud for a single tree from field-measured attributes
 6. Function for plotting a single tree, with widgets
 7. Function for plotting many trees, no widgets
-8. Process for generating a Poisson Surface mesh from lidar data (@d-diaz)
+8. Process for generating a Poisson Surface mesh from lidar data 
 9. Process for calculating the distance of points on a regular 3D grid from the lidar-derived mesh
 10. Function for querying this distance array with a set of simulated points, based on interpolation of query points using the regular 3D grid with pre-calculated distances from the lidar mesh.
 11. Implementation of an optimization algorithm which adjusts tree simulation parameters, calculates the distance of the simulated points from the lidar-derived mesh, and iteratively minimizes this distance function.

@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Functional Specification &mdash; forest3d 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Component Specification" href="component_specification.html" />
+    <link rel="prev" title="Getting Started" href="quickstart.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> forest3d
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functional Specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-profile">User Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-sources">Data Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-checking-format-of-a-user-provided-data">A. Checking Format of a User-Provided Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#b-inspecting-parameters-of-the-3d-treemodel-visualizing-a-single-tree">B. Inspecting Parameters of the 3D TreeModel, Visualizing a Single Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-drawing-a-forest-plot-in-3d">C. Drawing a Forest Plot in 3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#d-co-registering-a-tree-list-with-a-lidar-point-cloud">D. Co-registering a Tree List with a Lidar Point Cloud</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="component_specification.html">Component Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">forest3d</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Functional Specification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/functional_specification.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="functional-specification">
+<span id="functional-specification"></span><h1>Functional Specification<a class="headerlink" href="#functional-specification" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="background">
+<span id="background"></span><h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>Natural resource assessments, such as inventory or monitoring campaigns, typically involve sampling a relatively limited portion of the landscape of interest. Traditionally, these samples are statistically extrapolated across a landscape based on a simple random or stratified random sampling design. However, the emergence of remote sensing systems has fueled a growing interest in imputation models built to use remotely-sensed data and field plots as training examples. The models, which are increasingly applying machine learning algorithms for the task, can be applied to generate wall-to-wall maps that “fill in the gaps” between forest plots measured on the ground based on remotely-sensed predictor variables.</p>
+<p>Misalignment between field-measured plots and remote sensing data introduces error into predictive models trained to classify or quantify forest conditions. More precise and accurate co-registration of field plots with remotely sensed data can thus help reduce the error introduced into predictive models approach and increase the precision with which varying forest conditions across the landscape can be distinguished.</p>
+<p>The primary goals of this project are:</p>
+<ul class="simple">
+<li>Providing a set of functions that generate 3D point clouds representing trees based on tree measurements that are commonly collected in the field</li>
+<li>Interactive 3D visualization of a list of measured trees</li>
+<li>Implementation of an optimization algorithm which minimizes misalignment of trees simulated from ground-based measurements with a point cloud collected by an airborne laser scanner (lidar)</li>
+<li>Reporting goodness-of-fit and corresponding model parameters from the optimization</li>
+<li>3D visualization of the optimization process</li>
+</ul>
+</div>
+<div class="section" id="user-profile">
+<span id="user-profile"></span><h2>User Profile<a class="headerlink" href="#user-profile" title="Permalink to this headline">¶</a></h2>
+<p>The user is a forest manager interested in forest inventory or forest stand mensuration. They understand parameters usually measured during forest inventories, including tree species, diameter at breast height, height to live crown, etc. They also have an intuition for reasonable forms of trees and common differences between different species and sizes of trees.</p>
+<p>The user knows how to browse the web, and can download, install, and run software packages if a clear set of reproducible instructions are provided. They probably cannot program in Python. They would probably be able to execute a Jupyter Notebook if the setup of the computing environment can be handled for them (e.g., using Binder to host a Jupyter Notebook).</p>
+</div>
+<div class="section" id="data-sources">
+<span id="data-sources"></span><h2>Data Sources<a class="headerlink" href="#data-sources" title="Permalink to this headline">¶</a></h2>
+<p>There are two types of data used in this project:</p>
+<ol class="simple">
+<li>Field-based measurements of forest plots and trees, identifying plot location, stem location, tree diameter, tree height, species, etc. These will be formatted as text files containing lists of trees with associated parameters, and list of plots with associated parameters. Example plot data (stem maps and associated tree measurements) have been gathered from publicly-available sources for the Wind River Experimental Forest and HJ Andrews Experimental Forest.</li>
+<li>Lidar point clouds collected from airborne laser scanning which overlap the forests where field measurements have been collected. These point clouds are generally formatted as LAS (or compressed as LAZ) files produced by lidar vendors. Example lidar point clouds from publicly-available sources have been gathered from the HJ Andrews and Wind River forest areas.</li>
+</ol>
+</div>
+<div class="section" id="use-cases">
+<span id="use-cases"></span><h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-checking-format-of-a-user-provided-data">
+<span id="a-checking-format-of-a-user-provided-data"></span><h3>A. Checking Format of a User-Provided Data<a class="headerlink" href="#a-checking-format-of-a-user-provided-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>Objective:</strong> The user wants to check whether a treelist they have prepared conforms with formatting requirements for 3D modeling and optimization using this package.</p>
+<p><strong>Interactions:</strong></p>
+<ol class="simple">
+<li>The user opens a Jupyter Notebook named <code class="docutils literal notranslate"><span class="pre">01_Check</span> <span class="pre">Data</span> <span class="pre">Formats.ipynb</span></code>.</li>
+<li>The user reads instructions in the Notebook directing them to execute cells one-at-a-time in the Notebook.</li>
+<li>Into a Jupyter Notebook cell, the user types in a path to the treelist saved as a textfile or stored in memory as a Pandas DataFrame. (Optional -&gt;) The user types in a path to the lidar point cloud file saved as a LAS or LAZ file). These are assigned to Python objects when the user executes this cell.</li>
+<li>The user executes the next Jupyter Notebook cell which calls a function that loads the inputs and checks their formatting, including whether coordinates of trees in the tree list fall entirely within the footprint of the lidar point cloud. The function returns a message indicating whether the user’s tree list (and point cloud) conform to the formatting requirements for this package.</li>
+<li>If the user-provided tree list (and/or point cloud) did not meet specifications, the function returns an error message indicating the source of non-compliance and documentation or links to documentation with formatting requirements including field names and formats.</li>
+</ol>
+</div>
+<div class="section" id="b-inspecting-parameters-of-the-3d-treemodel-visualizing-a-single-tree">
+<span id="b-inspecting-parameters-of-the-3d-treemodel-visualizing-a-single-tree"></span><h3>B. Inspecting Parameters of the 3D TreeModel, Visualizing a Single Tree<a class="headerlink" href="#b-inspecting-parameters-of-the-3d-treemodel-visualizing-a-single-tree" title="Permalink to this headline">¶</a></h3>
+<p><strong>Objective:</strong> The user wants to see which parameters are involved in the generation of the 3D TreeModel, and manipulate those parameters interactively to change the shape of a tree.</p>
+<p><strong>Interactions:</strong></p>
+<ol class="simple">
+<li>The user opens a Jupyter Notebook named <code class="docutils literal notranslate"><span class="pre">02_Visualize</span> <span class="pre">a</span> <span class="pre">Single</span> <span class="pre">Tree</span> <span class="pre">in</span> <span class="pre">3D.ipynb</span></code>.</li>
+<li>The user reads instructions in the Notebook directing them to run all the cells in the Notebook.</li>
+<li>The user executes all cells in the Notebook.</li>
+<li>The user is presented with a 3D graphic using default 3D TreeModel parameter settings. Slider widgets are laid out with the graphic labeled for each 3D TreeModel parameter.</li>
+<li>The user moves a slider widget for a 3D TreeModel parameter.</li>
+<li>The graphic reacts to user inputs, updating the 3D TreeModel (near-)instantaneously.</li>
+<li>The user grabs, rotates, etc. the 3D graphic to visually inspect the tree’s shape.</li>
+</ol>
+</div>
+<div class="section" id="c-drawing-a-forest-plot-in-3d">
+<span id="c-drawing-a-forest-plot-in-3d"></span><h3>C. Drawing a Forest Plot in 3D<a class="headerlink" href="#c-drawing-a-forest-plot-in-3d" title="Permalink to this headline">¶</a></h3>
+<p><strong>Objective:</strong> The user wants to visualize a list of several measured trees in 3D.  Optionally, they may also want to see how this visualization of their tree list compares with a lidar point cloud.</p>
+<p><strong>Interactions:</strong></p>
+<ol class="simple">
+<li>The user opens a Jupyter Notebook named <code class="docutils literal notranslate"><span class="pre">03_Visualize</span> <span class="pre">a</span> <span class="pre">Forest</span> <span class="pre">Plot</span> <span class="pre">in</span> <span class="pre">3D.ipynb</span></code>.</li>
+<li>The user reads instructions in the Notebook directing them to execute cells one-at-a-time in the Notebook.</li>
+<li>In a Jupyter Notebook cell, the user types in a path to a text file containing a list of trees or the name of a Pandas DataFrame containing a list of trees. (Optional -&gt;) The user also types in a path to a lidar point cloud file saved as a LAS or LAZ file. The treelist (and optionally, point cloud) are assigned to Python objects when the user executes this cell.</li>
+<li>The user executes the next Jupyter Notebook cell, which calls a function that checks if the tree list (and lidar point cloud) is formatted correctly, returning an appropriate error message if not. If the input data are formatted correcly, the cell returns an  interactive graphic showing the 3D model of the tree list, optionally overlaid with a lidar point cloud.</li>
+<li>The user grabs, rotates, etc. the 3D graphic to visually inspect the plot.</li>
+</ol>
+</div>
+<div class="section" id="d-co-registering-a-tree-list-with-a-lidar-point-cloud">
+<span id="d-co-registering-a-tree-list-with-a-lidar-point-cloud"></span><h3>D. Co-registering a Tree List with a Lidar Point Cloud<a class="headerlink" href="#d-co-registering-a-tree-list-with-a-lidar-point-cloud" title="Permalink to this headline">¶</a></h3>
+<p><strong>Objective:</strong> The user wants to estimate the location of a field-measured tree list within a lidar point cloud covering the same area.</p>
+<p><strong>Interactions:</strong></p>
+<ol class="simple">
+<li>The user opens a Jupyter Notebook named <code class="docutils literal notranslate"><span class="pre">04_Co-register</span> <span class="pre">a</span> <span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">Lidar</span> <span class="pre">Point</span> <span class="pre">Cloud.ipynb</span></code>.</li>
+<li>The user reads instructions in the Notebook directing them to execute cells one-at-a-time in the Notebook.</li>
+<li>In a Jupyter Notebook cell, the user types in a path to the tree list text file or the name of a Pandas DataFrame, as well as a path to the lidar point cloud file. These are assigned to Python objects when the user executes this cell.</li>
+<li>The user executes a Jupyter Notebook cell which runs a function to check the input formatting and begins the optimization routine if the inputs are formatted correctly. The optimization routine provides graphical or text updates during the optimization process, such as the number of simulations to be conducted and the value of the objective function at periodic increments.</li>
+<li>When the optimization is completed, the user executes another Jupyter Notebook cell, which produces a table output summary of the optimization results.</li>
+<li>The user executes another Jupyter Notebook cell, which produces a 3D visualization showing the optimal co-registration of the simulated 3D TreeModels for their treelist and the point cloud they provided.</li>
+<li>(Optional) The user executes another Jupyter Notebook cell, which produces a 3D visualization where they can see how the simulated 3D TreeModels changed over time during the optimization.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="component_specification.html" class="btn btn-neutral float-right" title="Component Specification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, David Diaz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
