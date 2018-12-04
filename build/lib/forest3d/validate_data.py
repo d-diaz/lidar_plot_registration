@@ -24,7 +24,6 @@ def tree_list_checker(filename):
         True if the file fits the format and is not null
         False otherwise
     """
-    print('Running the test funcition ------------------')
     if not os.path.isfile(filename):
         raise FileNotFoundError('The file does not exist.')
     file_type = os.path.basename(filename).split('.')[1]
@@ -36,11 +35,9 @@ def tree_list_checker(filename):
         raise TypeError('Unknown file type') 
     required_columns = ['x_tree', 'y_tree', 'specie', 'dbh', 'height', 'rat']
     if len(required_columns) > len(df.columns) or df.empty:
-        print("it is length")
         return False
     for col in required_columns:
         if True not in [col.upper() in c.upper() for c in df.columns]:
-            print("it is required columns")
             return False
     num_cols = required_columns.copy()
     num_cols.pop(2)
@@ -51,10 +48,9 @@ def tree_list_checker(filename):
     for col in df_columns:
         if True in [req_col in str(col) for req_col in num_cols]:
             if (df[col].dtype != np.float64) and (df[col].dtype != np.int64):   
-                print("it is num_columns")
                 return False
     return True
 
-if __name__=='__main__':
-    print(tree_list_checker('d:\\Courses\\CSE583\\project\\Lidar_Plot_Registration\\src\\tests\\sample_data_for_testing\\temp\\test.shp'))
+# if __name__=='__main__':
+#     print(tree_list_checker('d:\\Courses\\CSE583\\project\\Lidar_Plot_Registration\\src\\tests\\sample_data_for_testing\\temp\\test.shp'))
 
