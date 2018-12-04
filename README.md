@@ -26,7 +26,7 @@ Use the conda package manager to reproduce the computing environment we used in 
 3. Create a conda environment from the environment.yml file included in this repo:  
 `conda env create --name forest3d --file environment.yml`
 4. Activate this new conda environment:
-`source activate viz3d` (Linux, OSX) or `activate viz3d` (Windows)
+`source activate forest3d` (Linux, OSX) or `activate forest3d` (Windows)
 5. Start a Jupyter session:
 `jupyter notebook`
 6. In your web browser Jupyter session, navigate to the "notebooks" folder in this repo and open up one of the Jupyter Notebooks!
@@ -35,23 +35,23 @@ Use the conda package manager to reproduce the computing environment we used in 
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 
     ├── LICENSE
-    ├── README.md          <- The top-level README for this project.
+    ├── README.md          <- You're reading it.
     ├── data
     │   ├── raw            <- Raw lidar and tree list data.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   └── processed      <- Processed data sets used for modeling/analysis.
     │
-    ├── docs               <- Documentation generated using Sphinx.
+    ├── docs               <- Documentation, generated using Sphinx hosted at Read the Docs.
     │  
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         and a short description, e.g. `01_Initial Data Exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and other explanatory materials.
+    ├── references         <- Relevant references and other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, etc.
     │   └── figures        <- Graphics and figures used in reports
     |
-    ├── setup.py           <- makes source code installable as python package (`python setup.py develop`)
+    ├── setup.py           <- Source code installable as python package (`python setup.py develop`)
     ├── forest3d           <- Source code for use in this project.
     │   ├── __init__.py    <- Makes forest3d a Python module
     │   ├── preprocess_data.py  <- To process/re-format raw data
