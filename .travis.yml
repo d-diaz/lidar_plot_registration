@@ -16,6 +16,9 @@ install:
   - source activate forest3d
   - python setup.py install
 
+before script:
+  - git lfs pull
+
 script:
   - python ./forest3d/tests/test_geometry.py
   - python ./forest3d/tests/test_validate_data.py
