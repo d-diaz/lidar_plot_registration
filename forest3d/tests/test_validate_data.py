@@ -103,9 +103,9 @@ class TestUserDataFunctionality(unittest.TestCase):
         pass
     
 
-    # def tearDown(self):
-    #     """Removes temporary directory created during unit testing"""
-    #     shutil.rmtree(temp_test_dir)
+    def tearDown(self):
+        """Removes temporary directory created during unit testing"""
+        shutil.rmtree(temp_test_dir)
 
 
 ## running the tests
