@@ -1,3 +1,4 @@
+.pytest_cache/
 *checkpoint.ipynb
 *.laz
 *.las
@@ -12,3 +13,4 @@ __pycache__
 *.egg-info
 build/*
 dist/*
+.vscode/
