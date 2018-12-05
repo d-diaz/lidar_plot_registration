@@ -36,24 +36,24 @@ Use the conda package manager to reproduce the computing environment we used in 
 (based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 
     ├── LICENSE
-    ├── README.md          <- You're reading it.
+    ├── README.md          <- You're reading it
     ├── data
-    │   ├── raw            <- Raw lidar and tree list data.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   └── processed      <- Processed data sets used for modeling/analysis.
+    │   ├── raw            <- Raw lidar and tree list data
+    │   ├── interim        <- Intermediate data that has been transformed
+    │   └── processed      <- Processed data sets used for modeling/analysis
     │
     ├── docs               <- Documentation, generated using Sphinx hosted at Read the Docs.
     │  
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         and a short description, e.g. `01_Initial Data Exploration`.
+    │                         and a short description, e.g. `01_Initial Data Exploration`
     │
-    ├── references         <- Relevant references and other explanatory materials.
+    ├── references         <- Relevant references and other explanatory materials
     │
     ├── reports            <- Generated analysis as HTML, PDF, etc.
     │   └── figures        <- Graphics and figures used in reports
     |
     ├── setup.py           <- Source code installable as python package (`python setup.py develop`)
-    ├── forest3d           <- Source code for use in this project.
+    ├── forest3d           <- Source code for use in this project
     │   ├── validate_data.py    <- To validate conformance of data with our specs
     │   ├── geometry.py    <- To generate 3D geometric models
     │   ├── optimize.py    <- To co-register point clouds with geometric models
