@@ -224,8 +224,10 @@ def get_crown_center_xy(stem_base, crown_radii):
     center_xy : array with shape (2,)
         x,y coordinates of the center of the crown projection
     """
+    stem_base = np.asanyarray(stem_base)
+    crown_radii = np.asanyarray(crown_radii)
     center_xy = np.array((stem_base[0] - np.diff(crown_radii[0::2] / 2),
-                          stem_base[0] - np.diff(crown_radii[1::2]) / 2))
+                          stem_base[1] - np.diff(crown_radii[1::2]) / 2))
     return center_xy[:, 0]
 
 
@@ -299,6 +301,9 @@ def get_crown_apex_and_base(stem_base, crown_radii, top_height, base_height,
     apex, base : arrays with shape (3,)
         (x,y,z) coordinates for crown apex and crown base
     """
+    stem_base = np.asanyarray(stem_base)
+    crown_radii = np.asanyarray(crown_radii)
+    
     center_xy = get_crown_center_xy(stem_base, crown_radii)
     eccen_idx = get_crown_eccentricity(stem_base, crown_radii, crown_ratio)
     apex = np.array(
