@@ -303,7 +303,7 @@ def get_crown_apex_and_base(stem_base, crown_radii, top_height, base_height,
     """
     stem_base = np.asanyarray(stem_base)
     crown_radii = np.asanyarray(crown_radii)
-    
+
     center_xy = get_crown_center_xy(stem_base, crown_radii)
     eccen_idx = get_crown_eccentricity(stem_base, crown_radii, crown_ratio)
     apex = np.array(
