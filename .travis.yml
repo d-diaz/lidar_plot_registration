@@ -15,6 +15,7 @@ install:
   - conda env create --quiet --name forest3d --file environment.yml
   - source activate forest3d
   - python setup.py install
+  - pip install coveralls
 
 before script:
   - git lfs pull
@@ -22,3 +23,5 @@ before script:
 script:
   - python ./forest3d/tests/test_geometry.py
   - python ./forest3d/tests/test_validate_data.py
+  - python ./forest3d/tests/test_hull.py
+  - coveralls
