@@ -24,4 +24,5 @@ script:
   - python ./forest3d/tests/test_geometry.py
   - python ./forest3d/tests/test_validate_data.py
   - python ./forest3d/tests/test_hull.py
+  - coverage run --source=forest3d setup.py test
   - coveralls
