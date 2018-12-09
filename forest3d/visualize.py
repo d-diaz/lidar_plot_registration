@@ -6,6 +6,11 @@ import ipyvolume as ipv
 from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text, Layout
 from forest3d.geometry import make_tree_all_params
 
+import warnings
+warnings.filterwarnings("ignore", message="invalid value encountered in double_scalars")
+warnings.filterwarnings("ignore", message="invalid value encountered in greater_equal")
+warnings.filterwarnings("ignore", message="invalid value encountered in less")
+
 
 def plot_tree_with_widgets():
     """Creates and interactive plot of a tree crown with widgets to control its
