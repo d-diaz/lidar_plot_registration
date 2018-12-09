@@ -3,13 +3,14 @@
 
 import numpy as np
 import ipyvolume as ipv
-from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text
+from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text, Layout
 from forest3d.geometry import make_tree_all_params
 
 
 def plot_tree_with_widgets():
     """Creates and interactive plot of a tree crown with widgets to control its
     shape.
+
 
     Returns
     --------
@@ -45,18 +46,21 @@ def plot_tree_with_widgets():
 
     # Group the parameter widgets into groups of controls
     height_controls = HBox([height, crown_ratio])
-    edge_height_controls=HBox([crown_edge_height_E, crown_edge_height_N, crown_edge_height_W, crown_edge_height_S])
+    edge_height_controls=HBox([crown_edge_height_E, crown_edge_height_N,
+                               crown_edge_height_W, crown_edge_height_S])
     location_controls = VBox([stem_x, stem_y, stem_z])
     lean_controls = VBox([lean_direction, lean_severity])
-    radius_controls = VBox([crown_radius_E, crown_radius_N, crown_radius_W, crown_radius_S])
-    shape_controls = VBox([shape_top_E, shape_top_N, shape_top_W, shape_top_S, shape_bot_E, shape_bot_N, shape_bot_W, shape_bot_S])
+    radius_controls = VBox([crown_radius_E, crown_radius_N,
+                            crown_radius_W, crown_radius_S])
+    shape_controls = VBox([shape_top_E, shape_top_N, shape_top_W, shape_top_S,
+                           shape_bot_E, shape_bot_N, shape_bot_W, shape_bot_S])
     # create and expandable user interface
     controls = Accordion([location_controls,
-                           height_controls,
-                           lean_controls,
-                           radius_controls,
-                           edge_height_controls,
-                           shape_controls])
+                          height_controls,
+                          lean_controls,
+                          radius_controls,
+                          edge_height_controls,
+                          shape_controls])
     controls.set_title(0, 'Stem Location')
     controls.set_title(1, 'Tree Height')
     controls.set_title(2, 'Tree Lean')
@@ -65,12 +69,12 @@ def plot_tree_with_widgets():
     controls.set_title(5, 'Crown Shapes')
 
     # create the 3D scatter widget
-    tree_scatter = ipv.quickscatter(x=np.random.rand(100,),
-                                    y=np.random.rand(100,),
-                                    z=np.random.rand(100,),
+    tree_scatter = ipv.quickscatter(x=np.random.rand(100,)*100-50,
+                                    y=np.random.rand(100,)*100-50,
+                                    z=np.random.rand(100,)*170-10,
                                     marker='sphere',
                                     color='green',
-                                    size=2)
+                                    size=1)
     # define some visualization parameters of the scatter plot
     tree_scatter.children[0].xlim = [-50,50]
     tree_scatter.children[0].ylim = [-50,50]
@@ -140,4 +144,4 @@ def plot_tree_with_widgets():
     shape_bot_W.observe(on_value_change, 'value')
     shape_bot_S.observe(on_value_change, 'value')
 
-    return HBox([controls, tree_scatter])
+    return HBox([controls, tree_scatter], layout=Layout(width='100%'))

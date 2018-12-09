@@ -361,46 +361,42 @@ def get_circular_plot_boundary(x, y, radius, dem=None):
 
 
 def make_hull(stem_base, peripheral_points, crown_base, crown_apex,
-              crown_shapes):
+              crown_shapes, top_only=False):
     """
     Parameters
     ----------
-    stem_base: array with shape(3,)
+    stem_base : array with shape(3,)
         (x,y,z) coordinates of stem base
     peripheral_points: array with shape (4,3)
         (x,y,z) coordinates for four peripheral points
-    crown_base: array with shape(3,)
+    crown_base : array with shape(3,)
         (x,y,z) coordinates of crown base
-    crown_apex: array with shape(3,)
+    crown_apex : array with shape(3,)
         (x,y,z) coordinates of crown apex
-    crown_shapes: array with shape (4,2)
+    crown_shapes : array with shape (4,2)
         shape coefficients describing curvature of crown profiles
         in each direction (E, N, W, S) for top and bottom of crown
-    level_set: boolean (optional)
-        If True, returns the signed distance between the grid point and
-        crown, with positive values representing interior points.
-        False returns a binarized version.
+    top_only : bool
+        if True, will only return the top portion of the crown, i.e., the points
+        above the maximum crown width
     """
     # places where we'll calculate crown surface
-    theta = np.linspace(0, 2 * np.pi, 32, endpoint=False)  # angles
-    zs = np.linspace(stem_base[2], crown_apex[2], 50)  # heights
+    theta = np.linspace(0, 2 * np.pi, 32, endpoint=True)  # angles
+    zs = np.linspace(crown_base[2], crown_apex[2], 50)  # heights
     thetas, zz = np.meshgrid(theta, zs)
 
-    # calculate height difference between apex/base and peripheral points
+    # calculate height difference between apex and peripheral points
     top_periph_h = crown_apex[2] - peripheral_points[:, 2]
-    bot_periph_h = peripheral_points[:, 2] - crown_base[2]
 
     # calculate radial (horizontal) distance from apex axis to peripheral points
     top_periph_r = np.hypot(peripheral_points[:, 1] - crown_apex[1],
                             peripheral_points[:, 0] - crown_apex[0])
 
-    # calculate the angle between peripheral points and apex/base axis
+    # calculate the angle between peripheral points and apex axis
     periph_v_apex_theta = np.arctan2(peripheral_points[:, 1] - crown_apex[1],
                                      peripheral_points[:, 0] - crown_apex[0])
-    periph_v_base_theta = np.arctan2(peripheral_points[:, 1] - crown_base[1],
-                                     peripheral_points[:, 0] - crown_base[0])
 
-    # calculate radiii along peripheral line (maximum crown widths by angle
+    # calculate radii along peripheral line (maximum crown widths by angle
     # theta using linear interpolation)
     top_pline_r = np.interp(
         thetas, periph_v_apex_theta, top_periph_r, period=2 * np.pi)
@@ -411,42 +407,73 @@ def make_hull(stem_base, peripheral_points, crown_base, crown_apex,
     top_pline_zs = crown_apex[2] - np.interp(
         thetas, periph_v_apex_theta, top_periph_h, period=2 * np.pi)
 
-    # calculate the angles between points on the peripheral line and crown base
-    bot_pline_theta = np.arctan2(top_pline_ys - crown_base[1],
-                                 top_pline_xs - crown_base[0])
-    # calculate radial distance between points on the peripheral line and
-    # crown base
-    bot_pline_r = np.hypot(top_pline_xs - crown_base[0],
-                           top_pline_ys - crown_base[1])
+    # identify those points in the grid that are higher than the peripheral line
+    grid_top = zz >= top_pline_zs
 
-    # calculate the shape coefficients by angle theta (relative to apex) using
-    # linear interpolation
+    # calculate the shape coefficients at each angle theta (relative to apex)
+    # using linear interpolation
     top_shape = np.interp(
-        thetas, periph_v_apex_theta, crown_shapes[0], period=2 * np.pi)
-    bot_shape = np.interp(
-        bot_pline_theta, periph_v_base_theta, crown_shapes[1], period=2 * np.pi)
+        thetas[grid_top], periph_v_apex_theta, crown_shapes[0], period=2 * np.pi)
 
-    # calculate crown radius at height z
-    top_edge_r = ((1 - (zz - top_pline_zs)**top_shape /
-                   (crown_apex[2] - top_pline_zs)**top_shape) * top_pline_r**
+    # calculate crown radius at each height z for top of crown
+    edge_r = np.empty_like(zz)
+    edge_r[grid_top] = ((1 - (zz[grid_top] - top_pline_zs[grid_top])**top_shape /
+                   (crown_apex[2] - top_pline_zs[grid_top])**top_shape) * top_pline_r[grid_top]**
                   top_shape)**(1 / top_shape)
-    bot_edge_r = ((1 - (top_pline_zs - zz)**bot_shape /
-                   (top_pline_zs - crown_base[2])**bot_shape) * bot_pline_r**
-                  bot_shape)**(1 / bot_shape)
 
     # calculate cartesian coordinates of crown edge points
-    top_edge_x = (top_edge_r * np.cos(thetas) + crown_apex[0]).flatten()
-    top_edge_y = (top_edge_r * np.sin(thetas) + crown_apex[1]).flatten()
-    bot_edge_x = (
-        bot_edge_r * np.cos(bot_pline_theta) + crown_base[0]).flatten()
-    bot_edge_y = (
-        bot_edge_r * np.sin(bot_pline_theta) + crown_base[1]).flatten()
-    # combine top and bottom edge points
-    edge_x = np.hstack([top_edge_x, bot_edge_x])
-    edge_y = np.hstack([top_edge_y, bot_edge_y])
-    edge_z = np.hstack([zz.flatten(), zz.flatten()])
+    edge_x = np.empty_like(zz)
+    edge_y = np.empty_like(zz)
+    edge_x[grid_top] = edge_r[grid_top] * np.cos(thetas[grid_top]) + crown_apex[0]
+    edge_y[grid_top] = edge_r[grid_top] * np.sin(thetas[grid_top]) + crown_apex[1]
 
-    return edge_x, edge_y, edge_z
+
+    if top_only:
+        return edge_x[grid_top].flatten(), edge_y[grid_top].flatten(), zz[grid_top].flatten()
+
+    else: # generate the full crown
+
+        # calculate height difference between base and peripheral points
+        bot_periph_h = peripheral_points[:, 2] - crown_base[2]
+
+        # calculate the angle between peripheral points and base axis
+        periph_v_base_theta = np.arctan2(peripheral_points[:, 1] - crown_base[1],
+                                         peripheral_points[:, 0] - crown_base[0])
+
+        # identify those points in the grid that are higher than the peripheral line
+        grid_bottom = zz < top_pline_zs
+
+        # calculate the angles between points on the peripheral line and crown base
+        bot_pline_theta = np.empty_like(thetas)
+        bot_pline_theta[grid_bottom] = np.arctan2(top_pline_ys[grid_bottom] - crown_base[1],
+                                     top_pline_xs[grid_bottom] - crown_base[0])
+
+        # calculate radial distance between points on the peripheral line and
+        # crown base
+        bot_pline_r = np.hypot(top_pline_xs - crown_base[0],
+                               top_pline_ys - crown_base[1])
+
+        # calculate the shape coefficients at each angle theta (relative to base)
+        # using linear interpolation
+        bot_shape = np.interp(
+            bot_pline_theta[grid_bottom], periph_v_base_theta, crown_shapes[1], period=2 * np.pi)
+
+
+        edge_r[grid_top] = ((1 - (zz[grid_top] - top_pline_zs[grid_top])**top_shape /
+               (crown_apex[2] - top_pline_zs[grid_top])**top_shape) * top_pline_r[grid_top]**
+              top_shape)**(1 / top_shape)
+
+        # calculate crown radius at height z
+        edge_r[grid_bottom] = ((1 - (top_pline_zs[grid_bottom] - zz[grid_bottom])**bot_shape /
+                       (top_pline_zs[grid_bottom] - crown_base[2])**bot_shape) * bot_pline_r[grid_bottom]**
+                      bot_shape)**(1 / bot_shape)
+
+        # calculate cartesian coordinates of crown edge points
+        edge_x[grid_bottom] = edge_r[grid_bottom] * np.cos(bot_pline_theta[grid_bottom]) + crown_base[0]
+        edge_y[grid_bottom] = edge_r[grid_bottom] * np.sin(bot_pline_theta[grid_bottom]) + crown_base[1]
+
+        return edge_x.flatten(), edge_y.flatten(), zz.flatten()
+
 
 
 class Tree(object):
@@ -462,7 +489,8 @@ class Tree(object):
                  crown_ratio=0.65,
                  crown_radii=None,
                  crown_edge_heights=None,
-                 crown_shapes=np.ones((2, 4))):
+                 crown_shapes=np.ones((2, 4)),
+                 top_only=False):
         """Initialize a Tree with field-measured attributes.
 
         Parameters
@@ -501,6 +529,9 @@ class Tree(object):
             Coef values of 1.0 produce a cone, values < 1 produce concave
             shapes, and values > 1 will produce convex shapes, with coef == 2.0
             producing an ellipse.
+        top_only : bool
+            if True, will only return the top portion of the crown, i.e., the
+            points above the maximum crown width
         """
         self.species = species
         self.dbh = dbh
@@ -513,6 +544,7 @@ class Tree(object):
         self.crown_ratio = crown_ratio
         self.base_height = height - (crown_ratio * height)
         self.crown_shapes = crown_shapes
+        self.top_only = top_only
 
         self.top_x, self.top_y, self.top_z = get_treetop_location(
             self.stem_x, self.stem_y, self.stem_z, self.height,
@@ -539,7 +571,8 @@ class Tree(object):
 
     def get_hull(self):
         return make_hull(self.stem_base, self.peripheral_points,
-                         self.crown_base, self.crown_apex, self.crown_shapes)
+                         self.crown_base, self.crown_apex, self.crown_shapes,
+                         self.top_only)
 
 
 def poisson_pipeline(infile, outfile, depth=8):
@@ -600,7 +633,8 @@ def make_tree_all_params(species, dbh, height, stem_x, stem_y, stem_z,
               crown_radius_N, crown_radius_W, crown_radius_S,
               crown_edge_height_E, crown_edge_height_N, crown_edge_height_W,
               crown_edge_height_S, shape_top_E, shape_top_N, shape_top_W,
-              shape_top_S, shape_bot_E, shape_bot_N, shape_bot_W, shape_bot_S):
+              shape_top_S, shape_bot_E, shape_bot_N, shape_bot_W, shape_bot_S,
+              top_only=False):
     """Creates a tree and returns its crown as a hull exposing all parameters
     used as individual arguments.
 
@@ -644,7 +678,8 @@ def make_tree_all_params(species, dbh, height, stem_x, stem_y, stem_z,
                     crown_ratio,
                     crown_radii,
                     crown_edge_heights,
-                    crown_shapes)
+                    crown_shapes,
+                    top_only)
 
     x, y, z = new_tree.get_hull()
     return x, y, z
