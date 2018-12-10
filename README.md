@@ -1,8 +1,10 @@
+#forest3d
+
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/d-diaz/Lidar_Plot_Registration/master)
 [![Build Status](https://travis-ci.org/d-diaz/lidar_plot_registration.svg?branch=master)](https://travis-ci.org/d-diaz/lidar_plot_registration)
 [![Documentation Status](https://readthedocs.org/projects/lidar-plot-registration/badge/?version=latest)](https://lidar-plot-registration.readthedocs.io/en/latest/?badge=latest)
+[![Coverage Status](https://coveralls.io/repos/github/d-diaz/lidar_plot_registration/badge.svg?branch=master)](https://coveralls.io/github/d-diaz/lidar_plot_registration?branch=master)
 
-# forest3d
 Methods for creating 3D visualizations of forest inventory plots and co-registering stem maps with lidar data.
 
 As this project develops, it will support 3D volumetric representations of trees with the ability to incorporate uncertainty/error into field-based measurements and additional rendering parameters.
