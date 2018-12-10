@@ -10,8 +10,8 @@ import numpy as np
 def tree_list_checker(filename):
     """Checks if the input file of tree list dataset is a valid dataset.
     It means that the file contains the required columns such as
-    'x_tree', 'y_tree', 'dbh', 'species' and the 'height' and 'crow_ratio'. The file
-    can contain other atribute the user wishes
+    'x_tree', 'y_tree', 'dbh', 'species' and the 'height' and 'crow_ratio'.
+    The file can contain other atribute the user wishes.
 
     Parameters
     -----------
@@ -32,7 +32,7 @@ def tree_list_checker(filename):
     elif file_type == "shp":
         df = gpd.read_file(filename)
     else:
-        raise TypeError('Unknown file type') 
+        raise TypeError('Unknown file type')
     required_columns = ['x_tree', 'y_tree', 'specie', 'dbh', 'height', 'rat']
     if len(required_columns) > len(df.columns) or df.empty:
         return False
@@ -43,14 +43,10 @@ def tree_list_checker(filename):
     num_cols.pop(2)
     try:
         df_columns = df.drop(columns=['geometry'])
-    except Exception: 
+    except Exception:
         print()
     for col in df_columns:
         if True in [req_col in str(col) for req_col in num_cols]:
-            if (df[col].dtype != np.float64) and (df[col].dtype != np.int64):   
+            if (df[col].dtype != np.float64) and (df[col].dtype != np.int64):
                 return False
     return True
-
-# if __name__=='__main__':
-#     print(tree_list_checker('d:\\Courses\\CSE583\\project\\Lidar_Plot_Registration\\src\\tests\\sample_data_for_testing\\temp\\test.shp'))
-
