@@ -21,7 +21,7 @@ before script:
   - git lfs pull
 
 script:
-  - coverage run -m unittest discover -s forest3d/tests
+  - coverage run -m unittest discover -s forest3d
   - flake8 .
 
 after success:
