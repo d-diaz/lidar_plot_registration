@@ -15,13 +15,14 @@ install:
   - conda env create --quiet --name forest3d --file environment.yml
   - source activate forest3d
   - python setup.py install
-  - conda install -c conda-forge coveralls
+  - conda install -c conda-forge coveralls flake8
 
 before script:
   - git lfs pull
 
 script:
   - coverage run -m unittest discover -s forest3d/tests
+  - flake8 .
 
 after success:
   - coveralls
