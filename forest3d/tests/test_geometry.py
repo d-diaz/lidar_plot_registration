@@ -1,7 +1,7 @@
 import os
 import unittest
 import numpy as np
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Polygon
 from forest3d.geometry import get_raster_bbox_as_polygon
 from forest3d.geometry import get_elevation
 from forest3d.geometry import get_treetop_location
@@ -63,7 +63,7 @@ class TestGeometryMethods(unittest.TestCase):
         """Checks whether get_treetop_location raises ValueError when lean >= 90
         degrees specified."""
 
-        args = [0, 0, 0, 100]  # x, y, z, and height
+        args = [(0, 0, 0), 100]  # x, y, z, and height
         kwargs = {'lean_severity': 90}
 
         self.assertRaises(ValueError, get_treetop_location, *args, **kwargs)
@@ -72,7 +72,7 @@ class TestGeometryMethods(unittest.TestCase):
         """Checks whether get_treetop_location raises ValueError when height < 0
         specified."""
 
-        args = [0, 0, 0, -1]  # x, y, z, and height
+        args = [(0, 0, 0), -1]  # x, y, z, and height
 
         self.assertRaises(ValueError, get_treetop_location, *args)
 
@@ -80,7 +80,7 @@ class TestGeometryMethods(unittest.TestCase):
         """Checks whether get_treetop_location returns a numpy array with shape
         (3,) when a single point is provided."""
 
-        args = [0, 0, 0, 100]  # x, y, z, and height
+        args = [(0, 0, 0), 100]  # x, y, z, and height
         result = get_treetop_location(*args)
         shape = result.shape
 
@@ -94,14 +94,14 @@ class TestGeometryMethods(unittest.TestCase):
         y = [0, 2.0]
         z = [0, 3.0]
         height = [100, 75]
-        args = [x, y, z, height]  # x, y, z, and height
+        args = [(x, y, z), height]  # x, y, z, and height
         result = get_treetop_location(*args)
         shape = result.shape
 
         self.assertTrue(shape[0], 3)
         self.assertTrue(shape[1], len(x))
 
-    def test_treetop_getter_array_result_format(self):
+    def test_treetop_getter_input_arrays_diff_shapes(self):
         """Checks whether get_treetop_location returns ValueError when arrays
         submitted are of different shapes."""
 

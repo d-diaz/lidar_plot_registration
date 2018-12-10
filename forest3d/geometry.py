@@ -104,8 +104,8 @@ def get_elevation(dem, x, y):
 
 def get_treetop_location(stem_base,
                          top_height,
-                         lean_direction=0.0,
-                         lean_severity=0.0):
+                         lean_direction=None,
+                         lean_severity=None):
     """Calculates 3D coordinates for the top of a tree, allowing specification
     of direction and severity of leaning. This location represents the
     translation in x, y, and z directions from (0,0,0) to identify the tree top
@@ -130,14 +130,22 @@ def get_treetop_location(stem_base,
     """
     stem_base = np.asanyarray(stem_base)
     top_height = np.asanyarray(top_height)
-    lean_severity = np.asanyarray(lean_severity)
-    lean_direction = np.asanyarray(lean_direction)
-
-    if np.any(lean_severity >= 90):
-        raise ValueError('lean_severity must be < 90 degrees from vertical.')
 
     if np.any(top_height < 0):
         raise ValueError('height must be >= 0.')
+
+    if lean_direction is None:
+        lean_direction = np.zeros(stem_base[0].shape)
+    else:
+        lean_direction = np.asanyarray(lean_direction)
+
+    if lean_severity is None:
+        lean_severity = np.zeros(stem_base[0].shape)
+    else:
+        lean_severity = np.asanyarray(lean_severity)
+
+    if np.any(lean_severity >= 90):
+        raise ValueError('lean_severity must be < 90 degrees from vertical.')
 
     arrays_equal_shape(stem_base[0], stem_base[1], stem_base[2], top_height,
                        lean_severity, lean_direction)
