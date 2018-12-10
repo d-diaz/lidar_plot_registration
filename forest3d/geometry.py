@@ -165,7 +165,8 @@ def get_treetop_location(stem_base,
     return np.array((top_translate_x, top_translate_y, top_translate_z))
 
 
-def get_peripheral_points(crown_radii, crown_edge_heights):
+def get_peripheral_points(crown_radii, crown_edge_heights, top_height,
+                          crown_ratio):
     """Calculates the x,y,z coordinates of the points of maximum crown width
     in E, N, W, and S directions around a tree.
 
@@ -175,26 +176,46 @@ def get_peripheral_points(crown_radii, crown_edge_heights):
         distance from stem base to point of maximum crown width in each
         direction. Order of radii expected is E, N, W, S.
     crown_edge_heights : array of numerics, shape (4,)
-        elevation (z coordinate) at point of maximum crown width in each
-        direction. Order expected is E, N, W, S.
+        proportion of crown length above point of maximum crown width in each
+        direction. Order expected is E, N, W, S. For example, values of
+        (0, 0, 0, 0) would indicate that maximum crown width in all directions
+        occurs at the base of the crown, while (0.5, 0.5, 0.5, 0.5) would
+        indicate that maximum crown width in all directions occurs half way
+        between crown base and crown apex.
+    stem_base : array with shape(3,)
+        (x,y,z) coordinates of stem base
+    top_height : numeric, or array of numeric values
+        vertical height of the tree apex from the base of the stem
+    crown_ratio : numeric, or array of numeric values
+        ratio of live crown length to total tree height
 
     Returns
     --------
     periph_pts : array with shape (4, 3)
         (x,y,z) coordinates of points at maximum crown width
     """
+    crown_base_height = top_height * (1 - crown_ratio)
+    crown_length = crown_ratio * top_height
 
-    east_point = np.array((crown_radii[0], 0, crown_edge_heights[0]),
-                          dtype=float)
+    east_point = np.array(
+        (crown_radii[0], 0,
+         crown_base_height + crown_edge_heights[0] * crown_length),
+        dtype=float)
 
-    north_point = np.array((0, crown_radii[1], crown_edge_heights[1]),
-                           dtype=float)
+    north_point = np.array(
+        (0, crown_radii[1],
+         crown_base_height + crown_edge_heights[1] * crown_length),
+        dtype=float)
 
-    west_point = np.array((-crown_radii[2], 0, crown_edge_heights[2]),
-                          dtype=float)
+    west_point = np.array(
+        (-crown_radii[2], 0,
+         crown_base_height + crown_edge_heights[2] * crown_length),
+        dtype=float)
 
-    south_point = np.array((0, -crown_radii[3], crown_edge_heights[3]),
-                           dtype=float)
+    south_point = np.array(
+        (0, -crown_radii[3],
+         crown_base_height + crown_edge_heights[3] * crown_length),
+        dtype=float)
 
     periph_pts = np.stack((east_point, north_point, west_point, south_point))
 
@@ -275,6 +296,8 @@ def get_hull_apex_and_base(crown_radii, top_height, crown_ratio):
     crown_radii : array of numerics, shape (4,)
         distance from stem base to point of maximum crown width in each
         direction. Order of radii expected is E, N, W, S.
+    top_height : numeric, or array of numeric values
+        vertical height of the tree apex from the base of the stem
     crown_ratio : numeric
         ratio of live crown length to total tree height
 
@@ -356,12 +379,26 @@ def make_crown(stem_base,
     ----------
     stem_base : array with shape(3,)
         (x,y,z) coordinates of stem base
-    peripheral_points: array with shape (4,3)
-        (x,y,z) coordinates for four peripheral points
-    crown_base : array with shape(3,)
-        (x,y,z) coordinates of crown base
-    crown_apex : array with shape(3,)
-        (x,y,z) coordinates of crown apex
+    top_height : numeric, or array of numeric values
+        vertical height of the tree apex from the base of the stem
+    crown_ratio : numeric
+        ratio of live crown length to total tree height
+    lean_direction : numeric
+        direction of tree lean, in degrees with 0 = east, 90 = north,
+        180 = west, etc.
+    lean_severity : numeric
+        how much tree is leaning, in degrees from vertical; 0 = no lean,
+        and 90 meaning the tree is horizontal
+    crown_radii : array of numerics, shape (4,)
+        distance from stem base to point of maximum crown width in each
+        direction. Order of radii expected is E, N, W, S.
+    crown_edge_heights : array of numerics, shape (4,)
+        proportion of crown length above point of maximum crown width in each
+        direction. Order expected is E, N, W, S. For example, values of
+        (0, 0, 0, 0) would indicate that maximum crown width in all directions
+        occurs at the base of the crown, while (0.5, 0.5, 0.5, 0.5) would
+        indicate that maximum crown width in all directions occurs half way
+        between crown base and crown apex.
     crown_shapes : array with shape (4,2)
         shape coefficients describing curvature of crown profiles
         in each direction (E, N, W, S) for top and bottom of crown
@@ -371,7 +408,8 @@ def make_crown(stem_base,
     """
     trans_x, trans_y, trans_z = get_treetop_location(
         stem_base, top_height, lean_direction, lean_severity)
-    peripheral_points = get_peripheral_points(crown_radii, crown_edge_heights)
+    peripheral_points = get_peripheral_points(crown_radii, crown_edge_heights,
+                                              top_height, crown_ratio)
     hull_apex, hull_base = get_hull_apex_and_base(crown_radii, top_height,
                                                   crown_ratio)
 
@@ -499,7 +537,7 @@ class Tree(object):
     def __init__(self,
                  species,
                  dbh,
-                 height,
+                 top_height,
                  stem_x,
                  stem_y,
                  stem_z,
@@ -518,7 +556,7 @@ class Tree(object):
             tree species code or name
         dbh : numeric
             diameter at breast height
-        height : numeric
+        top_height : numeric
             vertical height of the tree apex from the base of the stem
         stem_x : numeric
             x-coordinate stem base
@@ -537,9 +575,13 @@ class Tree(object):
         crown_radii : array of numerics, shape (4,)
             distance from stem base to point of maximum crown width in each
             direction. Order of radii expected is E, N, W, S.
-        crown_edge_heights: array of numerics, shape (4,)
-            height above ground at point of maximum crown width in each
-            direction. Order expected is E, N, W, S.
+        crown_edge_heights : array of numerics, shape (4,)
+            proportion of crown length above point of maximum crown width in
+            each direction. Order expected is E, N, W, S. For example, values
+            of (0, 0, 0, 0) would indicate that maximum crown width in all
+            directions occurs at the base of the crown, while (0.5, 0.5, 0.5,
+            0.5) would indicate that maximum crown width in all directions
+            occurs half way between crown base and crown apex.
         crown_shapes : array with shape (2,4)
             shape coefficients describing curvature of crown profiles
             in each direction (E, N, W, S) for top and bottom of crown. The
@@ -554,7 +596,7 @@ class Tree(object):
         """
         self.species = species
         self.dbh = dbh
-        self.height = height
+        self.top_height = top_height
         self.stem_x = stem_x
         self.stem_y = stem_y
         self.stem_z = stem_z
@@ -565,33 +607,20 @@ class Tree(object):
         self.top_only = top_only
 
         if crown_radii is None:
-            self.crown_radii = np.full(4, 0.25 * height)
+            self.crown_radii = np.full(4, 0.25 * top_height)
         else:
             self.crown_radii = crown_radii
 
         if crown_edge_heights is None:
-            self.crown_edge_heights = np.full(4, 0.5 * height)
+            self.crown_edge_heights = np.array((0.3, 0.3, 0.3, 0.3))
         else:
             self.crown_edge_heights = crown_edge_heights
 
         self.stem_base = np.array((self.stem_x, self.stem_y, self.stem_z))
 
-        self.peripheral_points = get_peripheral_points(self.crown_radii,
-                                                       self.crown_edge_heights)
-
-        self.translate_top = get_treetop_location(self.stem_base, self.height,
-                                                  self.lean_direction,
-                                                  self.lean_severity)
-
-        hull_apex, hull_base = get_hull_apex_and_base(
-            self.crown_radii, self.height, self.crown_ratio)
-
-        self.crown_apex = hull_apex + self.translate_top
-        self.crown_base = hull_base + self.translate_top
-
     def get_crown(self):
         """Generate a hull for this tree."""
-        return make_crown(self.stem_base, self.height, self.crown_ratio,
+        return make_crown(self.stem_base, self.top_height, self.crown_ratio,
                           self.lean_direction, self.lean_severity,
                           self.crown_radii, self.crown_edge_heights,
                           self.crown_shapes, self.top_only)
@@ -653,7 +682,7 @@ def poisson_mesh(infile, outfile, depth=8):
 
 def make_tree_all_params(species,
                          dbh,
-                         height,
+                         top_height,
                          stem_x,
                          stem_y,
                          stem_z,
@@ -699,9 +728,8 @@ def make_tree_all_params(species,
     crown_shapes = np.array(((shape_top_E, shape_top_N, shape_top_W,
                               shape_top_S), (shape_bot_E, shape_bot_N,
                                              shape_bot_W, shape_bot_S)))
-    new_tree = Tree(species, dbh, height, stem_x, stem_y, stem_z,
+    new_tree = Tree(species, dbh, top_height, stem_x, stem_y, stem_z,
                     lean_direction, lean_severity, crown_ratio, crown_radii,
                     crown_edge_heights, crown_shapes, top_only)
 
-    x, y, z = new_tree.get_crown()
-    return x, y, z
+    return new_tree.get_crown()

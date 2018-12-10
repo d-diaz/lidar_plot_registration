@@ -11,8 +11,9 @@ warnings.filterwarnings(
     "ignore", message="invalid value encountered in double_scalars")
 warnings.filterwarnings(
     "ignore", message="invalid value encountered in greater_equal")
+warnings.filterwarnings("ignore", message="invalid value encountered in less")
 warnings.filterwarnings(
-    "ignore", message="invalid value encountered in less")
+    "ignore", message="invalid value encountered in true_divide")
 
 
 def plot_tree_with_widgets():
@@ -58,31 +59,31 @@ def plot_tree_with_widgets():
     crown_radius_S = FloatSlider(
         value=10, min=0, max=30, step=1.0, description='south')
     crown_edge_height_E = FloatSlider(
-        value=45,
+        value=0.3,
         min=0,
-        max=100,
-        step=1.0,
+        max=1,
+        step=0.01,
         description='east',
         orientation='vertical')
     crown_edge_height_N = FloatSlider(
-        value=45,
+        value=0.3,
         min=0,
-        max=100,
-        step=1.0,
+        max=1,
+        step=0.01,
         description='north',
         orientation='vertical')
     crown_edge_height_W = FloatSlider(
-        value=45,
+        value=0.3,
         min=0,
-        max=100,
-        step=1.0,
+        max=1,
+        step=0.01,
         description='west',
         orientation='vertical')
     crown_edge_height_S = FloatSlider(
-        value=45,
+        value=0.3,
         min=0,
-        max=100,
-        step=1.0,
+        max=1,
+        step=0.01,
         description='south',
         orientation='vertical')
     shape_top_E = FloatSlider(
