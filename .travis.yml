@@ -23,6 +23,4 @@ before script:
 script:
   - coverage run -m unittest discover -s forest3d
   - flake8 .
-
-after success:
   - coveralls
