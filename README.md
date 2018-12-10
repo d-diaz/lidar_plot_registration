@@ -1,4 +1,4 @@
-#forest3d
+# forest3d
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/d-diaz/Lidar_Plot_Registration/master)
 [![Build Status](https://travis-ci.org/d-diaz/lidar_plot_registration.svg?branch=master)](https://travis-ci.org/d-diaz/lidar_plot_registration)
