@@ -546,7 +546,7 @@ class Tree(object):
                  crown_ratio=0.65,
                  crown_radii=None,
                  crown_edge_heights=None,
-                 crown_shapes=np.ones((2, 4)),
+                 crown_shapes=None,
                  top_only=False):
         """Initialize a Tree with field-measured attributes.
 
@@ -615,6 +615,11 @@ class Tree(object):
             self.crown_edge_heights = np.array((0.3, 0.3, 0.3, 0.3))
         else:
             self.crown_edge_heights = crown_edge_heights
+
+        if crown_shapes is None:
+            self.crown_shapes = np.ones((2, 4))
+        else:
+            self.crown_shapes = crown_shapes
 
         self.stem_base = np.array((self.stem_x, self.stem_y, self.stem_z))
 
