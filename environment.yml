@@ -19,4 +19,5 @@ dependencies:
   - seaborn=0.9.0
   - pip:
     - plyfile==0.6
+    - -e .  # install the forest3d package in development mode
 prefix: /home/ddiaz/anaconda3/envs/forest3d
