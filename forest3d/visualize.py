@@ -1,10 +1,15 @@
 """Functions for generating interactive visualizations of 3D models of
 trees."""
 
+import os
 import numpy as np
+import pandas as pd
+import geopandas as gpd
+import seaborn as sns
 import ipyvolume as ipv
 from ipywidgets import FloatSlider, VBox, HBox, Accordion, Text, Layout
-from forest3d.geometry import make_tree_all_params
+from forest3d.geometry import make_tree_all_params, get_elevation, Tree
+from forest3d.validate_data import tree_list_checker
 
 import warnings
 warnings.filterwarnings(
@@ -193,3 +198,91 @@ def plot_tree_with_widgets():
     shape_bot_S.observe(on_value_change, 'value')
 
     return HBox([controls, tree_scatter], layout=Layout(width='100%'))
+
+
+def plot_tree_list(tree_list, dem=None, sample=None):
+    """Plots an interactive 3D view of a tree list.
+
+    Parameters
+    -----------
+    tree_list : path to shapefile
+        shapefile containing trees with measured attributes
+    dem : path to elevation raster
+        raster readable by rasterio, will be used to calculate elevation on
+        a grid and produce
+    """
+    if not tree_list_checker(tree_list):
+        raise TypeError('Tree list is not formatted appropriately')
+
+    if type(tree_list) == pd.core.frame.DataFrame:
+        trees = tree_list
+    elif type(tree_list) == gpd.geodataframe.GeoDataFrame:
+        trees = tree_list
+    elif not os.path.isfile(tree_list):
+        raise FileNotFoundError('The file does not exist.')
+    else:  # check file type and open with pandas or geopandas
+        file_type = os.path.basename(tree_list).split('.')[1]
+        if file_type == "csv":
+            trees = pd.read_csv(tree_list)
+        elif file_type == "shp":
+            trees = gpd.read_file(tree_list)
+        else:
+            raise TypeError('Unknown file type')
+
+    spp = pd.unique(trees.species)
+    palette = sns.color_palette('colorblind', len(spp))
+
+    # get elevation raster to display as surface underneath trees
+    if dem is not None:
+        # calculate z locations of the tree stems based on the dem
+        trees['stem_z'] = get_elevation(dem, trees['stem_x'], trees['stem_y'])
+        # calculate a dem to display as a surface in the plot
+        xs = np.linspace(trees.stem_x.min(), trees.stem_x.max(), 100)
+        ys = np.linspace(trees.stem_y.min(), trees.stem_y.max(), 100)
+        xx, yy = np.meshgrid(xs, ys)
+        elevation = get_elevation(dem, xx.flatten(), yy.flatten())
+        elevation_surface = elevation.reshape(xs.shape[0], ys.shape[0])
+    else:
+        if 'stem_z' not in trees.columns:
+            trees['stem_z'] = 0
+        else:
+            pass
+
+    if sample is not None:
+        trees = trees.sample(n=sample)
+    else:
+        pass
+
+    ipv.figure(width=800)
+    for idx, tree in trees.iterrows():
+        # calculate the tree's crown coordinates
+        x, y, z = Tree(
+            species=tree.species,
+            dbh=tree.dbh,
+            top_height=tree.top_height,
+            stem_x=tree.stem_x,
+            stem_y=tree.stem_y,
+            stem_z=tree.stem_z,
+            crown_ratio=tree.cr_ratio,
+            crown_radii=np.full(shape=4, fill_value=tree.cr_radius),
+            crown_shapes=np.full(shape=(2, 4), fill_value=2.0)).get_crown()
+        # find out the spp index to give it a unique color
+        spp_idx = np.where(spp == tree.species)[0][0]
+        # plot the tree crown
+        ipv.plot_surface(
+            x.reshape((50, 32)),
+            y.reshape((50, 32)),
+            z.reshape((50, 32)),
+            color=palette[spp_idx])
+    if dem is not None:
+        ipv.plot_surface(xx, yy, elevation_surface, color='brown')
+    else:
+        pass
+
+    ipv.xlim(trees.stem_x.min() - 20, trees.stem_x.max() + 20)
+    ipv.ylim(trees.stem_y.min() - 20, trees.stem_y.max() + 20)
+    ipv.zlim(trees.stem_z.min(),
+             trees.stem_z.min() + trees.top_height.max() + 20)
+    ipv.style.use('minimal')
+    ipv.squarelim()
+    ipv.show()

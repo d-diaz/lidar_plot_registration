@@ -30,14 +30,14 @@ class TestUserDataFunctionality(unittest.TestCase):
             os.mkdir(temp_test_dir)
 
         df = pd.DataFrame({
-            'x_tree': [x**2 for x in range(1, 4)],
-            'y_tree': [x for x in range(1, 4)],
+            'stem_x': [x**2 for x in range(1, 4)],
+            'stem_y': [x for x in range(1, 4)],
             'species': ['A', 'b', 'C'],
-            'crown_ratio': [x / 2.0 for x in range(1, 4)],
+            'cr_ratio': [x / 2.0 for x in range(1, 4)],
             'dbh': [x * 1.20 for x in range(1, 4)],
-            'height': [x * 2 for x in range(1, 4)]
+            'top_height': [x * 2 for x in range(1, 4)]
         })
-        df['geometry'] = list(zip(df.x_tree, df.y_tree))
+        df['geometry'] = list(zip(df.stem_x, df.stem_y))
         df['geometry'] = df['geometry'].apply(Point)
         gdf = gpd.GeoDataFrame(df, geometry='geometry')
         gdf.to_file(TEST_SHAPEFILE)
@@ -59,8 +59,8 @@ class TestUserDataFunctionality(unittest.TestCase):
         Test that the tree_list_checker functions returns true
         when the user provided data meet the requirements. In other words that
         the data is of the appropriate format (CSV, SHAPEFILE, TXT) and
-        has all the required columns (x_tree, y_tree, species, crown_ratio,
-        dbh)
+        has all the required columns (stem_x, stem_y, species, cr_ratio,
+        dbh).
         """
         result = vd.tree_list_checker(TEST_SHAPEFILE)
         self.assertTrue(result)
@@ -69,19 +69,18 @@ class TestUserDataFunctionality(unittest.TestCase):
         """
         Checks if tree_list_checker throws appropriate error when the data
         contains the right names but the datatype is wrong.
-
         """
         test_df = self.gdf
-        test_df.drop(columns=['x_tree'], axis=1)
-        test_df['x_tree'] = ['a', 'b', 'c']
+        test_df = test_df.drop(columns=['stem_x'], axis=1)
+        test_df['stem_x'] = ['a', 'b', 'c']
         wrong_shp = os.path.join(temp_test_dir, "wrong_data_type.shp")
         test_df.to_file(wrong_shp)
         self.assertFalse(vd.tree_list_checker(wrong_shp))
 
     def test_data_ok_with_extra_columns(self):
         """
-        Checks that the function tree_list _cheker returns is ok when the data
-        contains besides the required columns, other supplementary columns
+        Checks if function tree_list_checker returns True when supplementary
+        columns exist.
         """
         test_df = gpd.read_file(TEST_SHAPEFILE)
         test_df['extra'] = [x for x in range(1, 4)]
