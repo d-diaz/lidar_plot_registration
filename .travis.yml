@@ -14,7 +14,6 @@ install:
   - conda info --all
   - conda env create --quiet --name forest3d --file environment.yml
   - source activate forest3d
-  - python setup.py install
   - conda install -c conda-forge coveralls flake8
 
 before script:
