@@ -12,10 +12,10 @@ import pandas as pd
 from shapely.geometry import Point
 from forest3d import validate_data as vd
 
-this_dir = os.path.dirname(__file__)
-data_dir = os.path.join(this_dir, 'sample_data_for_testing')
-temp_test_dir = os.path.join(data_dir, "temp")
-TEST_SHAPEFILE = os.path.join(temp_test_dir, "test.shp")
+THIS_DIR = os.path.dirname(__file__)
+DATA_DIR = os.path.join(THIS_DIR, 'sample_data_for_testing')
+TEMP_TEST_DIR = os.path.join(DATA_DIR, "temp")
+TEST_SHAPEFILE = os.path.join(TEMP_TEST_DIR, "test.shp")
 
 
 class TestUserDataFunctionality(unittest.TestCase):
@@ -26,8 +26,8 @@ class TestUserDataFunctionality(unittest.TestCase):
 
     def setUp(self):
         """Sets up data to be used for running tests"""
-        if not os.path.exists(temp_test_dir):
-            os.mkdir(temp_test_dir)
+        if not os.path.exists(TEMP_TEST_DIR):
+            os.mkdir(TEMP_TEST_DIR)
 
         df = pd.DataFrame({
             'stem_x': [x**2 for x in range(1, 4)],
@@ -50,7 +50,7 @@ class TestUserDataFunctionality(unittest.TestCase):
         test_df = self.gdf
         test_df = test_df.drop(columns=['geometry'], axis=1)
         test_df = test_df[0:0]
-        empty_shp = os.path.join(temp_test_dir, "empty.csv")
+        empty_shp = os.path.join(TEMP_TEST_DIR, "empty.csv")
         test_df.to_csv(empty_shp)
         self.assertFalse(vd.tree_list_checker(empty_shp))
 
@@ -73,9 +73,9 @@ class TestUserDataFunctionality(unittest.TestCase):
         test_df = self.gdf
         test_df = test_df.drop(columns=['stem_x'], axis=1)
         test_df['stem_x'] = ['a', 'b', 'c']
-        wrong_shp = os.path.join(temp_test_dir, "wrong_data_type.shp")
-        test_df.to_file(wrong_shp)
-        self.assertFalse(vd.tree_list_checker(wrong_shp))
+        WRONG_SHP = os.path.join(TEMP_TEST_DIR, "wrong_data_type.shp")
+        test_df.to_file(WRONG_SHP)
+        self.assertFalse(vd.tree_list_checker(WRONG_SHP))
 
     def test_data_ok_with_extra_columns(self):
         """
@@ -84,9 +84,9 @@ class TestUserDataFunctionality(unittest.TestCase):
         """
         test_df = gpd.read_file(TEST_SHAPEFILE)
         test_df['extra'] = [x for x in range(1, 4)]
-        extr_shp = os.path.join(temp_test_dir, "extra_shp.shp")
-        test_df.to_file(extr_shp)
-        self.assertTrue(vd.tree_list_checker(extr_shp))
+        EXTR_SHP = os.path.join(TEMP_TEST_DIR, "extra_shp.shp")
+        test_df.to_file(EXTR_SHP)
+        self.assertTrue(vd.tree_list_checker(EXTR_SHP))
 
     def test_pass_column_in_different_order(self):
         """
@@ -104,7 +104,7 @@ class TestUserDataFunctionality(unittest.TestCase):
 
     def tearDown(self):
         """Removes temporary directory created during unit testing"""
-        shutil.rmtree(temp_test_dir)
+        shutil.rmtree(TEMP_TEST_DIR)
 
 
 # running the tests

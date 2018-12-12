@@ -25,7 +25,6 @@ def plot_tree_with_widgets():
     """Creates and interactive plot of a tree crown with widgets to control its
     shape.
 
-
     Returns
     --------
     tree_plot : ipywidgets HBox widget
@@ -212,7 +211,7 @@ def plot_tree_list(tree_list, dem=None, sample=None):
         a grid and produce
     """
     if not tree_list_checker(tree_list):
-        raise TypeError('Tree list is not formatted appropriately')
+        raise TypeError('Tree list is not formatted appropriately.')
 
     if type(tree_list) == pd.core.frame.DataFrame:
         trees = tree_list

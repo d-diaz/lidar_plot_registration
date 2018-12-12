@@ -6,62 +6,62 @@ from forest3d.geometry import get_raster_bbox_as_polygon
 from forest3d.geometry import get_elevation
 from forest3d.geometry import get_treetop_location
 
-this_dir = os.path.dirname(__file__)
-data_dir = os.path.join(this_dir, 'sample_data_for_testing')
-test_dem = os.path.join(data_dir, 'elevation_raster.tif')
+THIS_DIR = os.path.dirname(__file__)
+DATA_DIR = os.path.join(THIS_DIR, 'sample_data_for_testing')
+TEST_DEM = os.path.join(DATA_DIR, 'elevation_raster.tif')
 
 
 class TestGeometryMethods(unittest.TestCase):
     def test_raster_bbox_getter_returns_polygon(self):
         """Checks whether get_raster_bbox_... return a Polygon object."""
 
-        result = get_raster_bbox_as_polygon(test_dem)
+        result = get_raster_bbox_as_polygon(TEST_DEM)
         self.assertIsInstance(result, Polygon)
 
     def test_elevation_getter_single_point_out_of_bounds(self):
         """Checks whether get_elevation returns IndexError with invalid when
         point outside bounding box is queried."""
 
-        poly = get_raster_bbox_as_polygon(test_dem)
-        bounds = poly.bounds
-        x = bounds[0] - 1.0  # outside left bound
-        y = bounds[1] - 1.0  # outside bottom bound
+        poly = get_raster_bbox_as_polygon(TEST_DEM)
+        west_edge, south_edge, east_edge, north_edge = poly.bounds
+        x = west_edge - 1.0  # outside left bound
+        y = south_edge - 1.0  # outside bottom bound
 
-        self.assertRaises(IndexError, get_elevation, *[test_dem, x, y])
+        self.assertRaises(IndexError, get_elevation, *[TEST_DEM, x, y])
 
     def test_elevation_getter_single_point_dtype(self):
         """Checks whether get_elevation returns a float or int when a valid
         query location is used."""
 
-        poly = get_raster_bbox_as_polygon(test_dem)
-        bounds = poly.bounds
-        x = np.mean(bounds[0::2])  # middle of xs
-        y = np.mean(bounds[1::2])  # middle of ys
+        poly = get_raster_bbox_as_polygon(TEST_DEM)
+        west_edge, south_edge, east_edge, north_edge = poly.bounds
+        x = np.mean((west_edge, east_edge))  # middle of xs
+        y = np.mean((south_edge, north_edge))  # middle of ys
 
-        result = get_elevation(test_dem, x, y)
+        result = get_elevation(TEST_DEM, x, y)
         result_type = result.dtype.kind
 
         self.assertIn(result_type, ['i', 'u', 'f'])
 
     def test_elevation_getter_array_dtype(self):
-        """Checks whether get_elevation returns an array with dtype float or int
-        when a valid query location is used."""
+        """Checks whether get_elevation returns an array with dtype float or
+        int when a valid query location is used."""
 
-        poly = get_raster_bbox_as_polygon(test_dem)
-        bounds = poly.bounds
-        mean_x = np.mean(bounds[0::2])  # middle of xs
-        mean_y = np.mean(bounds[1::2])  # middle of ys
+        poly = get_raster_bbox_as_polygon(TEST_DEM)
+        west_edge, south_edge, east_edge, north_edge = poly.bounds
+        mean_x = np.mean((west_edge, east_edge))  # middle of xs
+        mean_y = np.mean((south_edge, north_edge))  # middle of ys
         x = np.array((mean_x, mean_x))
         y = np.array((mean_y, mean_y))
 
-        result = get_elevation(test_dem, x, y)
+        result = get_elevation(TEST_DEM, x, y)
         result_type = result.dtype.kind
         self.assertIsInstance(result, np.ndarray)
         self.assertIn(result_type, ['i', 'u', 'f'])
 
     def test_treetop_getter_invalid_lean(self):
-        """Checks whether get_treetop_location raises ValueError when lean >= 90
-        degrees specified."""
+        """Checks whether get_treetop_location raises ValueError when
+        lean >= 90 degrees specified."""
 
         args = [(0, 0, 0), 100]  # x, y, z, and height
         kwargs = {'lean_severity': 90}
@@ -69,8 +69,8 @@ class TestGeometryMethods(unittest.TestCase):
         self.assertRaises(ValueError, get_treetop_location, *args, **kwargs)
 
     def test_treetop_getter_invalid_height(self):
-        """Checks whether get_treetop_location raises ValueError when height < 0
-        specified."""
+        """Checks whether get_treetop_location raises ValueError when
+        height < 0 specified."""
 
         args = [(0, 0, 0), -1]  # x, y, z, and height
 
@@ -84,7 +84,7 @@ class TestGeometryMethods(unittest.TestCase):
         result = get_treetop_location(*args)
         shape = result.shape
 
-        self.assertTrue(shape[0], 3)
+        self.assertTrue(shape[0] == 3)
 
     def test_treetop_getter_array_result_format(self):
         """Checks whether get_treetop_location returns a numpy array with shape

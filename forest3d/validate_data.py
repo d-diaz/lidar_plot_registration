@@ -38,25 +38,30 @@ def tree_list_checker(filename):
             raise TypeError('Unknown file type')
 
     # check for required columns
-    required_cols = [
-        'stem_x', 'stem_y', 'species', 'dbh', 'top_height', 'cr_ratio'
-    ]
-    if len(required_cols) > len(df.columns) or df.empty:  # not enough columns
+    STEM_X, STEM_Y = 'stem_x', 'stem_y'
+    SPECIES = 'species'
+    DBH = 'dbh'
+    TOP_HEIGHT = 'top_height'
+    CR_RATIO = 'cr_ratio'
+    GEOMETRY = 'geometry'
+    REQUIRED_COLS = [STEM_X, STEM_Y, SPECIES, DBH, TOP_HEIGHT, CR_RATIO]
+
+    if len(REQUIRED_COLS) > len(df.columns) or df.empty:  # not enough columns
         print('At least one of these required columns is missing:')
-        print(', '.join(required_cols))
+        print(', '.join(REQUIRED_COLS))
         return False
-    for col in required_cols:
+    for col in REQUIRED_COLS:
         if True not in [col.upper() in c.upper() for c in df.columns]:
             print('{} not found, but is required'.format(col))
             return False
-    numeric_cols = required_cols.copy()
-    numeric_cols.remove('species')
+    NUMERIC_COLS = REQUIRED_COLS.copy()
+    NUMERIC_COLS.remove(SPECIES)
     try:
-        df_columns = df.drop(columns=['geometry'])
+        df_columns = df.drop(columns=[GEOMETRY])
     except KeyError:  # was a dataframe, not geodataframe
         pass
     for col in df_columns:
-        if True in [req_col in str(col) for req_col in numeric_cols]:
+        if True in [req_col in str(col) for req_col in NUMERIC_COLS]:
             if (df[col].dtype.kind not in ['i', 'f']):
                 print('{} needs to be an integer or float'.format(col))
                 return False
