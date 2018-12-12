@@ -442,7 +442,7 @@ def make_crown(stem_base,
     base_x, base_y, base_z = hull_base
 
     # places where we'll calculate crown surface
-    thetas = np.linspace(0, 2 * np.pi, 32, endpoint=True)  # angles
+    thetas = np.linspace(0, 2 * np.pi, 32)  # angles
     zs = np.linspace(base_z, apex_z, 50)  # heights
     grid_thetas, grid_zs = np.meshgrid(thetas, zs)
 
@@ -492,24 +492,24 @@ def make_crown(stem_base,
     hull_radii[grid_top] = (
         (1 -
          (grid_zs[grid_top] - periph_line_zs[grid_top])**top_shapes_interp /
-         (apex_y - periph_line_zs[grid_top])**top_shapes_interp) *
+         (apex_z - periph_line_zs[grid_top])**top_shapes_interp) *
         apex_periph_line_radii[grid_top]**top_shapes_interp)**(
             1 / top_shapes_interp)
 
     # calculate cartesian coordinates of crown edge points
-    hull_xs = np.empty_like(grid_zs)
-    hull_ys = np.empty_like(grid_zs)
-    hull_xs[grid_top] = hull_radii[grid_top] * np.cos(
+    grid_xs = np.empty_like(grid_zs)
+    grid_ys = np.empty_like(grid_zs)
+    grid_xs[grid_top] = hull_radii[grid_top] * np.cos(
         grid_thetas[grid_top]) + apex_x
-    hull_ys[grid_top] = hull_radii[grid_top] * np.sin(
+    grid_ys[grid_top] = hull_radii[grid_top] * np.sin(
         grid_thetas[grid_top]) + apex_y
 
     crown_xs = np.empty_like(grid_zs)
     crown_ys = np.empty_like(grid_zs)
     crown_zs = np.empty_like(grid_zs)
 
-    crown_xs[grid_top] = hull_xs[grid_top] + translate_x
-    crown_ys[grid_top] = hull_ys[grid_top] + translate_y
+    crown_xs[grid_top] = grid_xs[grid_top] + translate_x
+    crown_ys[grid_top] = grid_ys[grid_top] + translate_y
     crown_zs[grid_top] = grid_zs[grid_top] + translate_z
 
     if top_only:
@@ -555,13 +555,13 @@ def make_crown(stem_base,
                 1 / bottom_shapes_interp)
 
         # calculate cartesian coordinates of crown edge points
-        hull_xs[grid_bottom] = hull_radii[grid_bottom] * np.cos(
+        grid_xs[grid_bottom] = hull_radii[grid_bottom] * np.cos(
             bottom_periph_line_thetas[grid_bottom]) + base_x
-        hull_ys[grid_bottom] = hull_radii[grid_bottom] * np.sin(
+        grid_ys[grid_bottom] = hull_radii[grid_bottom] * np.sin(
             bottom_periph_line_thetas[grid_bottom]) + base_y
 
-        crown_xs[grid_bottom] = hull_xs[grid_bottom] + translate_x
-        crown_ys[grid_bottom] = hull_ys[grid_bottom] + translate_y
+        crown_xs[grid_bottom] = grid_xs[grid_bottom] + translate_x
+        crown_ys[grid_bottom] = grid_ys[grid_bottom] + translate_y
         crown_zs[grid_bottom] = grid_zs[grid_bottom] + translate_z
 
         return crown_xs.flatten(), crown_ys.flatten(), crown_zs.flatten()
