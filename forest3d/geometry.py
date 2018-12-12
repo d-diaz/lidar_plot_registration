@@ -203,9 +203,9 @@ def get_peripheral_points(crown_radii, crown_edge_heights, top_height,
     crown_length = crown_ratio * top_height
 
     (crown_radius_east, crown_radius_north, crown_radius_west,
-        crown_radius_south) = crown_radii
+     crown_radius_south) = crown_radii
     (crown_edgeht_east, crown_edgeht_north, crown_edgeht_west,
-        crown_edgeht_south) = crown_edge_heights
+     crown_edgeht_south) = crown_edge_heights
 
     east_point = np.array(
         (crown_radius_east, 0,
@@ -571,6 +571,7 @@ class Tree(object):
     """A class that stores information about a tree and can generate different
     types of crowns for it.
     """
+
     def __init__(self,
                  species,
                  dbh,
@@ -662,10 +663,10 @@ class Tree(object):
 
     def get_crown(self):
         """Generate a hull for this tree."""
-        return make_crown_hull(self.stem_base, self.top_height, self.crown_ratio,
-                          self.lean_direction, self.lean_severity,
-                          self.crown_radii, self.crown_edge_heights,
-                          self.crown_shapes, self.top_only)
+        return make_crown_hull(
+            self.stem_base, self.top_height, self.crown_ratio,
+            self.lean_direction, self.lean_severity, self.crown_radii,
+            self.crown_edge_heights, self.crown_shapes, self.top_only)
 
 
 def poisson_pipeline(infile, outfile, depth=8):

@@ -133,14 +133,20 @@ class TestHull(unittest.TestCase):
 
         SPECIES = 'Douglas-fir'
         DBH = 8.5
-        CROWN_RADII = (10,10,10,10)
+        CROWN_RADII = (10, 10, 10, 10)
         TOP_HT = 80
         CROWN_RATIO = 0.50
-        STEM_X, STEM_Y, STEM_Z = (0,0,0)
+        STEM_X, STEM_Y, STEM_Z = (0, 0, 0)
 
         apex1, base1 = get_hull_apex_and_base(CROWN_RADII, TOP_HT, CROWN_RATIO)
-        crown = Tree(SPECIES, DBH, TOP_HT,
-            STEM_X, STEM_Y, STEM_Z, crown_ratio=CROWN_RATIO).get_crown()
+        crown = Tree(
+            SPECIES,
+            DBH,
+            TOP_HT,
+            STEM_X,
+            STEM_Y,
+            STEM_Z,
+            crown_ratio=CROWN_RATIO).get_crown()
 
         crown_x, crown_y, crown_z = crown
         apex2 = (STEM_X, STEM_Y, crown_z.max())
@@ -148,6 +154,7 @@ class TestHull(unittest.TestCase):
 
         self.assertTrue(np.allclose(apex1, apex2))
         self.assertTrue(np.allclose(base1, base2))
+
 
 if __name__ == '__main__':
     unittest.main()
