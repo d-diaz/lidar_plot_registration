@@ -132,6 +132,9 @@ def get_treetop_location(stem_base,
     stem_base = np.asanyarray(stem_base)
     top_height = np.asanyarray(top_height)
     stem_x, stem_y, stem_z = stem_base
+    stem_x = np.asanyarray(stem_x)
+    stem_y = np.asanyarray(stem_y)
+    stem_z = np.asanyarray(stem_z)
 
     if np.any(top_height < 0):
         raise ValueError('height must be >= 0.')
@@ -160,7 +163,7 @@ def get_treetop_location(stem_base,
 
     top_translate_x = stem_x + top_height * np.tan(phi_lean) * np.cos(
         theta_lean)
-    top_translate_y = stem_x + top_height * np.tan(phi_lean) * np.sin(
+    top_translate_y = stem_y + top_height * np.tan(phi_lean) * np.sin(
         theta_lean)
     top_translate_z = stem_z
 
