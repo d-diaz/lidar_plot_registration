@@ -219,7 +219,7 @@ def get_peripheral_points(crown_radii, crown_edge_heights, top_height,
 
     west_point = np.array(
         (-crown_radius_west, 0,
-         crown_base_height + crown_edgeht_north * crown_length),
+         crown_base_height + crown_edgeht_west * crown_length),
         dtype=float)
 
     south_point = np.array(
@@ -568,6 +568,9 @@ def make_crown(stem_base,
 
 
 class Tree(object):
+    """A class that stores information about a tree and can generate different
+    types of crowns for it.
+    """
     def __init__(self,
                  species,
                  dbh,
@@ -666,6 +669,23 @@ class Tree(object):
 
 
 def poisson_pipeline(infile, outfile, depth=8):
+    """Makes a dictionary describing PDAL pipeline for generating Poisson
+    surface mesh.
+
+    Parameters
+    -----------
+    infile : str, path to file
+        input file to be converted into a mesh
+    outfile : str, path to file
+        output file for storing Poisson surface mesh
+    depth : int
+        maximum depth of octree used to organize surface points
+
+    Returns
+    --------
+    pipeline : dict
+        recipe for executing PDAL pipeline
+    """
     pipeline = {
         "pipeline": [
             infile, {
