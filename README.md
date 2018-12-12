@@ -32,36 +32,35 @@ Use the conda package manager to reproduce the computing environment we used in 
 5. In your web browser Jupyter session, navigate to the "notebooks" folder in this repo and open up one of the Jupyter Notebooks!
 
 # Project Organization
-(based on the [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/))
 
-    ├── LICENSE
+    ├── LICENSE            <- Open Source AF
     ├── README.md          <- You're reading it
-    ├── data
+    │
+    ├── data /
     │   ├── raw            <- Raw lidar and tree list data
     │   ├── interim        <- Intermediate data that has been transformed
     │   └── processed      <- Processed data sets used for modeling/analysis
     │
-    ├── docs               <- Documentation, generated using Sphinx hosted at Read the Docs.
-    │  
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         and a short description, e.g. `01_Initial Data Exploration`
+    ├── notebooks /        <- Jupyter notebooks. 
+    │   ├── 01_Check Data Formats.ipynb  <- For checking whether your treelist is formatted appropriately for modeling
+    │   ├── 02_Visualize a Single Tree in 3D.ipynb  <- Interactive inspection of how a tree crown is modeled, with widgets
+    │   └── 03_Visualize a Forest Plot in 3D.ipynb  <- Visualize a list of trees
     │
-    ├── references         <- Relevant references and other explanatory materials
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, etc.
-    │   └── figures        <- Graphics and figures used in reports
-    |
-    ├── setup.py           <- Source code installable as python package (`python setup.py develop`)
-    ├── forest3d           <- Source code for use in this project
+    ├── forest3d /         <- Source code for use in this project
     │   ├── validate_data.py    <- To validate conformance of data with our specs
     │   ├── geometry.py    <- To generate 3D geometric models
     │   ├── optimize.py    <- To co-register point clouds with geometric models
-    │   ├── visualize.py   <- To create interactive 3D visualizations
-    │   │
-    │   └── test           <- Scripts for unit testing
+    │   ├── visualize.py   <- To create interactive 3D visualization
+    │   └── test /         <- Scripts for unit testing
     |
+    ├── setup.py           <- Source code installable as python package (`python setup.py develop`)
     ├── environment.yml    <- Requirements file for reproducing the analysis environment using conda
     |                        (`conda create --name forest3d --file environment.yml`)
+    │
+    ├── docs /             <- Documentation, generated using Sphinx and hosted at Read the Docs
+    ├── references /       <- Relevant references and other explanatory materials 
+    ├── reports /          <- Generated analysis as HTML, PDF, PPT, etc.
+    │   └── figures /      <- Graphics and figures used in reports
+    |
     ├── .gitignore         <- Stuff for git to ignore
-    ├── .gitattributes     <- File types managed by Git LFS
     └── .travis.yml        <- Settings for running Travis CI
