@@ -388,15 +388,15 @@ def get_circular_plot_boundary(x, y, radius, dem=None):
     return xs, ys, zs
 
 
-def make_crown(stem_base,
-               top_height,
-               crown_ratio,
-               lean_direction,
-               lean_severity,
-               crown_radii,
-               crown_edge_heights,
-               crown_shapes,
-               top_only=False):
+def make_crown_hull(stem_base,
+                    top_height,
+                    crown_ratio,
+                    lean_direction,
+                    lean_severity,
+                    crown_radii,
+                    crown_edge_heights,
+                    crown_shapes,
+                    top_only=False):
     """
     Parameters
     ----------
@@ -662,7 +662,7 @@ class Tree(object):
 
     def get_crown(self):
         """Generate a hull for this tree."""
-        return make_crown(self.stem_base, self.top_height, self.crown_ratio,
+        return make_crown_hull(self.stem_base, self.top_height, self.crown_ratio,
                           self.lean_direction, self.lean_severity,
                           self.crown_radii, self.crown_edge_heights,
                           self.crown_shapes, self.top_only)
