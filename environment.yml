@@ -12,12 +12,13 @@ dependencies:
   - numpy
   - pandas
   - pdal
+  - pip
   - plotly
   - python
   - python-pdal
+  - pytest
   - rasterio
   - seaborn
   - pip:
     - plyfile
     - -e .  # install the forest3d package in development mode
-prefix: /home/ddiaz/anaconda3/envs/forest3d
