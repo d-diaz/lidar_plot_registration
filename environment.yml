@@ -10,10 +10,12 @@ dependencies:
   - jupyter
   - matplotlib
   - numpy
+  - numpydantic
   - pandas
   - pdal
   - pip
   - plotly
+  - pydantic
   - python
   - python-pdal
   - pytest
