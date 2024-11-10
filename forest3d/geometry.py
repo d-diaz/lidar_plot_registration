@@ -5,15 +5,19 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import warnings
 
 import numpy as np
+import numpy.typing as npt
 import pdal
 import rasterio
+from numpydantic import NDArray, Shape
+from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validator
 from shapely.geometry import Point, Polygon
 
 
 def arrays_equal_shape(*args: np.ndarray, raise_exc: bool = True) -> bool:
-    """Confirms all inputs, when converted to arrays, have equal shape.
+    """Confirms all inputs, when converted  arrays, have equal shape.
 
     Parameters
     -----------
@@ -428,14 +432,14 @@ def get_circular_plot_boundary(
 
 
 def make_crown_hull(
-    stem_base: np.ndarray,
+    stem_base: npt.NDArray((3,), float),
     top_height: float | np.ndarray,
     crown_ratio: float,
     lean_direction: float,
     lean_severity: float,
-    crown_radii: np.ndarray,
-    crown_edge_heights: np.ndarray,
-    crown_shapes: np.ndarray,
+    crown_radii: npt.NDArray((4,), float),
+    crown_edge_heights: npt.NDArray((4,), float),
+    crown_shapes: npt.NDArray((4, 2), float),
     top_only: bool = False,
 ) -> (np.ndarray, np.ndarray, np.ndarray):
     """Makes a crown hull.
@@ -625,101 +629,108 @@ def make_crown_hull(
     return crown_xs.flatten(), crown_ys.flatten(), crown_zs.flatten()
 
 
-class Tree:
-    """Class for tree attributes that can generate different types of crowns for it."""
+class Coordinate3D(BaseModel):
+    """A single 3D coordinate."""
 
-    def __init__(
-        self,
-        species: str,
-        dbh: float,
-        top_height: float,
-        stem_x: float,
-        stem_y: float,
-        stem_z: float,
-        lean_direction: float = 0,
-        lean_severity: float = 0,
-        crown_ratio: float = 0.65,
-        crown_radii: np.ndarray | None = None,
-        crown_edge_heights: np.ndarray | None = None,
-        crown_shapes: np.ndarray | None = None,
-        top_only: bool = False,
-    ):
-        """Initialize a Tree with field-measured attributes.
+    x: float
+    y: float
+    z: float
 
-        Parameters
-        -----------
-        species : string
-            tree species code or name
-        dbh : numeric
-            diameter at breast height
-        top_height : numeric
-            vertical height of the tree apex from the base of the stem
-        stem_x : numeric
-            x-coordinate stem base
-        stem_y : numeric
-            y-coordinate of stem base
-        stem_z : numeric
-            z-coordinate of stem base
-        lean_direction : numeric
-            direction of tree lean, in degrees with 0 = east, 90 = north,
-            180 = west, etc.
-        lean_severity : numeric
-            how much tree is leaning, in degrees from vertical; 0 = no lean,
-            and 90 meaning the tree is horizontal
-        crown_ratio : numeric
-            ratio of live crown length to total tree height
-        crown_radii : array of numerics, shape (4,)
-            distance from stem base to point of maximum crown width in each
-            direction. Order of radii expected is E, N, W, S.
-        crown_edge_heights : array of numerics, shape (4,)
-            proportion of crown length above point of maximum crown width in
-            each direction. Order expected is E, N, W, S. For example, values
-            of (0, 0, 0, 0) would indicate that maximum crown width in all
-            directions occurs at the base of the crown, while (0.5, 0.5, 0.5,
-            0.5) would indicate that maximum crown width in all directions
-            occurs half way between crown base and crown apex.
-        crown_shapes : array with shape (2,4)
-            shape coefficients describing curvature of crown profiles
-            in each direction (E, N, W, S) for top and bottom of crown. The
-            crown_shapes[0, 0:4] describe the shape of the top of the crown.
-            crown_shapes[1, 0:4] describe the shape of the bottom of the crown.
-            Coef values of 1.0 produce a cone, values < 1 produce concave
-            shapes, and values > 1 will produce convex shapes, with coef == 2.0
-            producing an ellipse.
-        top_only : bool
-            if True, will only return the top portion of the crown, i.e., the
-            points above the maximum crown width
-        """
-        self.species = species
-        self.dbh = dbh
-        self.top_height = top_height
-        self.stem_x = stem_x
-        self.stem_y = stem_y
-        self.stem_z = stem_z
-        self.lean_direction = lean_direction
-        self.lean_severity = lean_severity
-        self.crown_ratio = crown_ratio
-        self.crown_shapes = crown_shapes
-        self.top_only = top_only
+    def to_numpy(self):
+        """Returns coordinate as np.array with shape (3,)."""
+        return np.array(self.x, self.y, self.z)
 
-        if crown_radii is None:
-            self.crown_radii = np.full(4, 0.25 * top_height)
-        else:
-            self.crown_radii = crown_radii
 
-        if crown_edge_heights is None:
-            self.crown_edge_heights = np.array((0.3, 0.3, 0.3, 0.3))
-        else:
-            self.crown_edge_heights = crown_edge_heights
+class CoordinateSet3D(BaseModel):
+    """A set of 3D coordinates."""
 
-        if crown_shapes is None:
-            self.crown_shapes = np.ones((2, 4))
-        else:
-            self.crown_shapes = crown_shapes
+    xs: NDArray[Shape["*"], float]  # noqa: F722
+    ys: NDArray[Shape["*"], float]  # noqa: F722
+    zs: NDArray[Shape["*"], float]  # noqa: F722
 
-        self.stem_base = np.array((self.stem_x, self.stem_y, self.stem_z))
 
-    def get_crown(self):
+class Tree(BaseModel):
+    """Class for tree attributes that can generate different types of crowns for it.
+
+    Attributes:
+    -----------
+    species : string
+        tree species code or name
+    dbh : numeric
+        diameter at breast height
+    top_height : numeric
+        vertical height of the tree apex from the base of the stem
+    stem_x : numeric
+        x-coordinate stem base
+    stem_y : numeric
+        y-coordinate of stem base
+    stem_z : numeric
+        z-coordinate of stem base
+    lean_direction : numeric
+        direction of tree lean, in degrees with 0 = east, 90 = north,
+        180 = west, etc.
+    lean_severity : numeric
+        how much tree is leaning, in degrees from vertical; 0 = no lean,
+        and 90 meaning the tree is horizontal
+    crown_ratio : numeric
+        ratio of live crown length to total tree height
+    crown_radii : array of numerics, shape (4,)
+        distance from stem base to point of maximum crown width in each
+        direction. Order of radii expected is E, N, W, S.
+    crown_edge_heights : array of numerics, shape (4,)
+        proportion of crown length above point of maximum crown width in
+        each direction. Order expected is E, N, W, S. For example, values
+        of (0, 0, 0, 0) would indicate that maximum crown width in all
+        directions occurs at the base of the crown, while (0.5, 0.5, 0.5,
+        0.5) would indicate that maximum crown width in all directions
+        occurs half way between crown base and crown apex.
+    crown_shapes : array with shape (2,4)
+        shape coefficients describing curvature of crown profiles
+        in each direction (E, N, W, S) for top and bottom of crown. The
+        crown_shapes[0, 0:4] describe the shape of the top of the crown.
+        crown_shapes[1, 0:4] describe the shape of the bottom of the crown.
+        Coef values of 1.0 produce a cone, values < 1 produce concave
+        shapes, and values > 1 will produce convex shapes, with coef == 2.0
+        producing an ellipse.
+    top_only : bool
+        if True, will only return the top portion of the crown, i.e., the
+        points above the maximum crown width
+    """
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    species: str
+    dbh: float = Field(gt=0)
+    top_height: float = Field(gt=0)
+    stem_x: float
+    stem_y: float
+    stem_z: float
+    lean_direction: float = Field(default=0, ge=0, le=360)
+    lean_severity: float = Field(default=0, ge=0, le=90)
+    crown_ratio: float = Field(default=0.65, ge=0, le=1.0)
+    crown_radii: NDArray[Shape["4"], float | int] | None = None  # noqa: UP037
+    crown_edge_heights: NDArray[Shape["4"], float | int] = np.array(  # noqa: UP037
+        (0.3, 0.3, 0.3, 0.3)
+    )
+    crown_shapes: NDArray[Shape["2, 4"], float | int] = np.ones((2, 4))  # noqa: UP037
+    top_only: bool = False
+
+    @model_validator(mode="after")
+    def default_crown_radii(self):
+        """Sets default value for crown radii as 25% of height."""
+        if self.crown_radii is None:
+            self.crown_radii = np.full(4, 0.25 * self.top_height)
+        return self
+
+    @computed_field
+    @property
+    def stem_base(self) -> NDArray[Shape["3, 0"], float]:  # noqa: UP037
+        """Coordinates for the base of the stem."""
+        return np.array((self.stem_x, self.stem_y, self.stem_z))
+
+    @computed_field
+    @property
+    def crown(self) -> tuple[npt.NDArray, npt.NDArray, npt.NDArray]:
         """Generate a hull for this tree."""
         return make_crown_hull(
             self.stem_base,
@@ -800,7 +811,7 @@ def poisson_mesh(
             input=pipeline_json.encode(UTF8),
         )
         if proc.returncode != 0:
-            print(proc.stderr.decode())
+            warnings.warn(proc.stderr.decode())
     else:
         raise
 
@@ -868,19 +879,19 @@ def make_tree_all_params(
     )
 
     tree = Tree(
-        species,
-        dbh,
-        top_height,
-        stem_x,
-        stem_y,
-        stem_z,
-        lean_direction,
-        lean_severity,
-        crown_ratio,
-        crown_radii,
-        crown_edge_heights,
-        crown_shapes,
-        top_only,
+        species=species,
+        dbh=dbh,
+        top_height=top_height,
+        stem_x=stem_x,
+        stem_y=stem_y,
+        stem_z=stem_z,
+        lean_direction=lean_direction,
+        lean_severity=lean_severity,
+        crown_ratio=crown_ratio,
+        crown_radii=crown_radii,
+        crown_edge_heights=crown_edge_heights,
+        crown_shapes=crown_shapes,
+        top_only=top_only,
     )
 
-    return tree.get_crown()
+    return tree.crown

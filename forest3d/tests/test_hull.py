@@ -14,7 +14,7 @@ def test_stem_x_hull_isolation():
         top_height=85,
         stem_x=0,
         stem_y=0,
-        stem_z=0).get_crown()
+        stem_z=0).crown
 
     x2, y2, z2 = Tree(
         species='Douglas-fir',
@@ -22,7 +22,7 @@ def test_stem_x_hull_isolation():
         top_height=85,
         stem_x=10,
         stem_y=0,
-        stem_z=0).get_crown()
+        stem_z=0).crown
 
     assert not np.allclose(x1, x2)
     assert np.allclose(y1, y2)
@@ -37,7 +37,7 @@ def test_stem_y_hull_isolation():
         top_height=85,
         stem_x=0,
         stem_y=0,
-        stem_z=0).get_crown()
+        stem_z=0).crown
 
     x2, y2, z2 = Tree(
         species='Douglas-fir',
@@ -45,7 +45,7 @@ def test_stem_y_hull_isolation():
         top_height=85,
         stem_x=0,
         stem_y=10,
-        stem_z=0).get_crown()
+        stem_z=0).crown
     
     assert np.allclose(x1, x2)
     assert not np.allclose(y1, y2)
@@ -60,7 +60,7 @@ def test_stem_z_hull_isolation():
         top_height=85,
         stem_x=0,
         stem_y=0,
-        stem_z=0).get_crown()
+        stem_z=0).crown
 
     x2, y2, z2 = Tree(
         species='Douglas-fir',
@@ -68,7 +68,7 @@ def test_stem_z_hull_isolation():
         top_height=85,
         stem_x=0,
         stem_y=0,
-        stem_z=10).get_crown()
+        stem_z=10).crown
 
     assert np.allclose(x1, x2)
     assert np.allclose(y1, y2)
@@ -117,26 +117,22 @@ def test_treetop_stem_z_isolation():
 def test_hull_apex_and_base_consisten():
     """make_hull() has same apex and base as get_hull_apex_and_base()."""
 
-    SPECIES = 'Douglas-fir'
-    DBH = 8.5
-    CROWN_RADII = (10, 10, 10, 10)
-    TOP_HT = 80
-    CROWN_RATIO = 0.50
-    STEM_X, STEM_Y, STEM_Z = (0, 0, 0)
+    tree = Tree(
+        species= 'Douglas-fir',
+        dbh= 8.5,
+        top_height= 80, 
+        stem_x= 0,
+        stem_y= 0,
+        stem_z= 0,
+        crown_radii= (10, 10, 10, 10),
+        crown_ratio= 0.5,
+    )
 
-    apex1, base1 = get_hull_apex_and_base(CROWN_RADII, TOP_HT, CROWN_RATIO)
-    crown = Tree(
-        SPECIES,
-        DBH,
-        TOP_HT,
-        STEM_X,
-        STEM_Y,
-        STEM_Z,
-        crown_ratio=CROWN_RATIO).get_crown()
+    apex1, base1 = get_hull_apex_and_base(tree.crown_radii, tree.top_height, tree.crown_ratio)
+    crown_x, crown_y, crown_z = tree.crown
 
-    crown_x, crown_y, crown_z = crown
-    apex2 = (STEM_X, STEM_Y, crown_z.max())
-    base2 = (STEM_X, STEM_Y, crown_z.min())
+    apex2 = (tree.stem_x, tree.stem_y, crown_z.max())
+    base2 = (tree.stem_x, tree.stem_y, crown_z.min())
 
     assert np.allclose(apex1, apex2)
     assert np.allclose(base1, base2)

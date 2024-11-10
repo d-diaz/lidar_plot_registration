@@ -294,7 +294,7 @@ def plot_tree_list(tree_list, dem=None, sample=None):
             crown_ratio=tree.cr_ratio,
             crown_radii=np.full(shape=4, fill_value=tree.cr_radius),
             crown_shapes=np.full(shape=(2, 4), fill_value=2.0),
-        ).get_crown()
+        ).crown
         # find out the spp index to give it a unique color
         spp_idx = np.where(spp == tree.species)[0][0]
         # plot the tree crown
