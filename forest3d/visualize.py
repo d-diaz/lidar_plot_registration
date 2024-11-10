@@ -302,7 +302,7 @@ def plot_tree_list(tree_list, dem=None, sample=None):
             x.reshape((50, 32)),
             y.reshape((50, 32)),
             z.reshape((50, 32)),
-            color=palette[spp_idx],
+            color=[palette[spp_idx]],
         )
     if dem is not None:
         ipv.plot_surface(xx, yy, elevation_surface, color="brown")
