@@ -6,7 +6,6 @@ numpy
 numpydantic
 pandas
 pandera
-pdal
 pip
 plotly
 plyfile
