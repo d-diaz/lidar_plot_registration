@@ -5,6 +5,9 @@
 
 Welcome to forest3d's documentation!
 ====================================
+.. automodule:: forest3d.models
+.. automodule:: forest3d.utils
+.. automodule:: forest3d.visualize
 
 .. toctree::
    :maxdepth: 2
