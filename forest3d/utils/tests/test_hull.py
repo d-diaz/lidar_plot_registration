@@ -1,8 +1,9 @@
 import os
 
 import numpy as np
-from forest3d.geometry import (Tree, get_hull_apex_and_base,
-                               get_treetop_location)
+from forest3d.models.dataclass import Tree
+from forest3d.utils.geometry import (_get_hull_apex_and_base,
+                                     _get_treetop_location)
 
 
 def test_stem_x_hull_isolation():
@@ -81,8 +82,8 @@ def test_treetop_stem_x_isolation():
     stem1 = (0, 0, 0)
     stem2 = (10, 0, 0)
 
-    trans1 = get_treetop_location(stem1, 75)
-    trans2 = get_treetop_location(stem2, 75)
+    trans1 = _get_treetop_location(stem1, 75)
+    trans2 = _get_treetop_location(stem2, 75)
 
     assert not np.allclose(trans1[0], trans2[0])
     assert np.allclose(trans1[1], trans2[1])
@@ -94,8 +95,8 @@ def test_treetop_stem_y_isolation():
     stem1 = (0, 0, 0)
     stem2 = (0, 10, 0)
 
-    trans1 = get_treetop_location(stem1, 75)
-    trans2 = get_treetop_location(stem2, 75)
+    trans1 = _get_treetop_location(stem1, 75)
+    trans2 = _get_treetop_location(stem2, 75)
 
     assert np.allclose(trans1[0], trans2[0])
     assert not np.allclose(trans1[1], trans2[1])
@@ -107,15 +108,15 @@ def test_treetop_stem_z_isolation():
     stem1 = (0, 0, 0)
     stem2 = (0, 0, 1)
 
-    trans1 = get_treetop_location(stem1, 75)
-    trans2 = get_treetop_location(stem2, 75)
+    trans1 = _get_treetop_location(stem1, 75)
+    trans2 = _get_treetop_location(stem2, 75)
 
     assert np.allclose(trans1[0], trans2[0])
     assert np.allclose(trans1[1], trans2[1])
     assert not np.allclose(trans1[2], trans2[2])
 
 def test_hull_apex_and_base_consisten():
-    """make_hull() has same apex and base as get_hull_apex_and_base()."""
+    """make_hull() has same apex and base as _get_hull_apex_and_base()."""
 
     tree = Tree(
         species= 'Douglas-fir',
@@ -128,7 +129,7 @@ def test_hull_apex_and_base_consisten():
         crown_ratio= 0.5,
     )
 
-    apex1, base1 = get_hull_apex_and_base(tree.crown_radii, tree.top_height, tree.crown_ratio)
+    apex1, base1 = _get_hull_apex_and_base(tree.crown_radii, tree.top_height, tree.crown_ratio)
     crown_x, crown_y, crown_z = tree.crown
 
     apex2 = (tree.stem_x, tree.stem_y, crown_z.max())

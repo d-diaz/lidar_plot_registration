@@ -11,12 +11,10 @@ import numpy as np
 import numpy.typing as npt
 import pdal
 import rasterio
-from numpydantic import NDArray, Shape
-from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validator
 from shapely.geometry import Point, Polygon
 
 
-def arrays_equal_shape(*args: np.ndarray, raise_exc: bool = True) -> bool:
+def _arrays_equal_shape(*args: np.ndarray, raise_exc: bool = True) -> bool:
     """Confirms all inputs, when converted  arrays, have equal shape.
 
     Parameters
@@ -43,7 +41,7 @@ def arrays_equal_shape(*args: np.ndarray, raise_exc: bool = True) -> bool:
     return equal_shapes
 
 
-def get_raster_bbox_as_polygon(path_to_raster: str | os.PathLike) -> Polygon:
+def _get_raster_bbox_as_polygon(path_to_raster: str | os.PathLike) -> Polygon:
     """Returns a Shapely Polygon defining the bounding box of a raster.
 
     Parameters
@@ -94,7 +92,7 @@ def get_elevation(
         terrain = src.read(BAND_ONE)
 
     # check that inputs are equal shape
-    arrays_equal_shape(x, y)
+    _arrays_equal_shape(x, y)
 
     coords = np.stack((x, y))
     # have rasterio identify the rows and columns where these coordinates occur
@@ -121,7 +119,7 @@ def get_elevation(
     return elev
 
 
-def get_treetop_location(
+def _get_treetop_location(
     stem_base: np.ndarray,
     top_height: float | np.ndarray,
     lean_direction: float | np.ndarray | None = None,
@@ -175,7 +173,7 @@ def get_treetop_location(
         message = "lean_severity must be < 90 degrees from vertical."
         raise ValueError(message)
 
-    arrays_equal_shape(
+    _arrays_equal_shape(
         stem_x, stem_y, stem_z, top_height, lean_severity, lean_direction
     )
 
@@ -192,7 +190,7 @@ def get_treetop_location(
     return np.array((top_translate_x, top_translate_y, top_translate_z))
 
 
-def get_peripheral_points(
+def _get_peripheral_points(
     crown_radii: np.ndarray,
     crown_edge_heights: np.ndarray,
     top_height: float | np.ndarray,
@@ -257,7 +255,7 @@ def get_peripheral_points(
     return np.stack((east_point, north_point, west_point, south_point))
 
 
-def get_hull_center_xy(crown_radii: np.ndarray) -> np.ndarray:
+def _get_hull_center_xy(crown_radii: np.ndarray) -> np.ndarray:
     """Calculates x,y coordinates of center of crown projection.
 
     The center of the crown projection is determined as the midpoint between
@@ -283,7 +281,7 @@ def get_hull_center_xy(crown_radii: np.ndarray) -> np.ndarray:
     return center_xy[:, 0]
 
 
-def get_hull_eccentricity(crown_radii: np.ndarray, crown_ratio: float) -> np.ndarray:
+def _get_hull_eccentricity(crown_radii: np.ndarray, crown_ratio: float) -> np.ndarray:
     """Calculates eccentricity-index values for an asymmetric hull.
 
     Represents a tree crown, with eccentricity-index values used to determine
@@ -312,7 +310,7 @@ def get_hull_eccentricity(crown_radii: np.ndarray, crown_ratio: float) -> np.nda
     idx : array with shape (2, 2)
         eccentricity-index values for the top (0, ) and bottom of a tree (1, ).
     """
-    center_xy = get_hull_center_xy(crown_radii)
+    center_xy = _get_hull_center_xy(crown_radii)
     center_x, center_y = center_xy
     crown_radii_eastwest = crown_radii[0::2]
     crown_radii_northsouth = crown_radii[1::2]
@@ -331,7 +329,7 @@ def get_hull_eccentricity(crown_radii: np.ndarray, crown_ratio: float) -> np.nda
     )  # bottom of tree, x and y
 
 
-def get_hull_apex_and_base(
+def _get_hull_apex_and_base(
     crown_radii: np.ndarray, top_height: float | np.ndarray, crown_ratio: float
 ) -> (np.ndarray, np.ndarray):
     """Calculates the (x,y,z) position of the apex and base of a tree crown.
@@ -357,8 +355,8 @@ def get_hull_apex_and_base(
     """
     crown_radii = np.asanyarray(crown_radii)
 
-    center_xy = get_hull_center_xy(crown_radii)
-    eccen_idx = get_hull_eccentricity(crown_radii, crown_ratio)
+    center_xy = _get_hull_center_xy(crown_radii)
+    eccen_idx = _get_hull_eccentricity(crown_radii, crown_ratio)
 
     center_x, center_y = center_xy
     crown_radii_eastwest = crown_radii[0::2]
@@ -395,7 +393,7 @@ def get_hull_apex_and_base(
     return hull_apex, hull_base
 
 
-def get_circular_plot_boundary(
+def _get_circular_plot_boundary(
     x: np.ndarray,
     y: np.ndarray,
     radius: np.ndarray,
@@ -431,7 +429,7 @@ def get_circular_plot_boundary(
     return xs, ys, zs
 
 
-def make_crown_hull(
+def _make_crown_hull(
     stem_base: npt.NDArray((3,), float),
     top_height: float | np.ndarray,
     crown_ratio: float,
@@ -475,16 +473,16 @@ def make_crown_hull(
         if True, will return only top portion of the crown, i.e., the points
         above the maximum crown width
     """
-    translate_x, translate_y, translate_z = get_treetop_location(
+    translate_x, translate_y, translate_z = _get_treetop_location(
         stem_base, top_height, lean_direction, lean_severity
     )
-    periph_points = get_peripheral_points(
+    periph_points = _get_peripheral_points(
         crown_radii, crown_edge_heights, top_height, crown_ratio
     )
     periph_points_xs = periph_points[:, 0]
     periph_points_ys = periph_points[:, 1]
     periph_points_zs = periph_points[:, 2]
-    hull_apex, hull_base = get_hull_apex_and_base(crown_radii, top_height, crown_ratio)
+    hull_apex, hull_base = _get_hull_apex_and_base(crown_radii, top_height, crown_ratio)
     apex_x, apex_y, apex_z = hull_apex
     base_x, base_y, base_z = hull_base
 
@@ -629,122 +627,6 @@ def make_crown_hull(
     return crown_xs.flatten(), crown_ys.flatten(), crown_zs.flatten()
 
 
-class Coordinate3D(BaseModel):
-    """A single 3D coordinate."""
-
-    x: float
-    y: float
-    z: float
-
-    def to_numpy(self):
-        """Returns coordinate as np.array with shape (3,)."""
-        return np.array(self.x, self.y, self.z)
-
-
-class CoordinateSet3D(BaseModel):
-    """A set of 3D coordinates."""
-
-    xs: NDArray[Shape["*"], float]  # noqa: F722
-    ys: NDArray[Shape["*"], float]  # noqa: F722
-    zs: NDArray[Shape["*"], float]  # noqa: F722
-
-
-class Tree(BaseModel):
-    """Class for tree attributes that can generate different types of crowns for it.
-
-    Attributes:
-    -----------
-    species : string
-        tree species code or name
-    dbh : numeric
-        diameter at breast height
-    top_height : numeric
-        vertical height of the tree apex from the base of the stem
-    stem_x : numeric
-        x-coordinate stem base
-    stem_y : numeric
-        y-coordinate of stem base
-    stem_z : numeric
-        z-coordinate of stem base
-    lean_direction : numeric
-        direction of tree lean, in degrees with 0 = east, 90 = north,
-        180 = west, etc.
-    lean_severity : numeric
-        how much tree is leaning, in degrees from vertical; 0 = no lean,
-        and 90 meaning the tree is horizontal
-    crown_ratio : numeric
-        ratio of live crown length to total tree height
-    crown_radii : array of numerics, shape (4,)
-        distance from stem base to point of maximum crown width in each
-        direction. Order of radii expected is E, N, W, S.
-    crown_edge_heights : array of numerics, shape (4,)
-        proportion of crown length above point of maximum crown width in
-        each direction. Order expected is E, N, W, S. For example, values
-        of (0, 0, 0, 0) would indicate that maximum crown width in all
-        directions occurs at the base of the crown, while (0.5, 0.5, 0.5,
-        0.5) would indicate that maximum crown width in all directions
-        occurs half way between crown base and crown apex.
-    crown_shapes : array with shape (2,4)
-        shape coefficients describing curvature of crown profiles
-        in each direction (E, N, W, S) for top and bottom of crown. The
-        crown_shapes[0, 0:4] describe the shape of the top of the crown.
-        crown_shapes[1, 0:4] describe the shape of the bottom of the crown.
-        Coef values of 1.0 produce a cone, values < 1 produce concave
-        shapes, and values > 1 will produce convex shapes, with coef == 2.0
-        producing an ellipse.
-    top_only : bool
-        if True, will only return the top portion of the crown, i.e., the
-        points above the maximum crown width
-    """
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    species: str
-    dbh: float = Field(gt=0)
-    top_height: float = Field(gt=0)
-    stem_x: float
-    stem_y: float
-    stem_z: float
-    lean_direction: float = Field(default=0, ge=0, le=360)
-    lean_severity: float = Field(default=0, ge=0, le=90)
-    crown_ratio: float = Field(default=0.65, ge=0, le=1.0)
-    crown_radii: NDArray[Shape["4"], float | int] | None = None  # noqa: UP037
-    crown_edge_heights: NDArray[Shape["4"], float | int] = np.array(  # noqa: UP037
-        (0.3, 0.3, 0.3, 0.3)
-    )
-    crown_shapes: NDArray[Shape["2, 4"], float | int] = np.ones((2, 4))  # noqa: UP037
-    top_only: bool = False
-
-    @model_validator(mode="after")
-    def default_crown_radii(self):
-        """Sets default value for crown radii as 25% of height."""
-        if self.crown_radii is None:
-            self.crown_radii = np.full(4, 0.25 * self.top_height)
-        return self
-
-    @computed_field
-    @property
-    def stem_base(self) -> NDArray[Shape["3, 0"], float]:  # noqa: UP037
-        """Coordinates for the base of the stem."""
-        return np.array((self.stem_x, self.stem_y, self.stem_z))
-
-    @computed_field
-    @property
-    def crown(self) -> tuple[npt.NDArray, npt.NDArray, npt.NDArray]:
-        """Generate a hull for this tree."""
-        return make_crown_hull(
-            self.stem_base,
-            self.top_height,
-            self.crown_ratio,
-            self.lean_direction,
-            self.lean_severity,
-            self.crown_radii,
-            self.crown_edge_heights,
-            self.crown_shapes,
-            self.top_only,
-        )
-
-
 def poisson_pipeline(
     infile: str | os.PathLike, outfile: str | os.PathLike, depth: int = 8
 ) -> dict:
@@ -812,86 +694,3 @@ def poisson_mesh(
         )
         if proc.returncode != 0:
             warnings.warn(proc.stderr.decode())
-    else:
-        raise
-
-
-def make_tree_all_params(
-    species,
-    dbh,
-    top_height,
-    stem_x,
-    stem_y,
-    stem_z,
-    lean_direction,
-    lean_severity,
-    crown_ratio,
-    crown_radius_east,
-    crown_radius_north,
-    crown_radius_west,
-    crown_radius_south,
-    crown_edgeht_east,
-    crown_edgeht_north,
-    crown_edgeht_west,
-    crown_edgeht_south,
-    shape_top_east,
-    shape_top_north,
-    shape_top_west,
-    shape_top_south,
-    shape_bottom_east,
-    shape_bottom_north,
-    shape_bottom_west,
-    shape_bottom_south,
-    top_only=False,
-) -> (np.ndarray, np.ndarray, np.ndarray):
-    """Creates a tree and returns its crown as a hull.
-
-    Exposes all parameters used as individual arguments.
-
-    This is used primarily for the plotting functions in the visualization.py
-    script in this package. The parameters are the same as involved in
-    instantiating a Tree object.
-
-    Returns:
-    --------
-    x, y, z : numpy arrays
-        the x, y, and z coordinates of points that occur along the edge of the
-        tree crown.
-    """
-    crown_radii = np.array(
-        (crown_radius_east, crown_radius_north, crown_radius_west, crown_radius_south)
-    )
-
-    crown_edge_heights = np.array(
-        (crown_edgeht_east, crown_edgeht_north, crown_edgeht_west, crown_edgeht_south)
-    )
-
-    crown_shapes = np.array(
-        (
-            (shape_top_east, shape_top_north, shape_top_west, shape_top_south),
-            (
-                shape_bottom_east,
-                shape_bottom_north,
-                shape_bottom_west,
-                shape_bottom_south,
-            ),
-        )
-    )
-
-    tree = Tree(
-        species=species,
-        dbh=dbh,
-        top_height=top_height,
-        stem_x=stem_x,
-        stem_y=stem_y,
-        stem_z=stem_z,
-        lean_direction=lean_direction,
-        lean_severity=lean_severity,
-        crown_ratio=crown_ratio,
-        crown_radii=crown_radii,
-        crown_edge_heights=crown_edge_heights,
-        crown_shapes=crown_shapes,
-        top_only=top_only,
-    )
-
-    return tree.crown

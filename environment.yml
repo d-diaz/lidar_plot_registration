@@ -12,6 +12,7 @@ dependencies:
   - numpy
   - numpydantic
   - pandas
+  - pandera
   - pdal
   - pip
   - plotly

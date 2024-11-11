@@ -1,21 +1,101 @@
 """Functions for generating interactive visualizations of 3D models of trees."""
 
-import os
 import warnings
 
-import geopandas as gpd
 import ipyvolume as ipv
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from forest3d.geometry import Tree, get_elevation, make_tree_all_params
-from forest3d.validate_data import tree_list_checker
+from forest3d.models.dataclass import Tree
+from forest3d.models.dataframe import TreeListDataFrameModel
+from forest3d.utils.geometry import get_elevation
 from ipywidgets import Accordion, FloatSlider, HBox, Layout, Text, VBox
 
 warnings.filterwarnings("ignore", message="invalid value encountered in double_scalars")
 warnings.filterwarnings("ignore", message="invalid value encountered in greater_equal")
 warnings.filterwarnings("ignore", message="invalid value encountered in less")
 warnings.filterwarnings("ignore", message="invalid value encountered in true_divide")
+
+
+def _make_tree_all_params(
+    species,
+    dbh,
+    top_height,
+    stem_x,
+    stem_y,
+    stem_z,
+    lean_direction,
+    lean_severity,
+    crown_ratio,
+    crown_radius_east,
+    crown_radius_north,
+    crown_radius_west,
+    crown_radius_south,
+    crown_edgeht_east,
+    crown_edgeht_north,
+    crown_edgeht_west,
+    crown_edgeht_south,
+    shape_top_east,
+    shape_top_north,
+    shape_top_west,
+    shape_top_south,
+    shape_bottom_east,
+    shape_bottom_north,
+    shape_bottom_west,
+    shape_bottom_south,
+    top_only=False,
+) -> (np.ndarray, np.ndarray, np.ndarray):
+    """Creates a tree and returns its crown as a hull.
+
+    Exposes all parameters used as individual arguments.
+
+    This is used primarily for the plotting functions in the visualization.py
+    script in this package. The parameters are the same as involved in
+    instantiating a Tree object.
+
+    Returns:
+    --------
+    x, y, z : numpy arrays
+        the x, y, and z coordinates of points that occur along the edge of the
+        tree crown.
+    """
+    crown_radii = np.array(
+        (crown_radius_east, crown_radius_north, crown_radius_west, crown_radius_south)
+    )
+
+    crown_edge_heights = np.array(
+        (crown_edgeht_east, crown_edgeht_north, crown_edgeht_west, crown_edgeht_south)
+    )
+
+    crown_shapes = np.array(
+        (
+            (shape_top_east, shape_top_north, shape_top_west, shape_top_south),
+            (
+                shape_bottom_east,
+                shape_bottom_north,
+                shape_bottom_west,
+                shape_bottom_south,
+            ),
+        )
+    )
+
+    tree = Tree(
+        species=species,
+        dbh=dbh,
+        top_height=top_height,
+        stem_x=stem_x,
+        stem_y=stem_y,
+        stem_z=stem_z,
+        lean_direction=lean_direction,
+        lean_severity=lean_severity,
+        crown_ratio=crown_ratio,
+        crown_radii=crown_radii,
+        crown_edge_heights=crown_edge_heights,
+        crown_shapes=crown_shapes,
+        top_only=top_only,
+    )
+
+    return tree.crown
 
 
 def plot_tree_with_widgets():
@@ -163,9 +243,9 @@ def plot_tree_with_widgets():
         0.27417047137158385,
     )
 
-    def on_value_change(*args):
+    def on_value_change(*args):  # noqa: ARG001
         """Updates values of scatter plot when parameter widgets are updated."""
-        new_x, new_y, new_z = make_tree_all_params(
+        new_x, new_y, new_z = _make_tree_all_params(
             species.value,
             dbh.value,
             height.value,
@@ -227,36 +307,16 @@ def plot_tree_with_widgets():
     return HBox([controls, tree_scatter], layout=Layout(width="100%"))
 
 
-def plot_tree_list(tree_list, dem=None, sample=None):
+def plot_tree_list(trees: TreeListDataFrameModel, dem=None, sample=None):
     """Plots an interactive 3D view of a tree list.
 
     Parameters
     -----------
-    tree_list : path to shapefile
-        shapefile containing trees with measured attributes
+    trees (TreeListDataFrameModel): a validated dataframe or geodataframe
     dem : path to elevation raster
         raster readable by rasterio, will be used to calculate elevation on
         a grid and produce
     """
-    if not tree_list_checker(tree_list):
-        message = "Tree list is not formatted appropriately."
-        raise TypeError(message)
-
-    if isinstance(tree_list, (pd.DataFrame, gpd.GeoDataFrame)):
-        trees = tree_list
-    elif not os.path.isfile(tree_list):
-        message = "The file does not exist."
-        raise FileNotFoundError(message)
-    else:  # check file type and open with pandas or geopandas
-        file_type = os.path.basename(tree_list).split(".")[1]
-        if file_type == "csv":
-            trees = pd.read_csv(tree_list)
-        elif file_type == "shp":
-            trees = gpd.read_file(tree_list)
-        else:
-            message = "Unknown file type"
-            raise TypeError(message)
-
     spp = pd.unique(trees.species)
     palette = sns.color_palette("colorblind", len(spp))
 
@@ -282,21 +342,21 @@ def plot_tree_list(tree_list, dem=None, sample=None):
         pass
 
     ipv.figure(width=800)
-    for idx, tree in trees.iterrows():
+    for _, row in trees.iterrows():
         # calculate the tree's crown coordinates
-        x, y, z = Tree(
-            species=tree.species,
-            dbh=tree.dbh,
-            top_height=tree.top_height,
-            stem_x=tree.stem_x,
-            stem_y=tree.stem_y,
-            stem_z=tree.stem_z,
-            crown_ratio=tree.cr_ratio,
-            crown_radii=np.full(shape=4, fill_value=tree.cr_radius),
-            crown_shapes=np.full(shape=(2, 4), fill_value=2.0),
-        ).crown
+        tree = Tree(
+            species=row.species,
+            dbh=row.dbh,
+            top_height=row.top_height,
+            stem_x=row.stem_x,
+            stem_y=row.stem_y,
+            stem_z=row.stem_z,
+            crown_ratio=row.crown_ratio,
+            crown_radius=row.crown_radius,
+        )
+        x, y, z = tree.crown
         # find out the spp index to give it a unique color
-        spp_idx = np.where(spp == tree.species)[0][0]
+        spp_idx = np.where(spp == row.species)[0][0]
         # plot the tree crown
         ipv.plot_surface(
             x.reshape((50, 32)),
