@@ -9,6 +9,7 @@ pandera
 pdal
 pip
 plotly
+plyfile
 pydantic
 python
 python-pdal

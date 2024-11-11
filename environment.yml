@@ -22,6 +22,8 @@ dependencies:
   - pytest
   - rasterio
   - seaborn
+  - sphinx
+  - sphinx-rtd-theme
   - pip:
     - plyfile
     - -e .  # install the forest3d package in development mode
