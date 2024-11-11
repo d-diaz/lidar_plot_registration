@@ -1,90 +1,48 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Component Specification &mdash; forest3d 0.1.0 documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Functional Specification" href="functional_specification.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="&lt;no title&gt;" href="functional_specification.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-nav-search" >
 
           
-            <a href="index.html" class="icon icon-home"> forest3d
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            forest3d
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.1
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functional_specification.html">Functional Specification</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Component Specification</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#data-loading-and-pre-processing-components">Data Loading and Pre-Processing Components</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#tree-list-pre-processors">Tree List Pre-Processors</a></li>
@@ -122,107 +80,65 @@
 </li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">forest3d</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Component Specification</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Component Specification</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/component_specification.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="component-specification">
-<h1>Component Specification<a class="headerlink" href="#component-specification" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="data-loading-and-pre-processing-components">
-<h2>Data Loading and Pre-Processing Components<a class="headerlink" href="#data-loading-and-pre-processing-components" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="tree-list-pre-processors">
-<h3>Tree List Pre-Processors<a class="headerlink" href="#tree-list-pre-processors" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+             
+  <section id="component-specification">
+<h1>Component Specification<a class="headerlink" href="#component-specification" title="Link to this heading"></a></h1>
+<section id="data-loading-and-pre-processing-components">
+<h2>Data Loading and Pre-Processing Components<a class="headerlink" href="#data-loading-and-pre-processing-components" title="Link to this heading"></a></h2>
+<section id="tree-list-pre-processors">
+<h3>Tree List Pre-Processors<a class="headerlink" href="#tree-list-pre-processors" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Transforms
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Transforms
 plot data
 from
 different
 formats into
 a consistent
-format.</td>
+format.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>Tree data
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>Tree data
 from external
 sources are
 currently in
 two formats:
 text files,
 and a
-shapefile.</td>
+shapefile.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A text file
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A text file
 (CSV or TXT)
 for each plot
 containing
@@ -231,37 +147,33 @@ formatted
 tree
 measurements
 from that
-plot.</td>
+plot.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="tree-list-format-checker">
-<h3>Tree List Format Checker<a class="headerlink" href="#tree-list-format-checker" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="tree-list-format-checker">
+<h3>Tree List Format Checker<a class="headerlink" href="#tree-list-format-checker" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Checks to see
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Checks to see
 whether a
 user-provided
 tree list
 conforms with
 format being
 used for 3D
-modeling</td>
+modeling</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A text file
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A text file
 (CSV or TXT)
 or Pandas
 DataFrame
@@ -270,10 +182,10 @@ information
 about a
 single tree
 on each
-line/row.</td>
+line/row.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>True/False
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>True/False
 indication of
 whether
 user-specifie
@@ -281,27 +193,23 @@ d
 treelist
 conforms to
 our format
-requirements.</td>
+requirements.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="tree-list-within-lidar-bounds-checker">
-<h3>Tree List Within Lidar Bounds Checker<a class="headerlink" href="#tree-list-within-lidar-bounds-checker" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="tree-list-within-lidar-bounds-checker">
+<h3>Tree List Within Lidar Bounds Checker<a class="headerlink" href="#tree-list-within-lidar-bounds-checker" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Checks to see
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Checks to see
 whether the
 locations of
 trees within
@@ -313,10 +221,10 @@ the bounding
 box of a
 user-provided
 lidar point
-cloud file</td>
+cloud file</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A text file
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A text file
 (CSV or TXT)
 or Pandas
 DataFrame
@@ -330,10 +238,10 @@ path to a
 lidar point
 cloud in LAS
 or LAZ
-format.</td>
+format.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>True/False
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>True/False
 indication of
 whether
 user-specifie
@@ -343,30 +251,26 @@ falls
 entirely
 within the
 bounds of the
-point cloud.</td>
+point cloud.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="geometry-components">
-<h2>Geometry Components<a class="headerlink" href="#geometry-components" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="point-cloud-mesher">
-<h3>Point Cloud Mesher<a class="headerlink" href="#point-cloud-mesher" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+</section>
+<section id="geometry-components">
+<h2>Geometry Components<a class="headerlink" href="#geometry-components" title="Link to this heading"></a></h2>
+<section id="point-cloud-mesher">
+<h3>Point Cloud Mesher<a class="headerlink" href="#point-cloud-mesher" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Reads a lidar
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Reads a lidar
 point cloud,
 defines
 geographic
@@ -374,41 +278,37 @@ coordinate
 system,
 generates a
 Poisson
-surface mesh.</td>
+surface mesh.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>Path to a
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>Path to a
 lidar point
 cloud in LAS
 or LAZ
-format.</td>
+format.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A Poisson
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A Poisson
 surface mesh
 saved to hard
 drive in PLY
-format.</td>
+format.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="d-tree-modeler-simulator">
-<h3>3D Tree Modeler / Simulator<a class="headerlink" href="#d-tree-modeler-simulator" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="d-tree-modeler-simulator">
+<h3>3D Tree Modeler / Simulator<a class="headerlink" href="#d-tree-modeler-simulator" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>A
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>A
 <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
 class which
 has at least
@@ -435,10 +335,10 @@ it-image/scik
 it-image/blob
 /master/skima
 ge/draw/draw3
-d.py#L5&gt;`__.</td>
+d.py#L5&gt;`__.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td><code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
 class is
 initialized
 with
@@ -447,10 +347,10 @@ describing
 the location,
 size, and
 shape of the
-tree.</td>
+tree.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>An instance
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>An instance
 of the
 <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
 class which
@@ -463,34 +363,30 @@ of shape (N,
 3) containing
 N 3D points
 representing
-the tree.</td>
+the tree.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="d-plot-modeler">
-<h3>3D Plot Modeler<a class="headerlink" href="#d-plot-modeler" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="d-plot-modeler">
+<h3>3D Plot Modeler<a class="headerlink" href="#d-plot-modeler" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Generates a
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Generates a
 collection of
 3D Tree
 Models from a
-list of trees</td>
+list of trees</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A text file
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A text file
 (CSV or TXT)
 or Pandas
 DataFrame
@@ -499,10 +395,10 @@ information
 about a
 single tree
 on each
-line/row.</td>
+line/row.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A list or
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A list or
 array of
 instances of
 the
@@ -513,30 +409,26 @@ with the
 values of
 each tree in
 the tree
-list.</td>
+list.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="co-registration-optimization-components">
-<h2>Co-registration / Optimization Components<a class="headerlink" href="#co-registration-optimization-components" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="point-cloud-distance-array-generator">
-<h3>Point Cloud Distance Array Generator<a class="headerlink" href="#point-cloud-distance-array-generator" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+</section>
+<section id="co-registration-optimization-components">
+<h2>Co-registration / Optimization Components<a class="headerlink" href="#co-registration-optimization-components" title="Link to this heading"></a></h2>
+<section id="point-cloud-distance-array-generator">
+<h3>Point Cloud Distance Array Generator<a class="headerlink" href="#point-cloud-distance-array-generator" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Reads a PLY
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Reads a PLY
 formatted
 Poisson
 surface mesh,
@@ -550,10 +442,10 @@ grid (Numpy
 meshgrid) to
 the nearest
 point on the
-mesh.</td>
+mesh.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>Path to a
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>Path to a
 Poisson
 surface mesh
 in PLY format
@@ -580,10 +472,10 @@ euclidean’)
 and whether
 or not that
 metric is
-signed (+/-).</td>
+signed (+/-).</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td><code class="docutils literal notranslate"><span class="pre">distance_ar</span>
+<tr class="row-even"><td><p>Output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">distance_ar</span>
 <span class="pre">ray</span></code>,
 a Numpy array
 (meshgrid)
@@ -594,27 +486,23 @@ point on the
 regular 3D
 grid to the
 Poisson
-surface mesh.</td>
+surface mesh.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="point-cloud-distance-calculator-interpolator">
-<h3>Point Cloud Distance Calculator / Interpolator<a class="headerlink" href="#point-cloud-distance-calculator-interpolator" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="point-cloud-distance-calculator-interpolator">
+<h3>Point Cloud Distance Calculator / Interpolator<a class="headerlink" href="#point-cloud-distance-calculator-interpolator" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Estimates a
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Estimates a
 distance
 metric for an
 array of 3D
@@ -639,10 +527,10 @@ ted/scipy.int
 erpolate.Regu
 larGridInterp
 olator.html&gt;`
-__.</td>
+__.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td><code class="docutils literal notranslate"><span class="pre">query_point</span>
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">query_point</span>
 <span class="pre">s</span></code>,
 a Numpy array
 with shape
@@ -663,10 +551,10 @@ metric
 estimated at
 each point of
 a regular 3D
-grid.</td>
+grid.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td><code class="docutils literal notranslate"><span class="pre">distances</span></code>
+<tr class="row-even"><td><p>Output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">distances</span></code>
 ,
 a Numpy array
 with shape
@@ -675,27 +563,23 @@ containing
 calculated
 distances for
 N queried
-points.</td>
+points.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="optimization-routine">
-<h3>Optimization Routine<a class="headerlink" href="#optimization-routine" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="optimization-routine">
+<h3>Optimization Routine<a class="headerlink" href="#optimization-routine" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Given a list
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Given a list
 of trees,
 simulates a
 point cloud
@@ -711,10 +595,10 @@ modifies the
 parameters to
 minimize that
 distance
-metric.</td>
+metric.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A list of
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A list of
 trees as a
 text file or
 Pandas
@@ -725,10 +609,10 @@ arguments for
 optimization
 settings
 (e.g., number
-of steps).</td>
+of steps).</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td><code class="docutils literal notranslate"><span class="pre">Optimizatio</span>
+<tr class="row-even"><td><p>Output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Optimizatio</span>
 <span class="pre">nResult</span></code>
 object, with
 attributes
@@ -769,30 +653,26 @@ tabular form
 describing
 the
 optimization
-results.</td>
+results.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="visualization-components">
-<h2>Visualization Components<a class="headerlink" href="#visualization-components" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="single-tree-visualizer">
-<h3>Single Tree Visualizer<a class="headerlink" href="#single-tree-visualizer" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+</section>
+<section id="visualization-components">
+<h2>Visualization Components<a class="headerlink" href="#visualization-components" title="Link to this heading"></a></h2>
+<section id="single-tree-visualizer">
+<h3>Single Tree Visualizer<a class="headerlink" href="#single-tree-visualizer" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Produces an
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Produces an
 interactive
 visualization
 of a tree in
@@ -801,10 +681,10 @@ the user to
 modify
 parameters
 using
-widgets.</td>
+widgets.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A Numpy array
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A Numpy array
 with shape
 (N, 3)
 containing 3D
@@ -813,10 +693,10 @@ as the output
 of a
 <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
 simulator
-method.</td>
+method.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A Plotly
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A Plotly
 Graph Object
 FigureWidget
 containing 3D
@@ -834,27 +714,23 @@ and slider
 widgets for
 adjusting
 TreeModel
-parameters.</td>
+parameters.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="plot-multi-tree-visualizer">
-<h3>Plot (Multi-Tree) Visualizer<a class="headerlink" href="#plot-multi-tree-visualizer" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="plot-multi-tree-visualizer">
+<h3>Plot (Multi-Tree) Visualizer<a class="headerlink" href="#plot-multi-tree-visualizer" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Produces an
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Produces an
 interactive
 visualization
 of multiple
@@ -864,10 +740,10 @@ to zoom
 in/out and
 shift the
 angle to see
-the model.</td>
+the model.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>A list-like
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>A list-like
 collection of
 Numpy arrays
 with shape
@@ -876,10 +752,10 @@ as a list of
 outputs from
 multiple
 <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code>
-simulations.</td>
+simulations.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A Plotly
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A Plotly
 Graph Object
 FigureWidget
 containing 3D
@@ -893,27 +769,23 @@ representing
 the simulated
 point clouds
 from multiple
-trees.</td>
+trees.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="dynamic-optimizationresult-visualizer">
-<h3>Dynamic OptimizationResult Visualizer<a class="headerlink" href="#dynamic-optimizationresult-visualizer" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="40%" />
-<col width="60%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Aspect</th>
-<th class="head">Description</th>
+</section>
+<section id="dynamic-optimizationresult-visualizer">
+<h3>Dynamic OptimizationResult Visualizer<a class="headerlink" href="#dynamic-optimizationresult-visualizer" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>What it
-does</td>
-<td>Visualizes
+<tbody>
+<tr class="row-even"><td><p>What it
+does</p></td>
+<td><p>Visualizes
 the
 progression
 of the
@@ -925,16 +797,16 @@ from
 simulated
 trees evolve
 during the
-optimization.</td>
+optimization.</p></td>
 </tr>
-<tr class="row-odd"><td>Input</td>
-<td>An
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>An
 <code class="docutils literal notranslate"><span class="pre">Optimizatio</span>
 <span class="pre">nResult</span></code>
-object.</td>
+object.</p></td>
 </tr>
-<tr class="row-even"><td>Output</td>
-<td>A Plotly
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>A Plotly
 Graph Object
 FigureWidget
 which
@@ -951,29 +823,29 @@ simulated
 tree point
 clouds moved
 during the
-optimization.</td>
+optimization.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="interactions-to-accomplish-use-cases">
-<h2>Interactions to Accomplish Use Cases.<a class="headerlink" href="#interactions-to-accomplish-use-cases" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="use-case-a-checking-format-of-raw-user-provided-data">
-<h3>Use Case A: Checking format of raw user-provided data<a class="headerlink" href="#use-case-a-checking-format-of-raw-user-provided-data" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="interactions-to-accomplish-use-cases">
+<h2>Interactions to Accomplish Use Cases.<a class="headerlink" href="#interactions-to-accomplish-use-cases" title="Link to this heading"></a></h2>
+<section id="use-case-a-checking-format-of-raw-user-provided-data">
+<h3>Use Case A: Checking format of raw user-provided data<a class="headerlink" href="#use-case-a-checking-format-of-raw-user-provided-data" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">Format</span> <span class="pre">Checker</span></code> and
 <code class="docutils literal notranslate"><span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">Within</span> <span class="pre">Lidar</span> <span class="pre">Bounds</span> <span class="pre">Checker</span></code> will be called to check if the
 format of the pre-processed data conform to the formatting requirements
 and if the tree list falls within the bounds of the user-provided lidar
 data.</p>
-</div>
-<div class="section" id="use-case-b-visually-inspecting-a-3d-tree-model">
-<h3>Use Case B: Visually Inspecting a 3D Tree Model<a class="headerlink" href="#use-case-b-visually-inspecting-a-3d-tree-model" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="use-case-b-visually-inspecting-a-3d-tree-model">
+<h3>Use Case B: Visually Inspecting a 3D Tree Model<a class="headerlink" href="#use-case-b-visually-inspecting-a-3d-tree-model" title="Link to this heading"></a></h3>
 <p>An instance of the <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code> class is initialized with default
 values and displayed using the <code class="docutils literal notranslate"><span class="pre">Single</span> <span class="pre">Tree</span> <span class="pre">Visualizer</span></code> component.</p>
-</div>
-<div class="section" id="use-case-c-drawing-a-forest-plot-in-3d">
-<h3>Use Case C: Drawing a Forest Plot in 3D<a class="headerlink" href="#use-case-c-drawing-a-forest-plot-in-3d" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="use-case-c-drawing-a-forest-plot-in-3d">
+<h3>Use Case C: Drawing a Forest Plot in 3D<a class="headerlink" href="#use-case-c-drawing-a-forest-plot-in-3d" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">3D</span> <span class="pre">Plot</span> <span class="pre">Modeler</span></code> reads in a treelist, utilizes the
 <code class="docutils literal notranslate"><span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">Format</span> <span class="pre">Checker</span></code> to ensure it meets formatting requirements,
 instantiates a <code class="docutils literal notranslate"><span class="pre">TreeModel</span></code> object for each tree in the treelist and
@@ -981,9 +853,9 @@ simulates a 3D point cloud of it, generating a list-like collection of
 3D point clouds of simulated trees. The <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">(Multi-Tree)</span> <span class="pre">Visualizer</span></code>
 is then called with this list of trees, and an interactive graphic with
 several trees is produced.</p>
-</div>
-<div class="section" id="use-case-d-co-registering-a-tree-list-with-a-lidar-point-cloud">
-<h3>Use Case D: Co-registering a Tree List with a Lidar Point Cloud<a class="headerlink" href="#use-case-d-co-registering-a-tree-list-with-a-lidar-point-cloud" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="use-case-d-co-registering-a-tree-list-with-a-lidar-point-cloud">
+<h3>Use Case D: Co-registering a Tree List with a Lidar Point Cloud<a class="headerlink" href="#use-case-d-co-registering-a-tree-list-with-a-lidar-point-cloud" title="Link to this heading"></a></h3>
 <p>Before optimization commences, the <code class="docutils literal notranslate"><span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">Format</span> <span class="pre">Checker</span></code> and
 <code class="docutils literal notranslate"><span class="pre">Tree</span> <span class="pre">List</span> <span class="pre">Within</span> <span class="pre">Lidar</span> <span class="pre">Bounds</span> <span class="pre">Checker</span></code> will be called to check if the
 format of the pre-processed data conform to the formatting requirements
@@ -1006,96 +878,59 @@ tabular report summarizing the optimization results. The
 <code class="docutils literal notranslate"><span class="pre">OptimizationResult</span></code> object can also be submitted as input to the
 <code class="docutils literal notranslate"><span class="pre">Dynamic</span> <span class="pre">OptimizationResult</span> <span class="pre">Visualizer</span></code> to produce a interactive
 Plotly Graph Object to visualize the process of optimization.</p>
-</div>
-</div>
-<div class="section" id="preliminary-plan">
-<h2>Preliminary Plan.<a class="headerlink" href="#preliminary-plan" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="preliminary-plan">
+<h2>Preliminary Plan.<a class="headerlink" href="#preliminary-plan" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li>Script for pre-processing field-measured forest inventory text file.</li>
-<li>Script for pre-processing field-measured forest inventory shapefile.</li>
-<li>Implement check format of treelist, check treelist
-within bounds</li>
-<li>Write unit tests for check_format_treelist and
-check_treelist_inbounds</li>
-<li>Class for generating a 3D point cloud for a single tree from
-field-measured attributes</li>
-<li>Function for plotting a single tree, with widgets</li>
-<li>Function for plotting many trees, no widgets</li>
-<li>Process for generating a Poisson Surface mesh from lidar data</li>
-<li>Process for calculating the distance of points on a regular 3D grid
-from the lidar-derived mesh</li>
-<li>Function for querying this distance array with a set of simulated
+<li><p>Script for pre-processing field-measured forest inventory text file.</p></li>
+<li><p>Script for pre-processing field-measured forest inventory shapefile.</p></li>
+<li><p>Implement check format of treelist, check treelist
+within bounds</p></li>
+<li><p>Write unit tests for check_format_treelist and
+check_treelist_inbounds</p></li>
+<li><p>Class for generating a 3D point cloud for a single tree from
+field-measured attributes</p></li>
+<li><p>Function for plotting a single tree, with widgets</p></li>
+<li><p>Function for plotting many trees, no widgets</p></li>
+<li><p>Process for generating a Poisson Surface mesh from lidar data</p></li>
+<li><p>Process for calculating the distance of points on a regular 3D grid
+from the lidar-derived mesh</p></li>
+<li><p>Function for querying this distance array with a set of simulated
 points, based on interpolation of query points using the regular 3D
-grid with pre-calculated distances from the lidar mesh.</li>
-<li>Implementation of an optimization algorithm which adjusts tree
+grid with pre-calculated distances from the lidar mesh.</p></li>
+<li><p>Implementation of an optimization algorithm which adjusts tree
 simulation parameters, calculates the distance of the simulated
 points from the lidar-derived mesh, and iteratively minimizes this
-distance function.</li>
+distance function.</p></li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="functional_specification.html" class="btn btn-neutral" title="Functional Specification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="functional_specification.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2018, David Diaz
-
-    </p>
+    <p>&#169; Copyright 2018, David Diaz.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'0.1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
