@@ -5,9 +5,14 @@
 
 Welcome to forest3d's documentation!
 ====================================
-.. automodule:: forest3d.models
-.. automodule:: forest3d.utils
+.. automodule:: forest3d.models.dataframe
+   :members:
+.. automodule:: forest3d.models.dataclass
+   :members:
+.. automodule:: forest3d.utils.geometry
+   :members:
 .. automodule:: forest3d.visualize
+   :members:
 
 .. toctree::
    :maxdepth: 2
